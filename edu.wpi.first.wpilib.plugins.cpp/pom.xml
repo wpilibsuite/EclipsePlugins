@@ -66,12 +66,14 @@
                                     <artifactId>cpp-root</artifactId>
                                     <version>1.0.0</version>
                                     <type>zip</type>
+                                    <classifier>development</classifier>
                                     <destFileName>cpp-root.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibc.simulation</groupId>
                                     <artifactId>WPILibCSim</artifactId>
                                     <version>0.1.0</version>
+                                    <classifier>development</classifier>
                                     <type>zip</type>
                                     <destFileName>sim-include.zip</destFileName>
                                 </artifactItem>
@@ -201,12 +203,14 @@
             <groupId>edu.wpi.first.wpilib.cmake</groupId>
             <artifactId>cpp-root</artifactId>
             <version>1.0.0</version>
+            <classifier>development</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibc.simulation</groupId>
             <artifactId>WPILibCSim</artifactId>
             <version>0.1.0</version>
+            <classifier>development</classifier>
             <type>zip</type>
         </dependency>
     </dependencies>
