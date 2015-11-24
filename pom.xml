@@ -31,6 +31,10 @@
             <url>http://download.eclipse.org/releases/luna</url>
         </repository>
         <repository>
+            <id>Local Repo</id>
+            <url>file://${user.home}/releases/maven/</url>
+        </repository>
+        <repository>
             <id>FRC Binaries</id>
             <url>http://first.wpi.edu/FRC/c/maven/</url>
         </repository>
