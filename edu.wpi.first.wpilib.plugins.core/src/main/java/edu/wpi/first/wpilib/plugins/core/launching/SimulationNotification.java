@@ -18,7 +18,7 @@ public class SimulationNotification {
 	private static final String SIMULATION_UNSUPPORTED_MSG =
 			"Simulation may not be support on your operating system.\n" +
 			"For more information see: " + URL;
-	
+
 	public static void showUnsupported() {
 		String title = "Simulation Unsupported";
 		String message = SIMULATION_UNSUPPORTED_MSG;
@@ -31,10 +31,11 @@ public class SimulationNotification {
 			WPILibCore.logError("Can't open "+URL, e);
 		}
 	}
-	
+
 	public static boolean supportsSimulation() {
 		String os = System.getProperty("os.name");
 		//for now this is good enough, but we still need better handling if they have this OS but have not installed FRCSim
-		return (os.equals("Windows 8") || os.equals("Windows 7") || os.equals("Linux") || os.equals("Windows 8.1"));
+		//return (os.equals("Windows 8") || os.equals("Windows 7") || os.equals("Linux") || os.equals("Windows 8.1"));
+		return os.equals("Linux") || os.startsWith("Mac OS");
 	}
 }

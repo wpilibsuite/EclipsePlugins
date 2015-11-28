@@ -104,20 +104,9 @@
   <target name="simulate">
     <parallel>
       <sequential>
-        <!-- windows uses a batch file to run frcsim, linux uses a shell script -->
-	      <condition property="frcsim.executable" value="frcsim.bat" else="frcsim">
-          <os family="windows" />
-        </condition>
-        <!-- TODO: launch gazebo once? -->
-        <echo>[simulate] You may now run Gazebo</echo>
-      </sequential>
-      <sequential>
-	      <echo>[simulate] You can now run your DriverStation!</echo>
-      </sequential>
-      <sequential>
-        <sleep seconds="5"/>
-	    <echo>[simulate] Running Code.</echo>
-	    <exec executable="${sim.exe}"></exec>
+        <echo>[simulate] You may now run Gazebo and your driver station</echo>
+  	    <echo>[simulate] Running Code.</echo>
+        <exec executable="${sim.exe}"></exec>
       </sequential>
     </parallel>
   </target>

@@ -65,7 +65,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.2017904325">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.2017904325" moduleId="org.eclipse.cdt.core.settings" name="Linux Simulate">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.2017904325" moduleId="org.eclipse.cdt.core.settings" name="linux_simulate">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -78,7 +78,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="FRCUserProgram" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="Linux Simulate" id="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.2017904325" name="Linux Simulate" parent="cdt.managedbuild.config.gnu.cross.exe.debug">
+				<configuration artifactName="FRCUserProgram" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="linux_simulate" id="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.2017904325" name="linux_simulate" parent="cdt.managedbuild.config.gnu.cross.exe.debug">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.2017904325." name="/" resourcePath="">
 						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.base.1184188597" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.base.1621111203" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
@@ -89,8 +89,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/src&quot;"/>
 									<listOptionValue builtIn="false" value="${WPILIB}/simulation/include"/>
 									<listOptionValue builtIn="false" value="/usr/include"/>
-									<listOptionValue builtIn="false" value="/usr/include/gazebo-5.0"/>
-									<listOptionValue builtIn="false" value="/usr/include/sdformat-2.3"/>
+									<listOptionValue builtIn="false" value="/usr/include/gazebo-6.5"/>
+                  <listOptionValue builtIn="false" value="/usr/include/ignition/math2"/>
+									<listOptionValue builtIn="false" value="/usr/include/sdformat-3.7"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1648211502" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.937474733" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
@@ -108,19 +109,18 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.66697269" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.2094820582" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
 								<option id="gnu.cpp.link.option.libs.1563598353" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="WPILibSim"/>
-									<listOptionValue builtIn="false" value="gazebo"/>
-									<listOptionValue builtIn="false" value="gazebo_transport"/>
-									<listOptionValue builtIn="false" value="gazebo_msgs"/>
-									<listOptionValue builtIn="false" value="gazebo_common"/>
-									<listOptionValue builtIn="false" value="protobuf"/>
+									<listOptionValue builtIn="false" value="wpilibcSim"/>
+									<listOptionValue builtIn="false" value="gz_msgs"/>
+									<listOptionValue builtIn="false" value="ntcore"/>
+									<listOptionValue builtIn="false" value="gazebo_client"/>
 									<listOptionValue builtIn="false" value="boost_system"/>
-									<listOptionValue builtIn="false" value="dl"/>
-									<listOptionValue builtIn="false" value="pthread"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1677933356" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="/usr/lib/x86_64-linux-gnu"/>
-									<listOptionValue builtIn="false" value="/usr/lib/x86_64-linux-gnu/gazebo-5.0/plugins"/>
+                  <listOptionValue builtIn="false" value="${WPILIB}/simulation/lib"/>
+								</option>
+								<option id="gnu.cpp.link.option.other.1549699992" superClass="gnu.cpp.link.option.other" valueType="stringList">
+									<listOptionValue builtIn="false" value="-rpath ${WPILIB}/simulation/lib"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.152327207" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
