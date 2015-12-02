@@ -20,6 +20,7 @@
 
   <target name="get-target-ip">
     <property name="ant.enable.asserts" value="true"/>
+	<assert name="team-number" exists="true" message="Team number not set. Go to Window->Preferences->WPILib Preferences to set it."/>
     <property name="target" value="roboRIO-${team-number}-FRC.local" />
 	<echo>Trying Target: ${target}</echo>
 	 <if>

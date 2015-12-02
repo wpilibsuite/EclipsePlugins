@@ -133,6 +133,8 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 	@Override
 	public void earlyStartup() {
 		new JavaInstaller(getCurrentVersion()).installIfNecessary();
+		Properties props = WPILibCore.getDefault().getProjectProperties(null);
+    	WPILibCore.getDefault().saveGlobalProperties(props);
 	}
 
 	public static void logInfo(String msg) {
