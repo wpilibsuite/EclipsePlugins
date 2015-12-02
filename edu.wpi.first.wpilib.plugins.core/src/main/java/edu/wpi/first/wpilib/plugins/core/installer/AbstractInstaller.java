@@ -138,7 +138,7 @@ public abstract class AbstractInstaller {
 	 * @return True for is there and newer, false otherwise.
 	 */
 	protected boolean isInstalled() {
-		return installLocation.exists() && !version.contains("DEVELOPMENT") && version.equals(installedVersion);
+		return installLocation.exists() && version.equals(installedVersion);
 	}
 
 	/**
@@ -191,7 +191,6 @@ public abstract class AbstractInstaller {
 				ZipInputStream zip = new ZipInputStream(sourceStream);
 				ZipEntry entry = zip.getNextEntry();
 				while (entry != null) {
-					WPILibCore.logInfo("\tZipEntry " + entry + ": " + entry.getSize());
 					File f = new File(destination, entry.getName());
 					if (entry.isDirectory()) {
 						f.mkdirs();
