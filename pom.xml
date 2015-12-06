@@ -30,14 +30,6 @@
             <layout>p2</layout>
             <url>http://download.eclipse.org/releases/luna</url>
         </repository>
-        <repository>
-            <id>Local Repo</id>
-            <url>file://${user.home}/releases/maven/</url>
-        </repository>
-        <repository>
-            <id>FRC Binaries</id>
-            <url>http://first.wpi.edu/FRC/c/maven/</url>
-        </repository>
     </repositories>
 
     <build>
@@ -52,6 +44,45 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>default-repo</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!repo</name>
+                </property>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>Local Repo</id>
+                    <url>file://${user.home}/releases/maven/development</url>
+                </repository>
+                <repository>
+                    <id>FRC Binaries</id>
+                    <url>http://first.wpi.edu/FRC/roborio/maven/development</url>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>custom-repo</id>
+            <activation>
+                <property>
+                    <name>repo</name>
+                </property>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>Local Repo</id>
+                    <url>file://${user.home}/releases/maven/${repo}</url>
+                </repository>
+                <repository>
+                    <id>FRC Binaries</id>
+                    <url>http://first.wpi.edu/FRC/roborio/maven/${repo}</url>
+                </repository>
+            </repositories>
+        </profile>
         <profile>
             <id>docline-java8-disable</id>
             <activation>
