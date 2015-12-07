@@ -57,13 +57,14 @@
 
   <target name="compile" description="Compile the source code.">
     <mkdir dir="${build.dir}"/>
-    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
+	<property name="userLibs" value=""/>
+    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpath}:${userLibs} to ${build.dir}</echo>
 
     <javac srcdir="${src.dir}"
      destdir="${build.dir}"
      includeAntRuntime="no"
      includeJavaRuntime="no"
-     classpath="${classpath}"
+     classpath="${classpath}:${userLibs}"
      target="${ant.java.version}"
      source="${ant.java.version}"
      compiler="javac${ant.java.version}"
@@ -76,10 +77,10 @@
     <mkdir dir="${dist.dir}" />
     <mkdir dir="${build.jars}" />
 
-  <echo>[athena-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
+  <echo>[athena-jar] Copying jars from ${classpath}:${userLibs} to ${build.jars}.</echo>
   <copy todir="${build.jars}" flatten="true">
     <path>
-    <pathelement path="${classpath}"/>
+    <pathelement path="${classpath}:${userLibs}"/>
     </path>
   </copy>
 
