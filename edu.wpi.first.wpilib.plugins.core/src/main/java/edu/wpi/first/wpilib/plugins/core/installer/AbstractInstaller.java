@@ -52,13 +52,13 @@ public abstract class AbstractInstaller {
 	 * @param sourcePath the file location of the zip file EX "/resources/simuation.zip"
 	 * @param destinationPath the file location to unzip into EX "/home/peter/wpilib/simulation/plugins"
 	 */
-  public void installIfNecessary(String sourcePath, String destinationPath){
+  public void installIfNecessary(String sourcePath, String destinationPath, boolean clean){
 		//we're installing from this directory
 		InputStream sourceStream;
 		try {
 			sourceStream = new FileInputStream(sourcePath);
 			File destFile = new File(destinationPath);
-			installIfNecessary(sourceStream, destFile);
+			installIfNecessary(sourceStream, destFile, clean);
 		} catch (FileNotFoundException e) {
 			WPILibCore.logInfo("source zip file was not found: "+sourcePath);
 		}
@@ -70,15 +70,15 @@ public abstract class AbstractInstaller {
 	 *
 	 * @throws InstallException if bad things happen ...
 	 */
-	public void installIfNecessary(){
-		installIfNecessary(getInstallResourceStream(), installLocation);
+	public void installIfNecessary(boolean clean){
+		installIfNecessary(getInstallResourceStream(), installLocation, clean);
 	}
 
 	/**
 	 * I'm thinking maybe instead of final things,
 	 * create a UnzipJob class to extend Job and have these as parameters to the constructor*
 	 */
-	public void installIfNecessary(final InputStream sourceStream,final File destination) {
+	public void installIfNecessary(final InputStream sourceStream,final File destination, final boolean clean) {
 		final Job installJob = new Job("Install " + getFeatureName()) {
 
 			@Override
@@ -89,7 +89,7 @@ public abstract class AbstractInstaller {
 				if (!isInstalled()) {
 					WPILibCore.logInfo("Install necessary for " + getFeatureName());
 					try {
-						install(sourceStream,destination);
+						install(sourceStream,destination, clean);
 					} catch (InstallException e) {
                         WPILibCore.logError("Error installing "+getFeatureName(), e);
 						return new Status(IStatus.ERROR, WPILibCore.PLUGIN_ID,
@@ -149,15 +149,13 @@ public abstract class AbstractInstaller {
 	 * @param destination desired location for output of unzipping
 	 * @throws InstallException
 	 */
-	protected void install(InputStream sourceStream, File destination) throws InstallException {
+	protected void install(InputStream sourceStream, File destination, boolean clean) throws InstallException {
 		if(destination.exists()) {
-			if(!removeFileHandler(destination, true)) {
+			if(!removeFileHandler(destination, !clean)) {
 				MessageDialog.openError(null, "Error",
 					String.format("Could not update the old wpilib folder.%n"
 							+ "Please close any WPILib tools and restart Eclipse."));
 			}
-
-				//removeFileHandler(installLocation, false);
 		}
 
 		destination.mkdirs();

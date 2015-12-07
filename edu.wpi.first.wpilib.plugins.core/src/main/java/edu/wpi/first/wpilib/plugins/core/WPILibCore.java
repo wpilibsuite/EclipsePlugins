@@ -48,7 +48,7 @@ public class WPILibCore extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 
-		new ToolsInstaller(getDefaultVersion()).installIfNecessary();
+		new ToolsInstaller(getDefaultVersion()).installIfNecessary(false);
 	}
 
 	/*

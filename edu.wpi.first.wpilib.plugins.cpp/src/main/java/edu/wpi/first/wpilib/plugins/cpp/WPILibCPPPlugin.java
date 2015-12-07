@@ -78,7 +78,7 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 
 	@Override
 	public void earlyStartup() {
-		new CPPInstaller(getCurrentVersion()).installIfNecessary();
+		new CPPInstaller(getCurrentVersion()).installIfNecessary(true);
 		Properties props = WPILibCore.getDefault().getProjectProperties(null);
     	WPILibCore.getDefault().saveGlobalProperties(props);
 	}
