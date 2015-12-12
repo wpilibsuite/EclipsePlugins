@@ -70,7 +70,7 @@
                                     <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
                                     <artifactId>NetworkTables</artifactId>
                                     <version>3.0.0-SNAPSHOT</version>
-                                    <classifier>arm-development</classifier>
+                                    <classifier>arm</classifier>
                                     <type>jar</type>
                                     <destFileName>NetworkTables.jar</destFileName>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
@@ -79,7 +79,6 @@
                                     <groupId>edu.wpi.first.wpilibj</groupId>
                                     <artifactId>wpilibJavaFinal</artifactId>
                                     <version>0.1.0-SNAPSHOT</version>
-                                    <classifier>development</classifier>
                                     <type>jar</type>
                                     <destFileName>WPILib.jar</destFileName>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
@@ -89,7 +88,7 @@
                                     <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
                                     <artifactId>NetworkTables</artifactId>
                                     <version>3.0.0-SNAPSHOT</version>
-                                    <classifier>sources-development</classifier>
+                                    <classifier>sources</classifier>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                     <destFileName>NetworkTables-sources.jar</destFileName>
                                 </artifactItem>
@@ -97,7 +96,7 @@
                                     <groupId>edu.wpi.first.wpilibj</groupId>
                                     <artifactId>wpilibJavaFinal</artifactId>
                                     <version>0.1.0-SNAPSHOT</version>
-                                    <classifier>sources-development</classifier>
+                                    <classifier>sources</classifier>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                     <destFileName>WPILib-sources.jar</destFileName>
                                 </artifactItem>
@@ -107,7 +106,7 @@
                                     <groupId>edu.wpi.first.wpilibj</groupId>
                                     <artifactId>wpilibJavaFinal</artifactId>
                                     <version>0.1.0-SNAPSHOT</version>
-                                    <classifier>javadoc-development</classifier>
+                                    <classifier>javadoc</classifier>
                                     <outputDirectory>${java-zip}/javadoc-jar</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
@@ -139,14 +138,13 @@
                                     <groupId>edu.wpi.first.wpilibj</groupId>
                                     <artifactId>wpilibJavaSim</artifactId>
                                     <version>0.1.0-SNAPSHOT</version>
-                                    <classifier>development</classifier>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
                                     <artifactId>NetworkTables</artifactId>
                                     <version>3.0.0-SNAPSHOT</version>
-                                    <classifier>arm-development</classifier>
+                                    <classifier>arm</classifier>
                                 </artifactItem>
 
                                 <artifactItem>
@@ -314,28 +312,26 @@
             <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
             <artifactId>NetworkTables</artifactId>
             <version>3.0.0-SNAPSHOT</version>
-            <classifier>arm-development</classifier>
+            <classifier>arm</classifier>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
             <artifactId>wpilibJavaFinal</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <classifier>development</classifier>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
             <artifactId>wpilibJavaSim</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <classifier>development</classifier>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
             <artifactId>wpilibJavaFinal</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <classifier>sources-development</classifier>
+            <classifier>sources</classifier>
         </dependency>
         <!-- dependency>
                   <groupId>net.java.dev.jna</groupId>
@@ -355,7 +351,7 @@
             <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
             <artifactId>NetworkTables</artifactId>
             <version>3.0.0-SNAPSHOT</version>
-            <classifier>sources-development</classifier>
+            <classifier>sources</classifier>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>edu.wpi.first.wpilibj</groupId>-->

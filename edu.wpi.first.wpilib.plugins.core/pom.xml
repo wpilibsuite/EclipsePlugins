@@ -18,12 +18,47 @@
         <tools-zip>${project.build.directory}/tools-zip</tools-zip>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>WPILib Maven Repository</id>
-            <url>http://first.wpi.edu/FRC/roborio/maven/</url>
-        </repository>
-    </repositories>
+    <profiles>
+        <profile>
+            <id>default-repo</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!repo</name>
+                </property>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>Local Repo</id>
+                    <url>file://${user.home}/releases/maven/development</url>
+                </repository>
+                <repository>
+                    <id>FRC Binaries</id>
+                    <url>http://first.wpi.edu/FRC/roborio/maven/development</url>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>custom-repo</id>
+            <activation>
+                <property>
+                    <name>repo</name>
+                </property>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>Local Repo</id>
+                    <url>file://${user.home}/releases/maven/${repo}</url>
+                </repository>
+                <repository>
+                    <id>FRC Binaries</id>
+                    <url>http://first.wpi.edu/FRC/c/maven/${repo}</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 
     <build>
         <resources>
