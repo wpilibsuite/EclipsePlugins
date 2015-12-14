@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
@@ -50,6 +51,9 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 {
 	// Class constants - used to delineate types for launch shortcuts
 	public static final String DEPLOY_TYPE = "edu.wpi.first.wpilib.plugins.core.deploy";
+	
+	private static final int DEBUG_KILL_WAIT_TRIES = 40;
+	private static final int DEBUG_KILL_WAIT_MS = 500;
 
 	/**
 	 * Returns the launch type of the shortcut that was used, one of the
@@ -94,7 +98,7 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 			runConfig(activeProject, mode, editor.getSite().getWorkbenchWindow().getShell());
 		} else {
 			WPILibCPPPlugin.logError("Editor was null.", null);
-		}
+			}
 
 	}
 
@@ -169,8 +173,14 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 			// Kill running program before using RSE as RSE can't
 			WPILibCPPPlugin.logInfo("Running ant file: " + activeProj.getLocation().toOSString() + File.separator + "build.xml");
 			WPILibCPPPlugin.logInfo("Targets: kill-program, Mode: " + mode);
-			AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), "kill-program", null, mode);
-
+			ILaunch killAnt = AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), "kill-program", null, mode);
+			int tries = 0;
+			try{
+				while(!killAnt.isTerminated() && tries < DEBUG_KILL_WAIT_TRIES){
+					Thread.sleep(DEBUG_KILL_WAIT_MS);
+					tries++;
+				}
+			} catch (InterruptedException e) {};
 			// TODO: figure out UI issues. that's why this is undocumented
 			ILaunchConfigurationWorkingCopy config;
 			try {
