@@ -97,7 +97,7 @@
 		   username="${username}"
 		   password="${password}"
 		   trust="true"
-		   command="/usr/local/frc/bin/frcKillRobot.sh"/>
+		   command=". /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t"/>
   </target>
 
   <!-- Simulation support -->
