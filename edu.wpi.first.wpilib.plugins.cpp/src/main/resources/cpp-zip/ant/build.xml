@@ -82,6 +82,7 @@
        username="${username}"
        password="${password}"
        trust="true"
+	   failonerror="false"
        command=". /etc/profile.d/natinst-path.sh; chmod a+x ${deploy.dir}/${out}; ${deploy.kill.command};"/>
 
     <sshexec host="${target}"
@@ -97,6 +98,7 @@
 		   username="${username}"
 		   password="${password}"
 		   trust="true"
+		   failonerror="false"
 		   command=". /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t"/>
   </target>
 

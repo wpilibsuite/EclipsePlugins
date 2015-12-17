@@ -123,6 +123,7 @@
        username="${username}"
        password="${password}"
        trust="true"
+	   failonerror="false"
        command="${deploy.kill.command};"/>
 
     <sshexec host="${target}"
@@ -151,6 +152,7 @@
         username="${username}"
         password="${password}"
         trust="true"
+		failonerror="false"
         command="${deploy.kill.command}"/>
 
   </target>
