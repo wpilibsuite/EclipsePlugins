@@ -13,13 +13,12 @@ public class SimulateLaunchShortcut extends JavaLaunchShortcut {
 	 * @param mode The mode it will be run in (ILaunchManager.RUN_MODE or ILaunchManager.DEBUG_MODE)
 	 */
 	public void runConfig(IProject activeProj, String mode){
-		if (SimulationNotification.supportsSimulation()) {
-			runConfigHelper(activeProj, mode, "simulate", "debug-simulate");
-		} else {
+		if (!SimulationNotification.supportsSimulation()) {
 			SimulationNotification.showUnsupported();
 		}
+		runConfigHelper(activeProj, mode, "simulate", "debug-simulate");
 	}
-	
+
 	protected String getHostname(IProject proj) {
 		return "localhost";
 	}
