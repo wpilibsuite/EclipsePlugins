@@ -33,6 +33,8 @@ public class WPILibPreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
 	IntegerFieldEditor teamNumberEditor;
+	private ComboFieldEditor toolsVersionEditor;
+	private BooleanFieldEditor autoUpdateEditor;
 
 	public WPILibPreferencePage() {
 		super(GRID);
@@ -50,8 +52,28 @@ public class WPILibPreferencePage
 		teamNumberEditor =	new IntegerFieldEditor(PreferenceConstants.TEAM_NUMBER,
 						"&Team Number:", getFieldEditorParent());
 		addField(teamNumberEditor);
+		toolsVersionEditor = new ComboFieldEditor(PreferenceConstants.TOOLS_VERSION,
+				"&Tools Version:", getFieldEditorParent(), getInstalledVersions());
+		addField(toolsVersionEditor);
+		autoUpdateEditor =	new BooleanFieldEditor(PreferenceConstants.UPDATE_TOOLS_VERSION,
+				"&Auto Update Tools Version", getFieldEditorParent());
+		addField(autoUpdateEditor);
 	}
-
+	
+	private List<String> getInstalledVersions() {
+		File[] dirs = new File(WPILibCore.getDefault().getWPILibBaseDir()+File.separator+"tools")
+							.listFiles(new FileFilter() {
+			@Override public boolean accept(File f) {
+				return f.isDirectory();
+			}
+		});
+		List<String> versions = new ArrayList<String>();
+		for (File dir : dirs) {
+			versions.add(dir.getName());
+		}
+		Collections.sort(versions);
+		return versions;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
