@@ -42,6 +42,7 @@ public class Robot extends SampleRobot {
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
+        SmartDashboard.putData("Auto modes", chooser);
     }
 
 	/**
