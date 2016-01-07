@@ -5,9 +5,9 @@ import $package.commands.DriveWithJoystick;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
@@ -24,7 +24,7 @@ public class DriveTrain extends Subsystem {
 	private SpeedController backLeftCIM, backRightCIM;
 	private RobotDrive drive;
 	private Encoder rightEncoder, leftEncoder;
-	private Gyro gyro;
+	private AnalogGyro gyro;
 
 	public DriveTrain() {
 		// Configure drive motors
@@ -52,8 +52,8 @@ public class DriveTrain extends Subsystem {
 		// Configure encoders
 		rightEncoder = new Encoder(1, 2, true, EncodingType.k4X);
 		leftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
-		rightEncoder.setPIDSourceParameter(PIDSourceParameter.kDistance);
-		leftEncoder.setPIDSourceParameter(PIDSourceParameter.kDistance);
+		rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 
 		if (Robot.isReal()) { // Converts to feet
 			rightEncoder.setDistancePerPulse(0.0785398);
@@ -67,7 +67,7 @@ public class DriveTrain extends Subsystem {
 		LiveWindow.addSensor("DriveTrain", "Left Encoder", leftEncoder);
 
 		// Configure gyro
-		gyro = new Gyro(2);
+		gyro = new AnalogGyro(2);
 		if (Robot.isReal()) {
 			gyro.setSensitivity(0.007); // TODO: Handle more gracefully?
 		}
@@ -83,7 +83,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * @param joy PS3 style joystick to use as the input for tank drive.  
+	 * @param joy PS3 style joystick to use as the input for tank drive.
 	 */
 	public void tankDrive(Joystick joy) {
 		drive.tankDrive(joy.getY(), joy.getRawAxis(4));
