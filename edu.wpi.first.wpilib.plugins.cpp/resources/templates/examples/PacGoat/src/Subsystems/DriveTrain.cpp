@@ -13,7 +13,7 @@ DriveTrain::DriveTrain()
 			drive(frontRightCIM, backLeftCIM, frontRightCIM, backRightCIM),
 			rightEncoder(new Encoder(1, 2, true, Encoder::k4X)),
 			leftEncoder(new Encoder(3, 4, false, Encoder::k4X)),
-			gyro(new Gyro(0)) {
+			gyro(new AnalogGyro(0)) {
 	// XXX: LiveWindow::GetInstance()->AddActuator("DriveTrain", "Front Left CIM", (Victor) frontLeftCIM);
 	// XXX: LiveWindow::GetInstance()->AddActuator("DriveTrain", "Front Right CIM", (Victor) frontRightCIM);
 	// XXX: LiveWindow::GetInstance()->AddActuator("DriveTrain", "Back Left CIM", (Victor) backLeftCIM);
@@ -31,8 +31,8 @@ DriveTrain::DriveTrain()
 	drive.SetInvertedMotor(RobotDrive::kRearRightMotor, true);
 
 	// Configure encoders
-	rightEncoder->SetPIDSourceParameter(PIDSource::kDistance);
-	leftEncoder->SetPIDSourceParameter(PIDSource::kDistance);
+	rightEncoder->SetPIDSourceType(PIDSourceType::kDisplacement);
+	leftEncoder->SetPIDSourceType(PIDSourceType::kDisplacement);
 
     #ifdef REAL
 		// Converts to feet
