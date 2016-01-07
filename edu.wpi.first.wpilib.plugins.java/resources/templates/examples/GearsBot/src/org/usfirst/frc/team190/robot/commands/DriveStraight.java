@@ -14,17 +14,31 @@ import $package.Robot;
  * Drive the given distance straight (negative values go backwards).
  * Uses a local PID controller to run a simple PID loop that is only
  * enabled while this command is running. The input is the averaged
- * values of the left and right encoders. 
+ * values of the left and right encoders.
  */
 public class DriveStraight extends Command {
     private PIDController pid;
-    
+
     public DriveStraight(double distance) {
         requires(Robot.drivetrain);
         pid = new PIDController(4, 0, 0,
-                new PIDSource() { public double pidGet() {
-                    return Robot.drivetrain.getDistance();
-                }},
+                new PIDSource() {
+                    PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+
+                    public double pidGet() {
+                        return Robot.drivetrain.getDistance();
+                    }
+
+                    @Override
+                    public void setPIDSourceType(PIDSourceType pidSource) {
+                      m_sourceType = pidSource;
+                    }
+
+                    @Override
+                    public PIDSourceType getPIDSourceType() {
+                        return m_sourceType;
+                    }
+                },
                 new PIDOutput() { public void pidWrite(double d) {
                     Robot.drivetrain.drive(d, d);
                 }});

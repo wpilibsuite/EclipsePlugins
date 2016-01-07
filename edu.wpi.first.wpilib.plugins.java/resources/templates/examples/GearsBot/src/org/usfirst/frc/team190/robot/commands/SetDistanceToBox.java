@@ -22,8 +22,20 @@ public class SetDistanceToBox extends Command {
 	public SetDistanceToBox(double distance) {
 		requires(Robot.drivetrain);
 		pid = new PIDController(-2, 0, 0, new PIDSource() {
+			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+
 			public double pidGet() {
 				return Robot.drivetrain.getDistanceToObstacle();
+			}
+
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
 			}
 		}, new PIDOutput() {
 			public void pidWrite(double d) {

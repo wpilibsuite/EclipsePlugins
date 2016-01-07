@@ -3,7 +3,7 @@ package $package.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem {
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
 	private AnalogInput rangefinder;
-	private Gyro gyro;
+	private AnalogGyro gyro;
 
 	public DriveTrain() {
 		super();
@@ -37,7 +37,7 @@ public class DriveTrain extends Subsystem {
 							   front_right_motor, back_right_motor);
 		left_encoder = new Encoder(1, 2);
 		right_encoder = new Encoder(3, 4);
-		
+
 		// Encoders may measure differently in the real world and in
 		// simulation. In this example the robot moves 0.042 barleycorns
 		// per tick in the real world, but the simulated encoders
@@ -53,7 +53,7 @@ public class DriveTrain extends Subsystem {
 		}
 
 		rangefinder = new AnalogInput(6);
-		gyro = new Gyro(1);
+		gyro = new AnalogGyro(1);
 
 		// Let's show everything on the LiveWindow
 		LiveWindow.addActuator("Drive Train", "Front_Left Motor", (Talon) front_left_motor);
@@ -86,7 +86,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Tank style driving for the DriveTrain. 
+	 * Tank style driving for the DriveTrain.
 	 * @param left Speed in range [-1,1]
 	 * @param right Speed in range [-1,1]
 	 */
@@ -123,9 +123,9 @@ public class DriveTrain extends Subsystem {
 	public double getDistance() {
 		return (left_encoder.getDistance() + right_encoder.getDistance())/2;
 	}
-	
+
 	/**
-	 * @return The distance to the obstacle detected by the rangefinder. 
+	 * @return The distance to the obstacle detected by the rangefinder.
 	 */
 	public double getDistanceToObstacle() {
 		// Really meters in simulation since it's a rangefinder...
