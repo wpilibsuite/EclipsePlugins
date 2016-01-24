@@ -205,9 +205,13 @@
 	</post>
 	<loadfile srcFile="sysProps.xml" encoding="UTF-16LE" property="roboRIOSysValues"/>
 	<propertyregex property="roboRIOImage" input="${roboRIOSysValues}" regexp="FRC_roboRIO_2016_v([0-9]+)" select="\1" defaultValue="ImageRegExFail"/>
-	<assert message="roboRIO Image does not match plugin, allowed image version: ${roboRIOAllowedImages}">
+	<propertyregex property="roboRIOImageYear" input="${roboRIOSysValues}" regexp="FRC_roboRIO_([0-9]+)_v" select="\1" defaultValue="ImageRegExFail"/>
+	<assert message="Image of roboRIO does not match plugin. ${line.separator}Allowed image year: ${roboRIOAllowedYear} version: ${roboRIOAllowedImages}. ${line.separator}Actual image year: ${roboRIOImageYear} version ${roboRIOImage}. ${line.separator}RoboRIO needs to be re-imaged or plugins updated.">
 		<bool>
-			<contains string="${roboRIOAllowedImages}" substring="${roboRIOImage}"/>
+			<and>
+				<contains string="${roboRIOAllowedImages}" substring="${roboRIOImage}"/>
+				<contains string="${roboRIOAllowedYear}" substring="${roboRIOImageYear}"/>
+			</and>
 		</bool>
 	</assert>
 	<echo>roboRIO image version validated</echo>
