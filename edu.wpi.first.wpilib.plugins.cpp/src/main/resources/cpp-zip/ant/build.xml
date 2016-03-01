@@ -64,7 +64,7 @@
          command="rm -f ${deploy.dir}/FRCUserProgram" />
 
     <echo>[athena-deploy] Copying code over.</echo>
-    <scp file="${out.exe}" sftp="true" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
+    <scp file="${out.exe}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
 
      <!-- Suppress the exit status so that if no netconsole was running then
           it doesn't show up red on the output. -->
