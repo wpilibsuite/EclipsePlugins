@@ -1,6 +1,7 @@
 #include "OI.h"
 
-OI::OI()
-{
+#include <WPILib.h>
+
+OI::OI() {
 	// Process operator interface input here.
 }

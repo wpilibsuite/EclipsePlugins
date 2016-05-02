@@ -1,8 +1,12 @@
 #ifndef Shooter_H
 #define Shooter_H
 
-#include "Commands/Subsystem.h"
-#include "WPILib.h"
+#include <memory>
+
+#include <Commands/Subsystem.h>
+#include <DigitalInput.h>
+#include <DoubleSolenoid.h>
+#include <Solenoid.h>
 
 /**
  * The Shooter subsystem handles shooting. The mechanism for shooting is
@@ -14,17 +18,7 @@
  * NOTE: Simulation currently approximates this as as single pneumatic cylinder
  * and ignores the latch.
  */
-class Shooter: public Subsystem
-{
-private:
-	// Devices
-	std::shared_ptr<DoubleSolenoid> piston1;
-	std::shared_ptr<DoubleSolenoid> piston2;
-	std::shared_ptr<Solenoid> latchPiston;
-	std::shared_ptr<DigitalInput> piston1ReedSwitchFront;
-	std::shared_ptr<DigitalInput> piston1ReedSwitchBack;
-	std::shared_ptr<DigitalInput> hotGoalSensor; // NOTE: Currently ignored in simulation
-
+class Shooter : public Subsystem {
 public:
 	Shooter();
 	void InitDefaultCommand();
@@ -112,6 +106,15 @@ public:
 	 * @return Whether or not the goal is hot as read by the banner sensor
 	 */
 	bool GoalIsHot();
+
+private:
+	// Devices
+	std::shared_ptr<DoubleSolenoid> piston1 = std::make_shared<DoubleSolenoid>(3, 4);
+	std::shared_ptr<DoubleSolenoid> piston2 = std::make_shared<DoubleSolenoid>(5, 6);
+	std::shared_ptr<Solenoid> latchPiston = std::make_shared<Solenoid>(1, 2);
+	std::shared_ptr<DigitalInput> piston1ReedSwitchFront = std::make_shared<DigitalInput>(9);
+	std::shared_ptr<DigitalInput> piston1ReedSwitchBack = std::make_shared<DigitalInput>(11);
+	std::shared_ptr<DigitalInput> hotGoalSensor = std::make_shared<DigitalInput>(7); // NOTE: Currently ignored in simulation
 };
 
 #endif

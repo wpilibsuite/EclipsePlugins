@@ -1,27 +1,21 @@
 #include "CommandBase.h"
-#include "Subsystems/ExampleSubsystem.h"
-#include "Commands/Scheduler.h"
 
-// Initialize a single static instance of all of your subsystems to NULL
-std::unique_ptr<ExampleSubsystem> CommandBase::examplesubsystem;
+#include <Commands/Scheduler.h>
+
+#include "Subsystems/ExampleSubsystem.h"
+
+// Initialize a single static instance of all of your subsystems
+std::unique_ptr<ExampleSubsystem> CommandBase::exampleSubsystem;
 std::unique_ptr<OI> CommandBase::oi;
 
-CommandBase::CommandBase(const std::string &name) :
-		Command(name)
-{
-}
-
-CommandBase::CommandBase() :
-		Command()
-{
+CommandBase::CommandBase(const std::string &name) : Command(name) {
 
 }
 
-void CommandBase::init()
-{
+void CommandBase::init() {
 	// Create a single static instance of all of your subsystems. The following
 	// line should be repeated for each subsystem in the project.
-	examplesubsystem.reset(new ExampleSubsystem());
+	exampleSubsystem.reset(new ExampleSubsystem());
 
 	oi.reset(new OI());
 }

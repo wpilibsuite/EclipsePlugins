@@ -59,7 +59,7 @@ public class Robot extends SampleRobot {
         gyro.setSensitivity(voltsPerDegreePerSecond); //calibrate gyro to have the value equal to degrees
         while (isOperatorControl() && isEnabled()) {
             myRobot.mecanumDrive_Cartesian(joystick.getX(), joystick.getY(), joystick.getZ(), gyro.getAngle());
-            Timer.delay(0.005);	// wait 5ms to avoid hogging CPU cycles
+            Timer.delay(0.005);    // wait 5ms to avoid hogging CPU cycles
         }
     }
 

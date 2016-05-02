@@ -1,14 +1,7 @@
-/*
- * OI.h
- *
- *  Created on: Jun 3, 2014
- *      Author: alex
- */
-
 #ifndef OI_H_
 #define OI_H_
 
-#include "WPILib.h"
+#include <Joystick.h>
 
 class OI {
 public:
@@ -16,7 +9,7 @@ public:
 	Joystick* GetJoystick();
 
 private:
-	Joystick* joy;
+	Joystick joy{0};
 };
 
-#endif /* OI_H_ */
+#endif  // OI_H_

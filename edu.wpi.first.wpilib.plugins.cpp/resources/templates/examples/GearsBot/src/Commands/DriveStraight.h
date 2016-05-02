@@ -1,8 +1,9 @@
 #ifndef DriveStraight_H
 #define DriveStraight_H
 
-#include "WPILib.h"
-#include "Commands/Command.h"
+#include <Commands/Command.h>
+#include <PIDOutput.h>
+#include <PIDSource.h>
 
 /**
  * Drive the given distance straight (negative values go backwards).
@@ -10,28 +11,26 @@
  * enabled while this command is running. The input is the averaged
  * values of the left and right encoders.
  */
-class DriveStraight: public Command {
+class DriveStraight : public Command {
 public:
 	DriveStraight(double distance);
 	void Initialize();
-	void Execute();
 	bool IsFinished();
 	void End();
-	void Interrupted();
 private:
 	PIDController* pid;
 };
 
 class DriveStraightPIDSource: public PIDSource {
 public:
-	virtual ~DriveStraightPIDSource();
+	virtual ~DriveStraightPIDSource() = default;
 	double PIDGet();
 };
 
 class DriveStraightPIDOutput: public PIDOutput {
 public:
-	virtual ~DriveStraightPIDOutput();
+	virtual ~DriveStraightPIDOutput() = default;
 	void PIDWrite(float d);
 };
 
-#endif
+#endif  // DriveStraight_H

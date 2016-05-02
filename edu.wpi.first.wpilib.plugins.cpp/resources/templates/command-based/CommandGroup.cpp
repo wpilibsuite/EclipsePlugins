@@ -1,7 +1,6 @@
 #include "$classname.h"
 
-$classname::$classname()
-{
+$classname::$classname() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());

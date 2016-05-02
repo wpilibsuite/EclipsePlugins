@@ -1,11 +1,9 @@
 #ifndef $classname_H
 #define $classname_H
 
-#include "Commands/PIDSubsystem.h"
-#include "WPILib.h"
+#include <Commands/PIDSubsystem.h>
 
-class $classname: public PIDSubsystem
-{
+class $classname : public PIDSubsystem {
 public:
 	$classname();
 	double ReturnPIDInput();
@@ -13,4 +11,4 @@ public:
 	void InitDefaultCommand();
 };
 
-#endif
+#endif  // $classname_H

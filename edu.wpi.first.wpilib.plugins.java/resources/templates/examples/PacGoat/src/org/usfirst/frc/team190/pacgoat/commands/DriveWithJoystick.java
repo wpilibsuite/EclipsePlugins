@@ -9,26 +9,19 @@ import edu.wpi.first.wpilibj.command.Command;
  * except when interrupted by another command.
  */
 public class DriveWithJoystick extends Command {
-	public DriveWithJoystick() {
-		requires(Robot.drivetrain);
-	}
+    public DriveWithJoystick() {
+        requires(Robot.drivetrain);
+    }
 
-	protected void initialize() {
-	}
+    protected void execute() {
+        Robot.drivetrain.tankDrive(Robot.oi.getJoystick());
+    }
 
-	protected void execute() {
-		Robot.drivetrain.tankDrive(Robot.oi.getJoystick());
-	}
+    protected boolean isFinished() {
+        return false;
+    }
 
-	protected boolean isFinished() {
-		return false;
-	}
-
-	protected void end() {
-		Robot.drivetrain.stop();
-	}
-
-	protected void interrupted() {
-		end();
-	}
+    protected void end() {
+        Robot.drivetrain.stop();
+    }
 }

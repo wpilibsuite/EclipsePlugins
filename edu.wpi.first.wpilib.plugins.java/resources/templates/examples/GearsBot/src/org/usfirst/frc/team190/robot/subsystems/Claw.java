@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 /**
  * The claw subsystem is a simple system with a motor for opening and closing.
  * If using stronger motors, you should probably use a sensor so that the
- * motors don't stall. 
+ * motors don't stall.
  */
 public class Claw extends Subsystem {
     private SpeedController motor;
@@ -24,14 +24,14 @@ public class Claw extends Subsystem {
         motor = new Victor(7);
         contact = new DigitalInput(5);
 
-		// Let's show everything on the LiveWindow
+        // Let's show everything on the LiveWindow
         LiveWindow.addActuator("Claw", "Motor", (Victor) motor);
         LiveWindow.addActuator("Claw", "Limit Switch", contact);
     }
 
     public void initDefaultCommand() {}
     public void log() {}
-    
+
     /**
      * Set the claw motor to move in the open direction.
      */
@@ -45,19 +45,19 @@ public class Claw extends Subsystem {
     public void close() {
         motor.set(1);
     }
-    
+
     /**
      * Stops the claw motor from moving.
      */
     public void stop() {
         motor.set(0);
     }
-    
+
     /**
      * Return true when the robot is grabbing an object hard enough
      * to trigger the limit switch.
      */
     public boolean isGrabbing() {
-    	return contact.get();
+        return contact.get();
     }
 }

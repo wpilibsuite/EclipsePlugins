@@ -1,19 +1,16 @@
 #ifndef ExtendShooter_H
 #define ExtendShooter_H
 
-#include "WPILib.h"
+#include <Commands/TimedCommand.h>
 
 /**
  * Extend the shooter and then retract it after a second.
  */
-class ExtendShooter: public Command {
+class ExtendShooter : public TimedCommand {
 public:
 	ExtendShooter();
 	void Initialize();
-	void Execute();
-	bool IsFinished();
 	void End();
-	void Interrupted();
 };
 
-#endif
+#endif  // ExtendShooter_H

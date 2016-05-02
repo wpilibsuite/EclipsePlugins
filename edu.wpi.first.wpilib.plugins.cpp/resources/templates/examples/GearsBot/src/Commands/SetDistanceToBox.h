@@ -1,8 +1,9 @@
 #ifndef SetDistanceToBox_H
 #define SetDistanceToBox_H
 
-#include "WPILib.h"
-#include "Commands/Command.h"
+#include <Commands/Command.h>
+#include <PIDOutput.h>
+#include <PIDSource.h>
 
 /**
  * Drive until the robot is the given distance away from the box. Uses a local
@@ -10,28 +11,26 @@
  * command is running. The input is the averaged values of the left and right
  * encoders.
  */
-class SetDistanceToBox: public Command {
+class SetDistanceToBox : public Command {
 public:
 	SetDistanceToBox(double distance);
 	void Initialize();
-	void Execute();
 	bool IsFinished();
 	void End();
-	void Interrupted();
 private:
 	PIDController* pid;
 };
 
-class SetDistanceToBoxPIDSource: public PIDSource {
+class SetDistanceToBoxPIDSource : public PIDSource {
 public:
-	virtual ~SetDistanceToBoxPIDSource();
+	virtual ~SetDistanceToBoxPIDSource() = default;
 	double PIDGet();
 };
 
-class SetDistanceToBoxPIDOutput: public PIDOutput {
+class SetDistanceToBoxPIDOutput : public PIDOutput {
 public:
-	virtual ~SetDistanceToBoxPIDOutput();
+	virtual ~SetDistanceToBoxPIDOutput() = default;
 	void PIDWrite(float d);
 };
 
-#endif
+#endif  // SetDistanceToBox_H

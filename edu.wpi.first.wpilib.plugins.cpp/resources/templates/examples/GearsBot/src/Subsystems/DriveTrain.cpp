@@ -1,13 +1,8 @@
 #include "DriveTrain.h"
+
 #include "Commands/TankDriveWithJoystick.h"
 
-DriveTrain::DriveTrain()
-		: Subsystem("DriveTrain"), left_encoder(new Encoder(1, 2)),
-			right_encoder(new Encoder(3, 4)), rangefinder(new AnalogInput(6)),
-			gyro(new AnalogGyro(1)) {
-	drive = new RobotDrive(new Talon(1), new Talon(2),
-						   new Talon(3), new Talon(4));
-
+DriveTrain::DriveTrain() : Subsystem("DriveTrain") {
 	// Encoders may measure differently in the real world and in
 	// simulation. In this example the robot moves 0.042 barleycorns
 	// per tick in the real world, but the simulated encoders
@@ -18,8 +13,8 @@ DriveTrain::DriveTrain()
 		right_encoder->SetDistancePerPulse(0.042);
 	#else
 		// Circumference in ft = 4in/12(in/ft)*PI
-		left_encoder->SetDistancePerPulse((double) (4.0/12.0*M_PI) / 360.0);
-		right_encoder->SetDistancePerPulse((double) (4.0/12.0*M_PI) / 360.0);
+		left_encoder->SetDistancePerPulse((double) (4.0 / 12.0 * M_PI) / 360.0);
+		right_encoder->SetDistancePerPulse((double) (4.0 / 12.0 * M_PI) / 360.0);
 	#endif
 
 	// Let's show everything on the LiveWindow
@@ -71,7 +66,7 @@ void DriveTrain::Reset() {
 }
 
 double DriveTrain::GetDistance() {
-	return (left_encoder->GetDistance() + right_encoder->GetDistance())/2;
+	return (left_encoder->GetDistance() + right_encoder->GetDistance()) / 2;
 }
 
 double DriveTrain::GetDistanceToObstacle() {

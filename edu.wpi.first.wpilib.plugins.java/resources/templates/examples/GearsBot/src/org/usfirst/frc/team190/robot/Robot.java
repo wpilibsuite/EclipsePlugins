@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
     Command autonomousCommand;
-    
+
     public static DriveTrain drivetrain;
     public static Elevator elevator;
     public static Wrist wrist;
@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
         wrist = new Wrist();
         claw = new Claw();
         oi = new OI();
-        
+
         // instantiate the command used for the autonomous period
         autonomousCommand = new Autonomous();
 
@@ -69,8 +69,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-    	// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
+        // This makes sure that the autonomous stops running when
+        // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
         autonomousCommand.cancel();
@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
         log();
     }
-    
+
     /**
      * This function is called periodically during test mode
      */
@@ -91,9 +91,9 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
     }
 
-	/**
-	 * The log method puts interesting information to the SmartDashboard.
-	 */
+    /**
+     * The log method puts interesting information to the SmartDashboard.
+     */
     private void log() {
         wrist.log();
         elevator.log();

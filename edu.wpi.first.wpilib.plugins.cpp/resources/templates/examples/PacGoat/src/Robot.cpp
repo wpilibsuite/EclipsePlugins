@@ -1,13 +1,15 @@
-
 #include "Robot.h"
 
-std::shared_ptr<DriveTrain> Robot::drivetrain;
-std::shared_ptr<Pivot> Robot::pivot;
-std::shared_ptr<Collector> Robot::collector;
-std::shared_ptr<Shooter> Robot::shooter;
-std::shared_ptr<Pneumatics> Robot::pneumatics;
+#include <iostream>
 
+#include <SmartDashboard/SmartDashboard.h>
+
+std::shared_ptr<Collector> Robot::collector;
+std::shared_ptr<DriveTrain> Robot::drivetrain;
 std::unique_ptr<OI> Robot::oi;
+std::shared_ptr<Pivot> Robot::pivot;
+std::shared_ptr<Pneumatics> Robot::pneumatics;
+std::shared_ptr<Shooter> Robot::shooter;
 
 void Robot::RobotInit() {
 	drivetrain.reset(new DriveTrain());
@@ -30,11 +32,11 @@ void Robot::RobotInit() {
 	autoChooser.AddObject("Drive Forward", driveForwardAuto.get());
 	SmartDashboard::PutData("Auto Mode", &autoChooser);
 
-	pneumatics->Start(); // Pressurize the pneumatics.
+	pneumatics->Start();  // Pressurize the pneumatics.
 }
 
 void Robot::AutonomousInit() {
-	autonomousCommand = (Command *)autoChooser.GetSelected();
+	autonomousCommand = static_cast<Command*>(autoChooser.GetSelected());
 	autonomousCommand->Start();
 }
 
@@ -60,7 +62,7 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestPeriodic() {
-  LiveWindow::GetInstance()->Run();
+	LiveWindow::GetInstance()->Run();
 }
 
 void Robot::DisabledInit() {

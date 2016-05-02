@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class Collect extends CommandGroup {
     public Collect() {
-    	addSequential(new SetCollectionSpeed(Collector.FORWARD));
-    	addParallel(new CloseClaw());
-    	addSequential(new SetPivotSetpoint(Pivot.COLLECT));
-    	addSequential(new WaitForBall());
+        addSequential(new SetCollectionSpeed(Collector.FORWARD));
+        addParallel(new CloseClaw());
+        addSequential(new SetPivotSetpoint(Pivot.COLLECT));
+        addSequential(new WaitForBall());
     }
 }

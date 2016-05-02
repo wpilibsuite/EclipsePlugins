@@ -1,9 +1,8 @@
 #include "Pickup.h"
-#include "CloseClaw.h"
-#include "SetWristSetpoint.h"
-#include "SetElevatorSetpoint.h"
 
-#include <iostream>
+#include "CloseClaw.h"
+#include "SetElevatorSetpoint.h"
+#include "SetWristSetpoint.h"
 
 Pickup::Pickup() : CommandGroup("Pickup") {
 	AddSequential(new CloseClaw());

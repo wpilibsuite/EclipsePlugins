@@ -1,6 +1,4 @@
-
 package $package;
-
 
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -37,7 +35,7 @@ public class Robot extends SampleRobot {
         myRobot.setExpiration(0.1);
         stick = new Joystick(0);
     }
-    
+
     public void robotInit() {
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
@@ -45,36 +43,36 @@ public class Robot extends SampleRobot {
         SmartDashboard.putData("Auto modes", chooser);
     }
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString line to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the if-else structure below with additional strings.
-	 * If using the SendableChooser make sure to add them to the chooser code above as well.
-	 */
+    /**
+     * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
+     * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
+     * Dashboard, remove all of the chooser code and uncomment the getString line to get the auto name from the text box
+     * below the Gyro
+     *
+     * You can add additional auto modes by adding additional comparisons to the if-else structure below with additional strings.
+     * If using the SendableChooser make sure to add them to the chooser code above as well.
+     */
     public void autonomous() {
-    	
-    	String autoSelected = (String) chooser.getSelected();
-//		String autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
-    	
-    	switch(autoSelected) {
-    	case customAuto:
+
+        String autoSelected = (String) chooser.getSelected();
+//        String autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
+        System.out.println("Auto selected: " + autoSelected);
+
+        switch(autoSelected) {
+        case customAuto:
             myRobot.setSafetyEnabled(false);
-            myRobot.drive(-0.5, 1.0);	// spin at half speed
-            Timer.delay(2.0);		//    for 2 seconds
-            myRobot.drive(0.0, 0.0);	// stop robot
+            myRobot.drive(-0.5, 1.0);    // spin at half speed
+            Timer.delay(2.0);        //    for 2 seconds
+            myRobot.drive(0.0, 0.0);    // stop robot
             break;
-    	case defaultAuto:
-    	default:
+        case defaultAuto:
+        default:
             myRobot.setSafetyEnabled(false);
-            myRobot.drive(-0.5, 0.0);	// drive forwards half speed
-            Timer.delay(2.0);		//    for 2 seconds
-            myRobot.drive(0.0, 0.0);	// stop robot
+            myRobot.drive(-0.5, 0.0);    // drive forwards half speed
+            Timer.delay(2.0);        //    for 2 seconds
+            myRobot.drive(0.0, 0.0);    // stop robot
             break;
-    	}
+        }
     }
 
     /**
@@ -84,7 +82,7 @@ public class Robot extends SampleRobot {
         myRobot.setSafetyEnabled(true);
         while (isOperatorControl() && isEnabled()) {
             myRobot.arcadeDrive(stick); // drive with arcade style (use right stick)
-            Timer.delay(0.005);		// wait for a motor update time
+            Timer.delay(0.005);        // wait for a motor update time
         }
     }
 
