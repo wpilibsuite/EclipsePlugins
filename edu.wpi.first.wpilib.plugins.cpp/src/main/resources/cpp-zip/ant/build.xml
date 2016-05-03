@@ -76,6 +76,13 @@
                command="killall -q netconsole-host || :"/>
 
     <scp file="${wpilib.ant.dir}/robotCommand" todir="${username}@${target}:/home/lvuser/" password="${password}" trust="true"/>
+    <echo>[athena-deploy] Giving program CAP_SYS_NICE capability.</echo>
+    <sshexec host="${target}"
+       username="admin"
+       password="${password}"
+       trust="true"
+       failonerror="true"
+       command="setcap 'cap_sys_nice=pe' /home/lvuser/FRCUserProgram"/>
 
     <echo>[athena-deploy] Starting program.</echo>
     <sshexec host="${target}"
