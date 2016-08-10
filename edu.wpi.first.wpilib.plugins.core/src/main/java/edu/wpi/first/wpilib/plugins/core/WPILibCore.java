@@ -49,6 +49,7 @@ public class WPILibCore extends AbstractUIPlugin {
 		plugin = this;
 
 		new ToolsInstaller(getDefaultVersion()).installIfNecessary(false);
+		createUserDirs();
 	}
 
 	/*
@@ -158,5 +159,21 @@ public class WPILibCore extends AbstractUIPlugin {
 
 	public static void logError(String msg, Exception e) {
 		getDefault().getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, msg, e));
+	}
+	
+	void createUserDirs()
+	{
+		File directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + "/user");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + "/user/cpp");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + "/user/cpp/lib");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + "/user/cpp/include");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + "/user/java");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + "/user/java/lib");
+		directory.mkdirs();
 	}
 }
