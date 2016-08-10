@@ -118,6 +118,9 @@ public class DeployLaunchShortcut implements ILaunchShortcut
     // build succeded, so we instead must check the markers for
     // errors and hope that we don't accidentally catch any
     // false-positives.
+	
+	WPILibCPPPlugin.getDefault().updateVariables(activeProj);
+	
     try {
       activeProj.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
     }

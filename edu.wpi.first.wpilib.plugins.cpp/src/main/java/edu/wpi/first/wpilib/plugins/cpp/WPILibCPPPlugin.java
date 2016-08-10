@@ -1,8 +1,21 @@
 package edu.wpi.first.wpilib.plugins.cpp;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.cdt.managedbuilder.core.BuildException;
+import org.eclipse.cdt.managedbuilder.core.IConfiguration;
+import org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo;
+import org.eclipse.cdt.managedbuilder.core.IOption;
+import org.eclipse.cdt.managedbuilder.core.ITool;
+import org.eclipse.cdt.managedbuilder.core.ManagedBuildManager;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.IStartup;
@@ -21,6 +34,11 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "WPILib_CPP_Robot_Development"; //$NON-NLS-1$
+	
+	private static final String USER_LIBS_PATH = "\"${WPILIB}/user/cpp/lib\"";
+	private static final String USER_INCLUDE_PATH = "\"${WPILIB}/user/cpp/include\"";
+	// TODO: When the 2017 rpath changes, something like this is needed to update 2016 projects. This is the current rpath, update for new
+	//	private static final String LINKER_OPTIONS = "-Wl,-rpath,/opt/GenICam_v2_3/bin/Linux_armv7-a,-rpath,/usr/local/frc/rpath-lib";
 
 	// The shared instance
 	private static WPILibCPPPlugin plugin;
@@ -81,8 +99,102 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 		new CPPInstaller(getCurrentVersion()).installIfNecessary(true);
 		Properties props = WPILibCore.getDefault().getProjectProperties(null);
     	WPILibCore.getDefault().saveGlobalProperties(props);
+		updateProjects();
 	}
-
+	
+	public void updateProjects() {
+		WPILibCPPPlugin.logInfo("Updating projects");
+		
+		// Get the root of the workspace
+	    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+	    IWorkspaceRoot root = workspace.getRoot();
+	    // Get all projects in the workspace
+	    IProject[] projects = root.getProjects();
+	    // Loop over all projects
+	    for (IProject project : projects) {
+			  try {
+				  if(project.hasNature("edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature") && project.hasNature("org.eclipse.cdt.core.ccnature")){
+					updateVariables(project);
+				  }
+			  } catch (CoreException e) {
+				WPILibCPPPlugin.logError("Error updating projects.", e);
+			  }
+	    }
+	}
+	
+	public void updateVariables(IProject project) {
+		final IManagedBuildInfo buildInfo = ManagedBuildManager.getBuildInfo(project, true);
+		final IConfiguration config = buildInfo.getDefaultConfiguration();
+		final ITool[] tools = config.getRootFolderInfo().getTools();
+		
+		for (final ITool tool : tools) {
+			if (tool.getId().contains(".cpp.linker.")) {
+				IOption option = tool.getOptionBySuperClassId("gnu.cpp.link.option.libs");
+				if(option != null) {
+					try {
+						String[] libs = option.getLibraries();
+						List<String> libList = new ArrayList<String>();
+						
+						File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp" + File.separator + "lib");
+						File[] filesList = dir.listFiles();
+						for (File file : filesList) {
+							if (file.isFile()) {
+								String[] splitFileName = file.getName().substring(3).split("[.]");
+								if(splitFileName[splitFileName.length-1].equals("so") || splitFileName[splitFileName.length-1].equals("a"))
+								{
+									String libName = file.getName().substring(3, file.getName().length()-splitFileName[splitFileName.length-1].length()-1);
+									if(!libList.contains(libName))
+									{
+										libList.add(libName);
+										WPILibCPPPlugin.logInfo("Adding library to cpp link: " + file.getName());
+									}
+								}
+							}
+						}
+						libList.add("wpi");
+						option.setValue(libList.toArray(new String[libList.size()]));
+					} catch (final BuildException e) {
+						WPILibCPPPlugin.logError("Error retrieving library information from tool option", e);
+					}
+				}
+				
+				try {
+					option = tool.getOptionBySuperClassId("gnu.cpp.link.option.paths");
+					String[] paths = option.getBasicStringListValue();
+					List<String> libPathsList = new ArrayList<String>(Arrays.asList(paths));
+					if(!libPathsList.contains(USER_LIBS_PATH))
+					{
+						libPathsList.add(USER_LIBS_PATH);
+						option.setValue(libPathsList.toArray(new String[libPathsList.size()]));
+					}
+				} catch (final BuildException e) {
+					WPILibCPPPlugin.logError("Error checking library paths", e);
+				}
+				//Code for setting linker options. Needed for TODO near top of file
+				/*
+				try {
+					option = tool.getOptionBySuperClassId("gnu.cpp.link.option.flags");
+					option.setValue(LINKER_OPTIONS);
+				} catch (final BuildException e) {
+					WPILibCPPPlugin.logError("Error updating linker options", e);
+				}
+				*/
+			} else if (tool.getId().contains(".cpp.compiler")) {
+				try {
+					IOption option = tool.getOptionBySuperClassId("gnu.cpp.compiler.option.include.paths");
+					String[] paths = option.getBasicStringListValue();
+					List<String> includePathsList = new ArrayList<String>(Arrays.asList(paths));
+					if(!includePathsList.contains(USER_INCLUDE_PATH))
+					{
+						includePathsList.add(USER_INCLUDE_PATH);
+						option.setValue(includePathsList.toArray(new String[includePathsList.size()]));
+					}
+				} catch (final BuildException e) {
+					WPILibCPPPlugin.logError("Error checking include paths", e);
+				}
+			}
+		}
+	}
 
 	public static void logInfo(String msg) {
 		getDefault().getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));

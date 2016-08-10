@@ -14,6 +14,7 @@ import org.eclipse.cdt.managedbuilder.core.ManagedCProjectNature;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 
+import edu.wpi.first.wpilib.plugins.core.WPILibCore;
 import edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature;
 import edu.wpi.first.wpilib.plugins.core.wizards.IProjectCreator;
 import edu.wpi.first.wpilib.plugins.core.wizards.ProjectType;
@@ -77,14 +78,10 @@ public class WPIRobotCPPProjectCreator implements IProjectCreator {
 
 	@Override
 	public void finalize(IProject project) throws CoreException {
-		updateVariables(project);
+		WPILibCPPPlugin.getDefault().updateVariables(project);
 		
 		// Freshen the index because otherwise it's red and angry
 		ICElement[] projects = {CCorePlugin.getDefault().getCoreModel().create(project)};
 		CCorePlugin.getIndexManager().update(projects, IIndexManager.UPDATE_ALL | IIndexManager.UPDATE_EXTERNAL_FILES_FOR_PROJECT);
-	}
-	
-	private void updateVariables(IProject project) throws CoreException {
-		// TODO: implement C++ equivalent
 	}
 }
