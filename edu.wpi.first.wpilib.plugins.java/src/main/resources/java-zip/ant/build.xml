@@ -57,14 +57,13 @@
 
   <target name="compile" description="Compile the source code.">
     <mkdir dir="${build.dir}"/>
-	<property name="userLibs" value=""/>
-    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpath}:${userLibs} to ${build.dir}</echo>
+    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpath}]to ${build.dir}</echo>
 
     <javac srcdir="${src.dir}"
      destdir="${build.dir}"
      includeAntRuntime="no"
      includeJavaRuntime="no"
-     classpath="${classpath}:${userLibs}"
+     classpath="${classpath}"
      target="${ant.java.version}"
      source="${ant.java.version}"
      compiler="javac${ant.java.version}"
@@ -77,10 +76,10 @@
     <mkdir dir="${dist.dir}" />
     <mkdir dir="${build.jars}" />
 
-  <echo>[athena-jar] Copying jars from ${classpath}:${userLibs} to ${build.jars}.</echo>
+  <echo>[athena-jar] Copying jars from ${classpath}to ${build.jars}.</echo>
   <copy todir="${build.jars}" flatten="true">
     <path>
-    <pathelement path="${classpath}:${userLibs}"/>
+    <pathelement path="${classpath}"/>
     </path>
   </copy>
 
@@ -98,6 +97,13 @@
     </zipgroupfileset>
     </jar>
   </target>
+  
+  	<echo>[athena-deploy] Deploying shared libraries</echo>
+	<scp todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true">
+		<fileset dir="${userLibs}">
+			<include name="**/*.so"/>
+		</fileset>
+	</scp>
 
     <!-- We're running a clean here to get around a known ant issue where it does not detected changed constant variables.
      To get around this, we're recompiling the entire project, which is not an issue for most teams. If this is an issue

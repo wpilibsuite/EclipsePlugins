@@ -3,6 +3,13 @@ package edu.wpi.first.wpilib.plugins.cpp;
 import java.io.File;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.cdt.core.cdtvariables.IUserVarSupplier;
+import org.eclipse.cdt.core.cdtvariables.IStorableCdtVariables;
+import org.eclipse.cdt.core.CCorePlugin;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.IStartup;
@@ -81,8 +88,36 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 		new CPPInstaller(getCurrentVersion()).installIfNecessary(true);
 		Properties props = WPILibCore.getDefault().getProjectProperties(null);
     	WPILibCore.getDefault().saveGlobalProperties(props);
+		updateVariables();
 	}
 
+	@Override
+	public void startup() {
+		
+	}
+	
+	private void updateVariables() {
+		try {
+			
+			IUserVarSupplier varSupplier = CCorePlugin.getDefault().getUserVarSupplier();
+			IStorableCdtVariables vars = varSupplier.getWorkspaceVariablesCopy();
+			
+			File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp" + File.separator + "lib");
+			File[] filesList = dir.listFiles();
+			String libNames = "";
+			for (File file : filesList) {
+				if (file.isFile()) {
+					libNames += "-l" + file.getName().substring(3).split("[.]")[0] + " ";
+					WPILibCPPPlugin.logInfo(file.getName());
+				}
+			}
+			WPILibCPPPlugin.logInfo(libNames);
+			vars.createMacro("WPI_USER_LIBS", 1, libNames);
+			varSupplier.setWorkspaceVariables(vars);
+		} catch (CoreException e) {
+			WPILibCPPPlugin.logError("Error updating CPP Variables", e);
+		}
+	}
 
 	public static void logInfo(String msg) {
 		getDefault().getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));

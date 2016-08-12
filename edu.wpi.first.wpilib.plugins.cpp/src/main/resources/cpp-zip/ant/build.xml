@@ -62,6 +62,13 @@
          trust="true"
          failonerror="no"
          command="rm -f ${deploy.dir}/FRCUserProgram" />
+		 
+	<echo>[athena-deploy] Deploying shared libraries</echo>
+	<scp todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true">
+		<fileset dir="${userLibsDir}">
+			<include name="**/*.so"/>
+		</fileset>
+	</scp>
 
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${out.exe}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>

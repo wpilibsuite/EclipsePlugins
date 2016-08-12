@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
 
 import org.eclipse.cdt.build.core.scannerconfig.ScannerConfigNature;
 import org.eclipse.cdt.core.CCProjectNature;
@@ -13,7 +14,10 @@ import org.eclipse.cdt.core.model.ICElement;
 import org.eclipse.cdt.managedbuilder.core.ManagedCProjectNature;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.cdt.core.cdtvariables.IUserVarSupplier;
+import org.eclipse.cdt.core.cdtvariables.IStorableCdtVariables;
 
+import edu.wpi.first.wpilib.plugins.core.WPILibCore;
 import edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature;
 import edu.wpi.first.wpilib.plugins.core.wizards.IProjectCreator;
 import edu.wpi.first.wpilib.plugins.core.wizards.ProjectType;
@@ -85,6 +89,25 @@ public class WPIRobotCPPProjectCreator implements IProjectCreator {
 	}
 	
 	private void updateVariables(IProject project) throws CoreException {
-		// TODO: implement C++ equivalent
+		try {
+			
+			IUserVarSupplier varSupplier = CCorePlugin.getDefault().getUserVarSupplier();
+			IStorableCdtVariables vars = varSupplier.getWorkspaceVariablesCopy();
+			
+			File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp" + File.separator + "lib");
+			File[] filesList = dir.listFiles();
+			String libNames = "";
+			for (File file : filesList) {
+				if (file.isFile()) {
+					libNames += "-l" + file.getName().substring(3).split("[.]")[0] + " ";
+					WPILibCPPPlugin.logInfo(file.getName());
+				}
+			}
+			WPILibCPPPlugin.logInfo(libNames);
+			vars.createMacro("WPI_USER_LIBS", 1, libNames);
+			varSupplier.setWorkspaceVariables(vars);
+		} catch (CoreException e) {
+			WPILibCPPPlugin.logError("Error updating CPP Variables", e);
+		}
 	}
 }
