@@ -15,11 +15,27 @@ The WPILib Mission is to enable FIRST teams to focus on writing game-specific so
 
 # Building Eclipse Plugins
 
-Building Smart Dashboard is very straightforward. Smart Dashboard uses Maven to compile.
+Building the Eclipse Plugins is very straightforward. The plugins use Gradle to compile, which calls into Maven under the hood.
 
 ## Requirements
 - [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - Maven
+
+## Building
+
+To actually build the plugins, simply call:
+
+```bash
+./gradlew build
+```
+
+To clean, call:
+
+```bash
+./gradlew clean
+```
+
+Note that there will be a lot of output. This is because Gradle is actually calling into Maven under the hood.
 
 # Contributing to WPILib
 
