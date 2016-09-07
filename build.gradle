@@ -1,0 +1,45 @@
+import org.gradle.internal.os.OperatingSystem
+
+task build(type: Exec) {
+    group = 'Build'
+    description = 'Assembles this project.'
+    executable getMvn()
+    args 'package'
+}
+
+task assemble() {
+    group = 'Build'
+    description = 'Assembles the outputs of this project.'
+    dependsOn build
+}
+
+task check() {
+    group = 'Verification'
+    description = 'Runs all checks.'
+    dependsOn assemble
+}
+
+task mvnClean(type: Exec) {
+    group = 'Build'
+    description = 'Runs a \'mvn clean\'.'
+    executable getMvn()
+    args 'clean'
+}
+
+task clean(type: Delete) {
+    group = 'Build'
+    description = 'Deletes the built artifacts.'
+    dependsOn mvnClean
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
+}
+
+def getMvn() {
+    if (OperatingSystem.current().isWindows()) {
+        return 'mvn.cmd'
+    } else {
+        return 'mvn'
+    }
+}
