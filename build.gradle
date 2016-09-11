@@ -1,10 +1,35 @@
 import org.gradle.internal.os.OperatingSystem
 
+def niPropertiesSource = file('ni_image.properties')
+def niPropertiesSpec = copySpec {
+    from niPropertiesSource
+}
+
+task generateNiImageProperties() {
+    group = 'Build'
+    description = 'Generates ni_image.properties'
+    def cppPropFile = file('edu.wpi.first.wpilib.plugins.cpp/src/main/resources/cpp-zip/ant/')
+    def javaPropFile = file('edu.wpi.first.wpilib.plugins.java/src/main/resources/java-zip/ant/')
+
+    inputs.file niPropertiesSource
+    outputs.files cppPropFile, javaPropFile
+
+    doLast {
+        [cppPropFile, javaPropFile].each { dest ->
+            copy {
+                with niPropertiesSpec
+                into dest
+            }
+        }
+    }
+}
+
 task build(type: Exec) {
     group = 'Build'
     description = 'Assembles this project.'
     executable getMvn()
     args 'package'
+    dependsOn generateNiImageProperties
 }
 
 task assemble() {
