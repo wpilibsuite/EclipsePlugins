@@ -1,0 +1,81 @@
+import org.gradle.internal.os.OperatingSystem
+
+// This file builds and maintains the list of maven commands
+
+List<String> mavenArgs = []
+
+task executeMaven(type: Exec) {
+    group = 'Build'
+    description = 'Executes all maven commands that have been added to this session.'
+    executable = getMvn()
+    doFirst {
+        args = mavenArgs
+    }
+}
+
+task addCleanCommand() {
+    group = 'Maven Command'
+    description = 'Adds the clean command to the Maven command list.'
+    doLast {
+        mavenArgs << 'clean'
+    }
+}
+
+task addPackageCommand() {
+    group = 'Maven Command'
+    description = 'Adds the package command to the Maven command list.'
+    doLast {
+        mavenArgs << 'package'
+    }
+}
+
+task updateWPILibVersionCommand() {
+    group = 'Maven Command'
+    description = 'Adds the version update command to the Maven command list.'
+    doLast {
+        mavenArgs << 'versions:set' << "-DnewVersion=\"${WPILibVersion.version}\""
+    }
+}
+
+task updateDependencyVersionsCommand() {
+    group = 'Maven Command'
+    description = 'Add the dependency version update command to the Maven command list.'
+    doLast {
+        mavenArgs << 'versions:use-latest-versions'
+    }
+}
+
+task generateBuildProperties() {
+    group = 'Maven Command'
+    description = 'Adds the repo settings to the command line'
+    doLast {
+        mavenArgs << "-D\"repo.local\"=\"file://${WPILibVersion.mavenLocalUrl}\"" <<
+                "-D\"repo.remote\"=\"${WPILibVersion.mavenRemoteUrl}\""
+    }
+}
+
+// executeMaven must run after all the add command tasks have run
+executeMaven.mustRunAfter addCleanCommand
+executeMaven.mustRunAfter addPackageCommand
+executeMaven.mustRunAfter updateWPILibVersionCommand
+executeMaven.mustRunAfter updateDependencyVersionsCommand
+executeMaven.mustRunAfter generateBuildProperties
+executeMaven.mustRunAfter generateNiImageProperties
+executeMaven.dependsOn generateBuildProperties
+
+// The clean command must come first in the args list, and therefore everything else must run after it
+addPackageCommand.mustRunAfter addCleanCommand
+updateWPILibVersionCommand.mustRunAfter addCleanCommand
+updateDependencyVersionsCommand.mustRunAfter addCleanCommand
+
+// addPackageCommand is the last command to be run
+addPackageCommand.mustRunAfter updateWPILibVersionCommand
+addPackageCommand.mustRunAfter updateDependencyVersionsCommand
+
+def getMvn() {
+    if (OperatingSystem.current().isWindows()) {
+        return 'mvn.cmd'
+    } else {
+        return 'mvn'
+    }
+}

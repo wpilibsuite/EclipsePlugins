@@ -1,4 +1,6 @@
-import org.gradle.internal.os.OperatingSystem
+plugins {
+    id "edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin" version "1.0"
+}
 
 def niPropertiesSource = file('ni_image.properties')
 def niPropertiesSpec = copySpec {
@@ -7,7 +9,7 @@ def niPropertiesSpec = copySpec {
 
 task generateNiImageProperties() {
     group = 'Build'
-    description = 'Generates ni_image.properties'
+    description = 'Generates ni_image.properties.'
     def cppPropFile = file('edu.wpi.first.wpilib.plugins.cpp/src/main/resources/cpp-zip/ant/')
     def javaPropFile = file('edu.wpi.first.wpilib.plugins.java/src/main/resources/java-zip/ant/')
 
@@ -24,12 +26,31 @@ task generateNiImageProperties() {
     }
 }
 
-task build(type: Exec) {
+apply from: 'maven_commands.gradle'
+def generatedVersionFile = file('generated_version')
+
+task updateDependencies() {
+    group = 'Build'
+    description = 'Updates the versions of all edu.wpi.first.*:* dependencies to the latest version available.'
+    dependsOn updateWPILibVersionCommand, updateDependencyVersionsCommand, executeMaven
+
+    doLast {
+        if (!generatedVersionFile.exists()) {
+            generatedVersionFile.createNewFile()
+        }
+    }
+}
+
+task build() {
     group = 'Build'
     description = 'Assembles this project.'
-    executable getMvn()
-    args 'package'
-    dependsOn generateNiImageProperties
+    dependsOn executeMaven, addPackageCommand
+
+    // If this is an official build, or if we have never updates the dependencies (ie, this is a fresh clone), we
+    // update the version of the plugin and of our dependencies
+    if (WPILibVersion.releaseType.toString().equalsIgnoreCase('official') || !generatedVersionFile.exists()) {
+        dependsOn updateDependencies
+    }
 }
 
 task assemble() {
@@ -44,11 +65,10 @@ task check() {
     dependsOn assemble
 }
 
-task mvnClean(type: Exec) {
+task mvnClean() {
     group = 'Build'
     description = 'Runs a \'mvn clean\'.'
-    executable getMvn()
-    args 'clean'
+    dependsOn executeMaven, addCleanCommand
 }
 
 task clean(type: Delete) {
@@ -59,12 +79,4 @@ task clean(type: Delete) {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0'
-}
-
-def getMvn() {
-    if (OperatingSystem.current().isWindows()) {
-        return 'mvn.cmd'
-    } else {
-        return 'mvn'
-    }
 }
