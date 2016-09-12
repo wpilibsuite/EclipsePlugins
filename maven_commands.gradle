@@ -33,7 +33,7 @@ task updateWPILibVersionCommand() {
     group = 'Maven Command'
     description = 'Adds the version update command to the Maven command list.'
     doLast {
-        mavenArgs << 'versions:set' << "-DnewVersion=\"${WPILibVersion.version}\""
+        mavenArgs << 'tycho-versions:set-version' << "-DnewVersion=\"${WPILibVersion.version.replaceFirst('-', '.')}\""
     }
 }
 
