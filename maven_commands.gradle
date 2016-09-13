@@ -59,7 +59,7 @@ task updateWPILibVersionCommand() {
     group = 'Maven Command'
     description = 'Adds the version update command to the Maven command list.'
     doLast {
-        mavenArgsVersionRun << 'tycho-versions:set-version' << "-DnewVersion=\"${WPILibVersion.version.replaceFirst('-', '.')}\""
+        mavenArgsVersionRun << 'tycho-versions:set-version' << "-D\"newVersion=${WPILibVersion.version.replaceFirst('-', '.')}\""
     }
 }
 
@@ -74,8 +74,8 @@ task updateDependencyVersionsCommand() {
 // General build properties
 
 def generateBuildProperties(args) {
-    args << "-D\"repo.local\"=\"file://${WPILibVersion.mavenLocalUrl}\"" <<
-            "-D\"repo.remote\"=\"${WPILibVersion.mavenRemoteUrl}\""
+    args << "-D\"repo.local=file://${WPILibVersion.mavenLocalUrl}\"" <<
+            "-D\"repo.remote=${WPILibVersion.mavenRemoteUrl}\""
 }
 
 def buildTasks = [addCleanCommand, addPackageCommand, generateNiImageProperties]
