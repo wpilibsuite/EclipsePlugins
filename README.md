@@ -47,6 +47,8 @@ The build pulls in a specific set of dependencies, which can be updated at any t
 
 The dependency update plugin has a quiet period for checking each repo for updates. This means that it won't necessarily see an update to the global FRC repo, even if a version is published there that is newer than the version in the `~/.m2` cache. This update period has been disabled for the local FRC repository, `~/releases/`, in the main [pom.xml](pom.xml). If you're attempting to get a version of a dependency that was published to http://first.wpi.edu/FRC/roborio/maven/ and it's not showing up, this is likely the reason. There are a couple of solutions: delete the artifact you need to update from the `~/.m2` cache, or change the update policy for the `FRC Binaries` repository in the main [pom.xml](pom.xml) to match the `Local Repo`.
 
+Since having to specify `updateDependencies` at every build will get tedious if constantly rebuilding the plugins, you can put the words `always generate` in the `generated_version` file that the build generates in the root of the repository. When that text is in the file, the version will always be updated on every build.
+
 # Contributing to WPILib
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
