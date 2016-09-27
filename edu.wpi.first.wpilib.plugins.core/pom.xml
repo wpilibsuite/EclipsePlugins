@@ -18,47 +18,44 @@
         <tools-zip>${project.build.directory}/tools-zip</tools-zip>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>default-repo</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>!repo</name>
-                </property>
-            </activation>
+    <dependencies>
+        <!-- Add fake dependencies to inform Maven of the correct
+             order it should build projects in during a multi-module build.
 
-            <repositories>
-                <repository>
-                    <id>Local Repo</id>
-                    <url>file://${user.home}/releases/maven/development</url>
-                </repository>
-                <repository>
-                    <id>FRC Binaries</id>
-                    <url>http://first.wpi.edu/FRC/roborio/maven/development</url>
-                </repository>
-            </repositories>
-        </profile>
-        <profile>
-            <id>custom-repo</id>
-            <activation>
-                <property>
-                    <name>repo</name>
-                </property>
-            </activation>
+             This list should match the list in the invocation of
+             maven-dependency-plugin:copy above.
 
-            <repositories>
-                <repository>
-                    <id>Local Repo</id>
-                    <url>file://${user.home}/releases/maven/${repo}</url>
-                </repository>
-                <repository>
-                    <id>FRC Binaries</id>
-                    <url>http://first.wpi.edu/FRC/c/maven/${repo}</url>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
+             It may be possible to avoid this duplication by using the
+             maven-assembly-plugin instead.-->
+
+        <!-- Library sources for debugging WPILib on the Athena -->
+        <dependency>
+            <groupId>edu.wpi.first.wpilib</groupId>
+            <artifactId>RobotBuilder</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilib</groupId>
+            <artifactId>SmartDashboard</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilib</groupId>
+            <artifactId>sfx</artifactId>
+            <type>zip</type>
+            <version>2015.11.01</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilib.networktables</groupId>
+            <artifactId>OutlineViewer</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilib</groupId>
+            <artifactId>java-installer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <resources>
@@ -110,14 +107,12 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilib</groupId>
                                     <artifactId>RobotBuilder</artifactId>
-                                    <version>2.0.0-SNAPSHOT</version>
                                     <outputDirectory>${tools-zip}</outputDirectory>
                                     <destFileName>RobotBuilder.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilib</groupId>
                                     <artifactId>SmartDashboard</artifactId>
-                                    <version>1.0.0-SNAPSHOT</version>
                                     <outputDirectory>${tools-zip}</outputDirectory>
                                     <destFileName>SmartDashboard.jar</destFileName>
                                 </artifactItem>
@@ -132,14 +127,12 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilib.networktables</groupId>
                                     <artifactId>OutlineViewer</artifactId>
-                                    <version>1.0.0-SNAPSHOT</version>
                                     <outputDirectory>${tools-zip}</outputDirectory>
                                     <destFileName>OutlineViewer.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilib</groupId>
                                     <artifactId>java-installer</artifactId>
-                                    <version>1.0-SNAPSHOT</version>
                                     <outputDirectory>${tools-zip}</outputDirectory>
                                     <destFileName>java-installer.jar</destFileName>
                                 </artifactItem>
@@ -232,37 +225,4 @@
         </pluginManagement>
     </build>
 
-    <dependencies>
-        <!-- Add fake dependencies to inform Maven of the correct
-             order it should build projects in during a multi-module build.
-
-             This list should match the list in the invocation of
-             maven-dependency-plugin:copy above.
-
-             It may be possible to avoid this duplication by using the
-             maven-assembly-plugin instead.-->
-
-        <!-- Library sources for debugging WPILib on the Athena -->
-        <dependency>
-            <groupId>edu.wpi.first.wpilib</groupId>
-            <artifactId>RobotBuilder</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.wpi.first.wpilib</groupId>
-            <artifactId>SmartDashboard</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.wpi.first.wpilib</groupId>
-            <artifactId>sfx</artifactId>
-            <type>zip</type>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.wpi.first.wpilib.networktables</groupId>
-            <artifactId>OutlineViewer</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 </project>

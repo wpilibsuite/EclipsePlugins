@@ -64,7 +64,6 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilib.cmake</groupId>
                                     <artifactId>cpp-root</artifactId>
-                                    <version>1.0.0</version>
                                     <type>zip</type>
                                     <destFileName>cpp-root.jar</destFileName>
                                 </artifactItem>

@@ -21,16 +21,9 @@
 
     <properties>
         <!-- local-repository>C:/Users/wpilibj-buildmaster/maven-repository</local-repository-->
-        <tycho-version>0.21.0</tycho-version>
+        <tycho-version>0.26.0</tycho-version>
+        <generatedProperties>${basedir}/generated/build.properties</generatedProperties>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>juno</id>
-            <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/luna</url>
-        </repository>
-    </repositories>
 
     <build>
         <plugins>
@@ -40,49 +33,53 @@
                 <version>${tycho-version}</version>
                 <extensions>true</extensions>
             </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-versions-plugin</artifactId>
+                <version>${tycho-version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <allowIncrementalUpdates>true</allowIncrementalUpdates>
+                    <allowMinorUpdates>true</allowMinorUpdates>
+                    <allowSnapshots>true</allowSnapshots>
+                    <includes>
+                        <include>edu.wpi.first.*:*</include>
+                    </includes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
+    <repositories>
+        <!-- repo.local and repo.remote are specified on the command line by the gradle build. -->
+        <repository>
+            <id>Local Repo</id>
+            <url>${repo.local}</url>
+            <!-- Local repo is not on the internet, always force it to update. This makes sure that if you publish
+                 a dependency to the local repo and run a version update, it works as expected. -->
+            <releases>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>FRC Binaries</id>
+            <url>${repo.remote}</url>
+        </repository>
+        <repository>
+            <id>juno</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/releases/luna</url>
+        </repository>
+    </repositories>
+
     <profiles>
-        <profile>
-            <id>default-repo</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>!repo</name>
-                </property>
-            </activation>
-
-            <repositories>
-                <repository>
-                    <id>Local Repo</id>
-                    <url>file://${user.home}/releases/maven/development</url>
-                </repository>
-                <repository>
-                    <id>FRC Binaries</id>
-                    <url>http://first.wpi.edu/FRC/roborio/maven/development</url>
-                </repository>
-            </repositories>
-        </profile>
-        <profile>
-            <id>custom-repo</id>
-            <activation>
-                <property>
-                    <name>repo</name>
-                </property>
-            </activation>
-
-            <repositories>
-                <repository>
-                    <id>Local Repo</id>
-                    <url>file://${user.home}/releases/maven/${repo}</url>
-                </repository>
-                <repository>
-                    <id>FRC Binaries</id>
-                    <url>http://first.wpi.edu/FRC/roborio/maven/${repo}</url>
-                </repository>
-            </repositories>
-        </profile>
         <profile>
             <id>docline-java8-disable</id>
             <activation>
@@ -94,6 +91,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.4</version>
                         <configuration>
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
