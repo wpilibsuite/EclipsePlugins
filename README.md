@@ -37,6 +37,10 @@ To clean, call:
 
 Note that there will be a lot of output. This is because Gradle is actually calling into Maven under the hood.
 
+## Modifying the NI Image Version
+
+The Gradle harness takes care of deduplicating the NI allowable image versions by copying [`ni_image.properties`](ni_image.properties) to `edu.wpi.first.wpilib.plugins.java/src/main/resources/java-zip/ant/` and to `edu.wpi.first.wpilib.plugins.cpp/src/main/resources/cpp-zip/ant/`. To update the version, simply change the `ni_image.properties` in the repository root and the changes will be copied during the next build.
+
 # Contributing to WPILib
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
