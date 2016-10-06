@@ -27,6 +27,9 @@ task generateNiImageProperties() {
 }
 
 apply from: 'maven_commands.gradle'
+
+executeMaven.mustRunAfter generateNiImageProperties
+
 def generatedVersionFile = file('generated_version')
 
 task updateDependencies() {
@@ -44,7 +47,7 @@ task updateDependencies() {
 task build() {
     group = 'Build'
     description = 'Assembles this project.'
-    dependsOn executeMaven, addPackageCommand
+    dependsOn generateNiImageProperties, addPackageCommand, executeMaven
 
     // If this is an official build, or if we have never updates the dependencies (ie, this is a fresh clone), or if
     // the user has specified always update dependencies, we update the version of the plugin and of our dependencies
