@@ -59,7 +59,7 @@
   <target name="compile" description="Compile the source code.">
     <mkdir dir="${build.dir}"/>
 	<path id="classpath.path">
-		<fileset dir="${thirdParty.dir}" includes="*.jar"/>
+		<fileset dir="${userLibs.dir}" includes="*.jar"/>
 		<fileset file="${wpilib.jar}"/>
 		<fileset file="${networktables.jar}"/>
 		<fileset dir="${userLibs}" erroronmissingdir="false"/>
@@ -123,7 +123,7 @@
 		
     <echo>[athena-deploy] Deploying shared libraries</echo>
 	<scp todir="${adminUsername}@${target}:${rioLibs.dir}" password="${password}" trust="true">
-		<fileset dir="${thirdParty.dir}">
+		<fileset dir="${userLibs.dir}">
 			<include name="**/*.so"/>
 		</fileset>
 	</scp>
