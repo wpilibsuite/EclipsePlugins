@@ -49,6 +49,7 @@ public class WPILibCore extends AbstractUIPlugin {
 		plugin = this;
 
 		new ToolsInstaller(getDefaultVersion()).installIfNecessary(false);
+		createUserDirs();
 	}
 
 	/*
@@ -158,5 +159,21 @@ public class WPILibCore extends AbstractUIPlugin {
 
 	public static void logError(String msg, Exception e) {
 		getDefault().getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, msg, e));
+	}
+	
+	void createUserDirs()
+	{
+		File directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp" + File.separator + "lib");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp" + File.separator + "include");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "java");
+		directory.mkdirs();
+		directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "java" + File.separator + "lib");
+		directory.mkdirs();
 	}
 }

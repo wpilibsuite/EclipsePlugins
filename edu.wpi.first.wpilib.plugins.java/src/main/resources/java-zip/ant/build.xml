@@ -58,14 +58,21 @@
 
   <target name="compile" description="Compile the source code.">
     <mkdir dir="${build.dir}"/>
-	<property name="userLibs" value=""/>
-    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpath}:${userLibs} to ${build.dir}</echo>
+	<path id="classpath.path">
+		<fileset dir="${thirdParty.dir}" includes="*.jar"/>
+		<fileset file="${wpilib.jar}"/>
+		<fileset file="${networktables.jar}"/>
+		<fileset dir="${userLibs}" erroronmissingdir="false"/>
+	</path>
+	
+    <pathconvert property="classpathProp" refid="classpath.path"/>
+    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpathProp} to ${build.dir}</echo>
 
     <javac srcdir="${src.dir}"
      destdir="${build.dir}"
      includeAntRuntime="no"
      includeJavaRuntime="no"
-     classpath="${classpath}:${userLibs}"
+     classpathref="classpath.path"
      target="${ant.java.version}"
      source="${ant.java.version}"
      compiler="javac${ant.java.version}"
@@ -78,11 +85,9 @@
     <mkdir dir="${dist.dir}" />
     <mkdir dir="${build.jars}" />
 
-  <echo>[athena-jar] Copying jars from ${classpath}:${userLibs} to ${build.jars}.</echo>
+  <echo>[athena-jar] Copying jars to ${build.jars}.</echo>
   <copy todir="${build.jars}" flatten="true">
-    <path>
-    <pathelement path="${classpath}:${userLibs}"/>
-    </path>
+    <path refid="classpath.path"/>
   </copy>
 
     <jar destfile="${dist.jar}" update="false">
@@ -94,9 +99,7 @@
 
       <fileset dir="${build.dir}" includes="**/*.class"/>
 
-    <zipgroupfileset dir="${build.jars}">
-      <include name="**/*.jar" />
-    </zipgroupfileset>
+    <zipgroupfileset dir="${build.jars}"/>
     </jar>
   </target>
 
@@ -105,6 +108,26 @@
      for you, you can remove the clean here, just be sure to do a full rebuild after you've changed any constants.
      Reference: http://stackoverflow.com/questions/6430001/ant-doesnt-recompile-constants -->
   <target name="deploy" depends="clean,jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
+  
+  	<scp todir="${adminUsername}@${target}:${libDeploy.dir}" password="${adminPassword}" trust="true">
+		<fileset dir="${userLibs.dir}">
+			<include name="**/*.so"/>
+		</fileset>
+	</scp>
+	
+	<sshexec host="${target}"
+		username="${adminUsername}"
+		password="${adminPassword}"
+		trust="true"
+		command="chmod -R +x ${libDeploy.dir}"/>
+		
+    <echo>[athena-deploy] Deploying shared libraries</echo>
+	<scp todir="${adminUsername}@${target}:${rioLibs.dir}" password="${password}" trust="true">
+		<fileset dir="${thirdParty.dir}">
+			<include name="**/*.so"/>
+		</fileset>
+	</scp>
+	
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
 
