@@ -109,6 +109,7 @@
      Reference: http://stackoverflow.com/questions/6430001/ant-doesnt-recompile-constants -->
   <target name="deploy" depends="clean,jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
   
+    <echo>[athena-deploy] Deploying shared libraries</echo>
   	<scp todir="${adminUsername}@${target}:${libDeploy.dir}" password="${adminPassword}" trust="true">
 		<fileset dir="${userLibs.dir}">
 			<include name="**/*.so"/>
@@ -120,13 +121,6 @@
 		password="${adminPassword}"
 		trust="true"
 		command="chmod -R +x ${libDeploy.dir}"/>
-		
-    <echo>[athena-deploy] Deploying shared libraries</echo>
-	<scp todir="${adminUsername}@${target}:${rioLibs.dir}" password="${password}" trust="true">
-		<fileset dir="${userLibs.dir}">
-			<include name="**/*.so"/>
-		</fileset>
-	</scp>
 	
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
