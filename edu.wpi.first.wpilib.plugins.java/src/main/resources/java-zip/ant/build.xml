@@ -107,21 +107,7 @@
      To get around this, we're recompiling the entire project, which is not an issue for most teams. If this is an issue
      for you, you can remove the clean here, just be sure to do a full rebuild after you've changed any constants.
      Reference: http://stackoverflow.com/questions/6430001/ant-doesnt-recompile-constants -->
-  <target name="deploy" depends="clean,jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
-  
-    <echo>[athena-deploy] Deploying shared libraries</echo>
-  	<scp todir="${adminUsername}@${target}:${libDeploy.dir}" password="${adminPassword}" trust="true">
-		<fileset dir="${userLibs.dir}">
-			<include name="**/*.so"/>
-		</fileset>
-	</scp>
-	
-	<sshexec host="${target}"
-		username="${adminUsername}"
-		password="${adminPassword}"
-		trust="true"
-		command="chmod -R +x ${libDeploy.dir}"/>
-	
+  <target name="deploy" depends="clean,jar,get-target-ip,dependencies,deploy-libs" description="Deploy the jar and start the program running.">
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
 
@@ -152,7 +138,7 @@
 
   </target>
 
-  <target name="debug-deploy" depends="jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
+  <target name="debug-deploy" depends="jar,get-target-ip,dependencies,deploy-libs" description="Deploy the jar and start the program running.">
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
   	<!-- The remoteDebugCommand file is used by /usr/local/frc/bin/frcRunRobot.sh on the roboRIO  -->
@@ -240,5 +226,59 @@
         trust="true"
 		failonerror="true"
         command="test -d ${roboRIOJRE.dir}"/>
+  </target>
+  
+  <target name="deploy-libs" depends="get-target-ip">
+    <fileset id="userLibs.local" dir="${userLibs.dir}">
+      <include name="**/*.so"/>
+    </fileset>
+    <pathconvert refid="userLibs.local" 
+                 property="userLibs.local.notEmpty" 
+                 setonempty="false"
+    />
+    <if>
+      <isset property="userLibs.local.notEmpty"/>
+      <then>
+        <checksum totalproperty="userLibs.local.checksum" 
+                  forceoverwrite="yes" 
+                  todir="${userLibs.dir}/md5">    
+          <fileset refid="userLibs.local"/>
+        </checksum>
+        <sshexec host="${target}"
+                 username="${username}"
+                 password="${password}"
+                 trust="true"
+                 failonerror="no"
+                 outputproperty="userLibs.deployed.checksum"
+                 command="cat ${libDeploy.dir}/installedLibs.md5" 
+        />
+        <if>
+          <equals arg1="${userLibs.deployed.checksum}" 
+                  arg2="${userLibs.local.checksum}"
+          />
+          <then>
+            <echo>[athena-deploy] Deployed libraries up to date </echo>
+          </then>
+          <else>   
+            <echo>[athena-deploy] Deploying shared libraries </echo>
+            <echo file="${userLibs.dir}/installedLibs.md5" 
+                  message="${userLibs.local.checksum}"
+            />
+            <scp todir="${adminUsername}@${target}:${libDeploy.dir}" 
+                 password="${adminPassword}" 
+                 trust="true">
+              <fileset refid="userLibs.local"/>
+              <fileset file="${userLibs.dir}/installedLibs.md5"/>
+            </scp>
+            <sshexec host="${target}"
+                     username="${adminUsername}"
+                     password="${adminPassword}"
+                     trust="true"
+                     command="chmod -R +x ${libDeploy.dir}"
+            />
+          </else>
+        </if>
+      </then>
+    </if>
   </target>
 </project>

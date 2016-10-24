@@ -56,26 +56,13 @@
 	 </if>
   </target>
 
-  <target name="deploy" depends="get-target-ip, dependencies" description="Deploy the progam and start it running.">
+  <target name="deploy" depends="get-target-ip, dependencies, deploy-libs" description="Deploy the progam and start it running.">
     <sshexec host="${target}"
          username="${username}"
          password="${password}"
          trust="true"
          failonerror="no"
          command="rm -f ${deploy.dir}/FRCUserProgram" />
-		 
-	<echo>[athena-deploy] Deploying shared libraries</echo>
-	<scp todir="${adminUsername}@${target}:${libDeploy.dir}" password="${adminPassword}" trust="true">
-		<fileset dir="${userLibs.dir}">
-			<include name="**/*.so"/>
-		</fileset>
-	</scp>
-	
-	<sshexec host="${target}"
-		username="${adminUsername}"
-		password="${adminPassword}"
-		trust="true"
-		command="chmod -R +x ${libDeploy.dir}"/>
 
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${out.exe}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
@@ -146,5 +133,59 @@
 		</bool>
 	</assert>
 	<echo>roboRIO image version validated</echo>
+  </target>
+  
+  <target name="deploy-libs" depends="get-target-ip">
+    <fileset id="userLibs.local" dir="${userLibs.dir}">
+      <include name="**/*.so"/>
+    </fileset>
+    <pathconvert refid="userLibs.local" 
+                 property="userLibs.local.notEmpty" 
+                 setonempty="false"
+    />
+    <if>
+      <isset property="userLibs.local.notEmpty"/>
+      <then>
+        <checksum totalproperty="userLibs.local.checksum" 
+                  forceoverwrite="yes" 
+                  todir="${userLibs.dir}/md5">    
+          <fileset refid="userLibs.local"/>
+        </checksum>
+        <sshexec host="${target}"
+                 username="${username}"
+                 password="${password}"
+                 trust="true"
+                 failonerror="no"
+                 outputproperty="userLibs.deployed.checksum"
+                 command="cat ${libDeploy.dir}/installedLibs.md5" 
+        />
+        <if>
+          <equals arg1="${userLibs.deployed.checksum}" 
+                  arg2="${userLibs.local.checksum}"
+          />
+          <then>
+            <echo>[athena-deploy] Deployed libraries up to date </echo>
+          </then>
+          <else>   
+            <echo>[athena-deploy] Deploying shared libraries </echo>
+            <echo file="${userLibs.dir}/installedLibs.md5" 
+                  message="${userLibs.local.checksum}"
+            />
+            <scp todir="${adminUsername}@${target}:${libDeploy.dir}" 
+                 password="${adminPassword}" 
+                 trust="true">
+              <fileset refid="userLibs.local"/>
+              <fileset file="${userLibs.dir}/installedLibs.md5"/>
+            </scp>
+            <sshexec host="${target}"
+                     username="${adminUsername}"
+                     password="${adminPassword}"
+                     trust="true"
+                     command="chmod -R +x ${libDeploy.dir}"
+            />
+          </else>
+        </if>
+      </then>
+    </if>
   </target>
 </project>
