@@ -67,6 +67,13 @@
                                     <type>zip</type>
                                     <destFileName>cpp-root.jar</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpilib.cmake</groupId>
+                                    <artifactId>cpp-root</artifactId>
+                                    <type>zip</type>
+                                    <classifier>hal</classifier>
+                                    <destFileName>hal.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
@@ -115,6 +122,7 @@
                                 <unzip dest="${cpp-zip}">
                                     <fileset dir="${project.build.directory}">
                                         <include name="cpp-root.jar"/>
+                                        <include name="hal.jar"/>
                                     </fileset>
                                 </unzip>
                             </target>
@@ -144,6 +152,13 @@
             <groupId>edu.wpi.first.wpilib.cmake</groupId>
             <artifactId>cpp-root</artifactId>
             <version>1.0.0</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilib.cmake</groupId>
+            <artifactId>cpp-root</artifactId>
+            <version>1.0.0</version>
+            <classifier>hal</classifier>
             <type>zip</type>
         </dependency>
     </dependencies>
