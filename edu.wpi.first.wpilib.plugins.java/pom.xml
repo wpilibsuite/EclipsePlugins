@@ -55,7 +55,33 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.8</version>
                 <executions>
-
+                    <execution>
+                      <id>extract-native-dependencies</id>
+                      <phase>compile</phase>
+                      <goals>
+                        <goal>unpack</goal>
+                      </goals>
+                      <configuration>
+                        <artifactItems>
+                          <artifactItem>
+                              <groupId>edu.wpi.first.wpilibj</groupId>
+                              <artifactId>athena-jni</artifactId>
+                              <type>jar</type>
+                              <includes>**/*.so,**/*.so.debug</includes>
+                              <excludes>**/*.MF,**/*.a,**/*.h</excludes>
+                              <outputDirectory>${java-zip}/lib/native</outputDirectory>
+                          </artifactItem>
+                          <artifactItem>
+                              <groupId>edu.wpi.first.wpilib</groupId>
+                              <artifactId>athena-runtime</artifactId>
+                              <type>zip</type>
+                              <includes>**/*.so,**/*.so.debug</includes>
+                              <excludes>**/*.MF,**/*.a,**/*.h</excludes>
+                              <outputDirectory>${java-zip}/lib/native</outputDirectory>
+                          </artifactItem>
+                        </artifactItems>
+                      </configuration>
+                    </execution>
                     <!-- Fetch the dependencies needed to build the jar.zip file. -->
                     <execution>
                         <id>fetch-jar-zip-dependencies</id>
@@ -76,7 +102,7 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
-                                    <artifactId>wpilibJavaFinal</artifactId>
+                                    <artifactId>athena</artifactId>
                                     <type>jar</type>
                                     <destFileName>WPILib.jar</destFileName>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
@@ -91,7 +117,7 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
-                                    <artifactId>wpilibJavaFinal</artifactId>
+                                    <artifactId>athena</artifactId>
                                     <classifier>sources</classifier>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                     <destFileName>WPILib-sources.jar</destFileName>
@@ -100,7 +126,7 @@
                                 <!-- Javadoc -->
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
-                                    <artifactId>wpilibJavaFinal</artifactId>
+                                    <artifactId>athena</artifactId>
                                     <classifier>javadoc</classifier>
                                     <outputDirectory>${java-zip}/javadoc-jar</outputDirectory>
                                 </artifactItem>
@@ -231,13 +257,25 @@
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
-            <artifactId>wpilibJavaFinal</artifactId>
+            <artifactId>athena</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
-            <artifactId>wpilibJavaFinal</artifactId>
+            <artifactId>athena-jni</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilib</groupId>
+            <artifactId>athena-runtime</artifactId>
+            <version>1.0.0</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilibj</groupId>
+            <artifactId>athena</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <classifier>sources</classifier>
         </dependency>
