@@ -62,10 +62,22 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>edu.wpi.first.wpilib.cmake</groupId>
-                                    <artifactId>cpp-root</artifactId>
+                                    <groupId>edu.wpi.first.wpilibc</groupId>
+                                    <artifactId>athena</artifactId>
                                     <type>zip</type>
-                                    <destFileName>cpp-root.jar</destFileName>
+                                    <destFileName>athena.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpilib</groupId>
+                                    <artifactId>athena-runtime</artifactId>
+                                    <type>zip</type>
+                                    <destFileName>athena-runtime.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpilib</groupId>
+                                    <artifactId>hal</artifactId>
+                                    <type>zip</type>
+                                    <destFileName>hal.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}</outputDirectory>
@@ -114,7 +126,9 @@
                             <target>
                                 <unzip dest="${cpp-zip}">
                                     <fileset dir="${project.build.directory}">
-                                        <include name="cpp-root.jar"/>
+                                        <include name="athena.jar"/>
+                                        <include name="hal.jar"/>
+                                        <include name="athena-runtime.jar"/>
                                     </fileset>
                                 </unzip>
                             </target>
@@ -141,8 +155,20 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>edu.wpi.first.wpilib.cmake</groupId>
-            <artifactId>cpp-root</artifactId>
+            <groupId>edu.wpi.first.wpilibc</groupId>
+            <artifactId>athena</artifactId>
+            <version>1.0.0</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilib</groupId>
+            <artifactId>athena-runtime</artifactId>
+            <version>1.0.0</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilib</groupId>
+            <artifactId>hal</artifactId>
             <version>1.0.0</version>
             <type>zip</type>
         </dependency>
