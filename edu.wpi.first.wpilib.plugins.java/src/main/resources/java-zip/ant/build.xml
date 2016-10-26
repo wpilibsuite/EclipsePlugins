@@ -108,20 +108,23 @@
      for you, you can remove the clean here, just be sure to do a full rebuild after you've changed any constants.
      Reference: http://stackoverflow.com/questions/6430001/ant-doesnt-recompile-constants -->
   <target name="deploy" depends="clean,jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
+
+    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.native.lib}">
+      <libs.local>
+        <fileset id="wpiNativeLibs.local" dir="${wpilib.native.lib}">
+          <include name="**/*.so"/>
+        </fileset>
+      </libs.local>
+    </deploy-libs>
+    
+    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}">
+      <libs.local>
+        <fileset dir="${userLibs.dir}">
+          <include name="**/*.so"/>
+        </fileset>
+      </libs.local>
+    </deploy-libs>
   
-    <echo>[athena-deploy] Deploying shared libraries</echo>
-  	<scp todir="${adminUsername}@${target}:${libDeploy.dir}" password="${adminPassword}" trust="true">
-		<fileset dir="${userLibs.dir}">
-			<include name="**/*.so"/>
-		</fileset>
-	</scp>
-	
-	<sshexec host="${target}"
-		username="${adminUsername}"
-		password="${adminPassword}"
-		trust="true"
-		command="chmod -R +x ${libDeploy.dir}"/>
-	
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
 
@@ -153,6 +156,21 @@
   </target>
 
   <target name="debug-deploy" depends="jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
+    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.native.lib}">
+      <libs.local>
+        <fileset id="wpiNativeLibs.local" dir="${wpilib.native.lib}">
+          <include name="**/*.so"/>
+        </fileset>
+      </libs.local>
+    </deploy-libs>
+    
+    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}">
+      <libs.local>
+        <fileset dir="${userLibs.dir}">
+          <include name="**/*.so"/>
+        </fileset>
+      </libs.local>
+    </deploy-libs>
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
   	<!-- The remoteDebugCommand file is used by /usr/local/frc/bin/frcRunRobot.sh on the roboRIO  -->
@@ -241,4 +259,58 @@
 		failonerror="true"
         command="test -d ${roboRIOJRE.dir}"/>
   </target>
+  
+  <!-- libs.name should not contain spaces as it is used to name a file -->
+  <macrodef name="deploy-libs">
+    <attribute name="libs.name"/>
+    <attribute name="libs.basedir"/>
+    <element name="libs.local"/>
+    <sequential>
+      <local name="libs.local.notEmpty"/>
+      <local name="libs.local.checksum"/>
+      <local name="libs.deployed.checksum"/>
+      <local name="libs.local.modified.property"/>
+      
+      <delete file="@{libs.basedir}/@{libs.name}.properties"/>
+      <scp file="${adminUsername}@${target}:${libDeploy.dir}/@{libs.name}.properties" 
+           todir="@{libs.basedir}"
+           password="${adminPassword}" 
+           trust="true"
+           failonerror="false"/>
+      <restrict id="libs.local.modified">
+        <libs.local/>
+        <modified update="true"
+                  seldirs="true"
+                  cache="propertyfile"
+                  algorithm="digest"
+                  comparator="equal">
+          <param name="cache.cachefile" value="@{libs.basedir}/@{libs.name}.properties"/>
+          <param name="algorithm.algorithm" value="MD5"/>
+        </modified>
+      </restrict>
+      
+      <pathconvert refid="libs.local.modified" property="libs.local.modified.property" pathsep="," setonempty="false">
+        <globmapper from="@{libs.basedir}/*" to="*" handledirsep="true" />
+      </pathconvert>
+      
+      <if>
+        <isset property="libs.local.modified.property"/>
+        <then>
+          <echo message="Deploying libraries ${line.separator} ${libs.local.modified.property}"/>
+          <scp todir="${adminUsername}@${target}:${libDeploy.dir}" 
+               password="${adminPassword}" 
+               trust="true">
+            <fileset dir="@{libs.basedir}" includes="${libs.local.modified.property}"/>
+            <fileset file="@{libs.basedir}/@{libs.name}.properties"/>
+          </scp>
+          <sshexec host="${target}"
+                   username="${adminUsername}"
+                   password="${adminPassword}"
+                   trust="true"
+                   command="chmod -R +x ${libDeploy.dir}"
+          />
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
 </project>
