@@ -8,7 +8,6 @@ import java.io.File;
 import org.eclipse.cdt.debug.core.ICDTLaunchConfigurationConstants;
 import org.eclipse.cdt.debug.core.executables.Executable;
 import org.eclipse.cdt.debug.core.executables.ExecutablesManager;
-import org.eclipse.cdt.debug.mi.core.IMILaunchConfigurationConstants;
 import org.eclipse.cdt.launch.remote.IRemoteConnectionConfigurationConstants;
 import org.eclipse.core.internal.resources.Resource;
 import org.eclipse.core.resources.IFile;
@@ -112,56 +111,57 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 	 */
 	public void runConfig(IProject activeProj, String mode, Shell shell) {
 
-    // Checks to see if there are any build errors remaining.
-    boolean buildSucceeded = true;
-    // Unfortunately, build() does not return whether or not the
-    // build succeded, so we instead must check the markers for
-    // errors and hope that we don't accidentally catch any
-    // false-positives.
+		// Checks to see if there are any build errors remaining.
+		boolean buildSucceeded = true;
+		// Unfortunately, build() does not return whether or not the
+		// build succeded, so we instead must check the markers for
+		// errors and hope that we don't accidentally catch any
+		// false-positives.
 	
-	WPILibCPPPlugin.getDefault().updateVariables(activeProj);
+		WPILibCPPPlugin.getDefault().updateVariables(activeProj);
 	
-    try {
-      activeProj.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-    }
-    catch (CoreException e) {
-      buildSucceeded = false;
-      WPILibCPPPlugin.logError("Build failed.", e);
-    }
+		try {
+	  WPILibCPPPlugin.logInfo("Building Project: " + activeProj.getDescription().getName());
+			activeProj.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		}
+		catch (CoreException e) {
+			buildSucceeded = false;
+			WPILibCPPPlugin.logError("Build failed.", e);
+		}
 
-    try {
-      IMarker[] problems = activeProj.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-      for (int i = 0; i < problems.length; i++) {
-        if (problems[i].getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO)
-              == IMarker.SEVERITY_ERROR
-            && problems[i].getType() == "org.eclipse.cdt.core.problem") {
-          buildSucceeded = false;
-          break;
-        }
-      }
-    }
-    catch (CoreException e) {
-      buildSucceeded = false;
-      WPILibCPPPlugin.logError("Failed to check whether the build worked.", e);
-    }
+		try {
+			IMarker[] problems = activeProj.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+			for (int i = 0; i < problems.length; i++) {
+				if (problems[i].getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO)
+							== IMarker.SEVERITY_ERROR
+						&& problems[i].getType() == "org.eclipse.cdt.core.problem") {
+					buildSucceeded = false;
+					break;
+				}
+			}
+		}
+		catch (CoreException e) {
+			buildSucceeded = false;
+			WPILibCPPPlugin.logError("Failed to check whether the build worked.", e);
+		}
 
-    if (!buildSucceeded) {
-      boolean cont = MessageDialog.openQuestion(shell, "Build Failed",
-          "The build failed; Are you sure that you want to continue the deploy?");
-      if (!cont) return;
-    }
+		if (!buildSucceeded) {
+			boolean cont = MessageDialog.openQuestion(shell, "Build Failed",
+					"The build failed; Are you sure that you want to continue the deploy?");
+			if (!cont) return;
+		}
 
-    // Check to ensure that there really is a binary file to upload; this is
-    // only really relevant if the build fails, but we check anyways.
+		// Check to ensure that there really is a binary file to upload; this is
+		// only really relevant if the build fails, but we check anyways.
 		Collection<Executable> exes =
-        ExecutablesManager.getExecutablesManager().getExecutablesForProject(activeProj);
-    if (!(exes.size() > 1
-        || new File(activeProj.getLocation().toOSString() + File.separator
-                    + "Debug" + File.separator + "FRCUserProgram").isFile())) {
-      MessageDialog.openWarning(shell, "Bad Executable",
-          "No executable binary was found to upload to the robot.");
-      return;
-    }
+				ExecutablesManager.getExecutablesManager().getExecutablesForProject(activeProj);
+		if (!(exes.size() > 1
+				|| new File(activeProj.getLocation().toOSString() + File.separator
+										+ "Debug" + File.separator + "FRCUserProgram").isFile())) {
+			MessageDialog.openWarning(shell, "Bad Executable",
+					"No executable binary was found to upload to the robot.");
+			return;
+		}
 
 		if(mode.equals(ILaunchManager.RUN_MODE)) {
 			// Regular deploys are done with an ant script for now, for both
@@ -230,9 +230,9 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 
 		List<String> solibs = new ArrayList<>();
 		solibs.add(WPILibCPPPlugin.getDefault().getCPPDir() + "/lib");
-		config.setAttribute(IMILaunchConfigurationConstants.ATTR_DEBUGGER_SOLIB_PATH, solibs);
-		config.setAttribute(IMILaunchConfigurationConstants.ATTR_DEBUGGER_AUTO_SOLIB, true);
-		config.setAttribute(IMILaunchConfigurationConstants.ATTR_DEBUGGER_STOP_ON_SOLIB_EVENTS, false);
+		config.setAttribute("org.eclipse.cdt.dsf.gdb.SOLIB_PATH", solibs);
+		config.setAttribute("org.eclipse.cdt.dsf.gdb.AUTO_SOLIB", true);
+		config.setAttribute("org.eclipse.cdt.dsf.gdb.STOP_ON_SOLIB_EVENTS", false);
 		return config;
 	}
 }
