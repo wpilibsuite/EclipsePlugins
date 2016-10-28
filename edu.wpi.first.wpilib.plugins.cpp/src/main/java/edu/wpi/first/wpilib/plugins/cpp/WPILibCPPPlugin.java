@@ -37,8 +37,7 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 	
 	private static final String USER_LIBS_PATH = "\"${WPILIB}/user/cpp/lib\"";
 	private static final String USER_INCLUDE_PATH = "\"${WPILIB}/user/cpp/include\"";
-	// TODO: When the 2017 rpath changes, something like this is needed to update 2016 projects. This is the current rpath, update for new
-	//	private static final String LINKER_OPTIONS = "-Wl,-rpath,/opt/GenICam_v2_3/bin/Linux_armv7-a,-rpath,/usr/local/frc/rpath-lib";
+	private static final String LINKER_OPTIONS = "-Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM";
 
 	// The shared instance
 	private static WPILibCPPPlugin plugin;
@@ -170,15 +169,13 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 				} catch (final BuildException e) {
 					WPILibCPPPlugin.logError("Error checking library paths", e);
 				}
-				//Code for setting linker options. Needed for TODO near top of file
-				/*
+
 				try {
 					option = tool.getOptionBySuperClassId("gnu.cpp.link.option.flags");
 					option.setValue(LINKER_OPTIONS);
 				} catch (final BuildException e) {
 					WPILibCPPPlugin.logError("Error updating linker options", e);
 				}
-				*/
 			} else if (tool.getId().contains(".cpp.compiler")) {
 				try {
 					IOption option = tool.getOptionBySuperClassId("gnu.cpp.compiler.option.include.paths");
