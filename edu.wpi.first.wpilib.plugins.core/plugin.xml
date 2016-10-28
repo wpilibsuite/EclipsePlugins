@@ -95,7 +95,7 @@
          point="org.eclipse.core.variables.valueVariables">
           <variable
     name="WPILIB"
-    initialValue="${HOME}/wpilib"
+    initialValue="${USER_HOME}/wpilib"
     description="WPILib Path"
     >
    </variable>

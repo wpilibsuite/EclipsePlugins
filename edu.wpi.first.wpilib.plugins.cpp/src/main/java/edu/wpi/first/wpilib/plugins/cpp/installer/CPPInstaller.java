@@ -31,16 +31,14 @@ public class CPPInstaller extends AbstractInstaller {
 		IStringVariableManager vm = VariablesPlugin.getDefault().getStringVariableManager();
 		try
 		{
-			if (System.getProperty("os.name").startsWith("Windows"))
+			IValueVariable vv = vm.getValueVariable("USER_HOME");
+			if (vv == null)
 			{
-				IValueVariable vv = vm.getValueVariable("HOME");
-				if (vv == null)
-					vm.addVariables(new IValueVariable[]{vm.newValueVariable("HOME", "user.home directory", false,System.getProperty("user.home"))});
-				else
-				{
-					if (!System.getProperty("user.home").equals(vm.performStringSubstitution("${HOME}")))
-						vv.setValue(System.getProperty("user.home"));
-				}
+				vm.addVariables(new IValueVariable[]{vm.newValueVariable("USER_HOME", "user.home directory", false,System.getProperty("user.home"))});
+			} else
+			{
+				if (!System.getProperty("user.home").equals(vm.performStringSubstitution("${USER_HOME}")))
+					vv.setValue(System.getProperty("user.home"));
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
