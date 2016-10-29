@@ -74,13 +74,19 @@
         </fileset>
       </libs.local>
     </deploy-libs>
-    
+
     <sshexec host="${target}"
          username="${username}"
          password="${password}"
          trust="true"
          failonerror="no"
          command="rm -f ${deploy.dir}/FRCUserProgram" />
+
+    <sshexec host="${target}"
+         username="${adminUsername}"
+         password="${password}"
+         trust="true"
+         command="ldconfig" />
 
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${out.exe}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
@@ -152,7 +158,7 @@
 	</assert>
 	<echo>roboRIO image version validated</echo>
   </target>
-  
+
   <!-- libs.name should not contain spaces as it is used to name a file -->
   <macrodef name="deploy-libs">
     <attribute name="libs.name"/>
@@ -163,11 +169,11 @@
       <local name="libs.local.checksum"/>
       <local name="libs.deployed.checksum"/>
       <local name="libs.local.modified.property"/>
-      
+
       <delete file="@{libs.basedir}/@{libs.name}.properties"/>
-      <scp file="${adminUsername}@${target}:${libDeploy.dir}/@{libs.name}.properties" 
+      <scp file="${adminUsername}@${target}:${libDeploy.dir}/@{libs.name}.properties"
            todir="@{libs.basedir}"
-           password="${adminPassword}" 
+           password="${adminPassword}"
            trust="true"
            failonerror="false"/>
       <restrict id="libs.local.modified">
@@ -181,17 +187,17 @@
           <param name="algorithm.algorithm" value="MD5"/>
         </modified>
       </restrict>
-      
+
       <pathconvert refid="libs.local.modified" property="libs.local.modified.property" pathsep="," setonempty="false">
         <globmapper from="@{libs.basedir}/*" to="*" handledirsep="true" />
       </pathconvert>
-      
+
       <if>
         <isset property="libs.local.modified.property"/>
         <then>
           <echo message="Deploying libraries ${line.separator} ${libs.local.modified.property}"/>
-          <scp todir="${adminUsername}@${target}:${libDeploy.dir}" 
-               password="${adminPassword}" 
+          <scp todir="${adminUsername}@${target}:${libDeploy.dir}"
+               password="${adminPassword}"
                trust="true">
             <fileset dir="@{libs.basedir}" includes="${libs.local.modified.property}"/>
             <fileset file="@{libs.basedir}/@{libs.name}.properties"/>

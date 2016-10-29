@@ -64,7 +64,7 @@
 		<fileset file="${networktables.jar}"/>
 		<fileset dir="${userLibs}" erroronmissingdir="false"/>
 	</path>
-	
+
     <pathconvert property="classpathProp" refid="classpath.path"/>
     <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpathProp} to ${build.dir}</echo>
 
@@ -116,7 +116,7 @@
         </fileset>
       </libs.local>
     </deploy-libs>
-    
+
     <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}">
       <libs.local>
         <fileset dir="${userLibs.dir}">
@@ -124,9 +124,15 @@
         </fileset>
       </libs.local>
     </deploy-libs>
-  
+
     <echo>[athena-deploy] Copying code over.</echo>
     <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
+
+    <sshexec host="${target}"
+         username="${adminUsername}"
+         password="${password}"
+         trust="true"
+         command="ldconfig" />
 
      <!-- Suppress the exit status so that if no netconsole was running then
           it doesn't show up red on the output. -->
@@ -163,7 +169,7 @@
         </fileset>
       </libs.local>
     </deploy-libs>
-    
+
     <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}">
       <libs.local>
         <fileset dir="${userLibs.dir}">
@@ -259,7 +265,7 @@
 		failonerror="true"
         command="test -d ${roboRIOJRE.dir}"/>
   </target>
-  
+
   <!-- libs.name should not contain spaces as it is used to name a file -->
   <macrodef name="deploy-libs">
     <attribute name="libs.name"/>
@@ -270,11 +276,11 @@
       <local name="libs.local.checksum"/>
       <local name="libs.deployed.checksum"/>
       <local name="libs.local.modified.property"/>
-      
+
       <delete file="@{libs.basedir}/@{libs.name}.properties"/>
-      <scp file="${adminUsername}@${target}:${libDeploy.dir}/@{libs.name}.properties" 
+      <scp file="${adminUsername}@${target}:${libDeploy.dir}/@{libs.name}.properties"
            todir="@{libs.basedir}"
-           password="${adminPassword}" 
+           password="${adminPassword}"
            trust="true"
            failonerror="false"/>
       <restrict id="libs.local.modified">
@@ -288,17 +294,17 @@
           <param name="algorithm.algorithm" value="MD5"/>
         </modified>
       </restrict>
-      
+
       <pathconvert refid="libs.local.modified" property="libs.local.modified.property" pathsep="," setonempty="false">
         <globmapper from="@{libs.basedir}/*" to="*" handledirsep="true" />
       </pathconvert>
-      
+
       <if>
         <isset property="libs.local.modified.property"/>
         <then>
           <echo message="Deploying libraries ${line.separator} ${libs.local.modified.property}"/>
-          <scp todir="${adminUsername}@${target}:${libDeploy.dir}" 
-               password="${adminPassword}" 
+          <scp todir="${adminUsername}@${target}:${libDeploy.dir}"
+               password="${adminPassword}"
                trust="true">
             <fileset dir="@{libs.basedir}" includes="${libs.local.modified.property}"/>
             <fileset file="@{libs.basedir}/@{libs.name}.properties"/>
