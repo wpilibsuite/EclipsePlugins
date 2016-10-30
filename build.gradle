@@ -1,5 +1,5 @@
 plugins {
-    id 'edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin' version '1.2'
+    id 'edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin' version '1.4'
 }
 
 def niPropertiesSource = file('ni_image.properties')

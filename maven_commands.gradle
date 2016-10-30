@@ -59,7 +59,16 @@ task updateWPILibVersionCommand() {
     group = 'Maven Command'
     description = 'Adds the version update command to the Maven command list.'
     doLast {
-        mavenArgsVersionRun << 'tycho-versions:set-version' << "-D\"newVersion=${WPILibVersion.version.replaceFirst('-', '.')}\""
+        // In order to get a correct eclipse version, there can't be too few or too many "."s. There needs to
+        // be exactly 4. So for official builds, we replace the last "-" with a ".". For local builds, this will
+        // cause the tycho-version plugin to error, so we don't set it. This is because local builds are prefixed
+        // with "424242."
+
+        def version = WPILibVersion.version
+        if (project.hasProperty('jenkinsBuild'))
+            version = version.replaceFirst('-', '.')
+
+        mavenArgsVersionRun << 'tycho-versions:set-version' << "-D\"newVersion=$version\""
     }
 }
 
