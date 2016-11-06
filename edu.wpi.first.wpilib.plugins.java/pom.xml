@@ -72,6 +72,15 @@
                               <outputDirectory>${java-zip}/lib/native</outputDirectory>
                           </artifactItem>
                           <artifactItem>
+                              <groupId>edu.wpi.cscore.java</groupId>
+                              <artifactId>cscore</artifactId>
+                              <classifier>athena-uberzip</classifier>
+                              <type>zip</type>
+                              <includes>**/*.so,**/*.so.**</includes>
+                              <excludes>**/*.MF,**/*.a,**/*.h</excludes>
+                              <outputDirectory>${java-zip}/lib/native</outputDirectory>
+                          </artifactItem>
+                          <artifactItem>
                               <groupId>edu.wpi.first.wpilib</groupId>
                               <artifactId>athena-runtime</artifactId>
                               <type>zip</type>
@@ -101,6 +110,21 @@
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>edu.wpi.cscore.java</groupId>
+                                    <artifactId>cscore</artifactId>
+                                    <classifier>arm</classifier>
+                                    <type>jar</type>
+                                    <destFileName>cscore.jar</destFileName>
+                                    <outputDirectory>${java-zip}/lib</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.opencv</groupId>
+                                    <artifactId>opencv-java</artifactId>
+                                    <type>jar</type>
+                                    <destFileName>opencv.jar</destFileName>
+                                    <outputDirectory>${java-zip}/lib</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
                                     <artifactId>athena</artifactId>
                                     <type>jar</type>
@@ -116,11 +140,24 @@
                                     <destFileName>NetworkTables-sources.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>edu.wpi.cscore.java</groupId>
+                                    <artifactId>cscore</artifactId>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${java-zip}/lib</outputDirectory>
+                                    <destFileName>cscore-sources.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
                                     <artifactId>athena</artifactId>
                                     <classifier>sources</classifier>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                     <destFileName>WPILib-sources.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.opencv</groupId>
+                                    <artifactId>opencv-sources</artifactId>
+                                    <outputDirectory>${java-zip}/lib</outputDirectory>
+                                    <destFileName>opencv-sources.jar</destFileName>
                                 </artifactItem>
 
                                 <!-- Javadoc -->
@@ -256,6 +293,26 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>edu.wpi.cscore.java</groupId>
+            <artifactId>cscore</artifactId>
+            <version>0.9.0-SNAPSHOT</version>
+            <classifier>arm</classifier>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.cscore.java</groupId>
+            <artifactId>cscore</artifactId>
+            <version>0.9.0-SNAPSHOT</version>
+            <classifier>athena-uberzip</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.opencv</groupId>
+            <artifactId>opencv-java</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
             <artifactId>athena</artifactId>
             <version>0.1.0-SNAPSHOT</version>
@@ -286,6 +343,18 @@
             <artifactId>NetworkTables</artifactId>
             <version>3.0.0-SNAPSHOT</version>
             <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.cscore.java</groupId>
+            <artifactId>cscore</artifactId>
+            <version>0.9.0-SNAPSHOT</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.opencv</groupId>
+            <artifactId>opencv-sources</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>

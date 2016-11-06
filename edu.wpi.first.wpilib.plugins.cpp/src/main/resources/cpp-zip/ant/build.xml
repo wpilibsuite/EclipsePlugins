@@ -62,8 +62,10 @@
         <fileset id="wpiNativeLibs.local" dir="${wpilib.lib}">
           <include name="libHALAthena.so"/>
           <include name="libntcore.so"/>
-          <include name="libwpilibc.so"/>
           <include name="libwpiutil.so"/>
+          <include name="libopencv*.so.3.1"/>
+          <include name="libcscore.so"/>
+          <include name="libwpilibc.so"/>
         </fileset>
       </libs.local>
     </deploy-libs>

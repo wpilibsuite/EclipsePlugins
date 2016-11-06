@@ -127,12 +127,16 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 		//TODO: This races with the install on first launch (the reason for NullPointerException catch in the first try below)
 		Properties props = WPILibJavaPlugin.getDefault().getProjectProperties(project);
 		
-		//Update variables for wpilib and networktables
+		//Update variables for wpilib, networktables, cscore and opencv
 		try {
 			JavaCore.setClasspathVariable("wpilib", new Path(props.getProperty("wpilib.jar")), null);
 			JavaCore.setClasspathVariable("wpilib.sources", new Path(props.getProperty("wpilib.sources")), null);
 			JavaCore.setClasspathVariable("networktables", new Path(props.getProperty("networktables.jar")), null);
 			JavaCore.setClasspathVariable("networktables.sources", new Path(props.getProperty("networktables.sources")), null);
+			JavaCore.setClasspathVariable("cscore", new Path(props.getProperty("cscore.jar")), null);
+			JavaCore.setClasspathVariable("cscore.sources", new Path(props.getProperty("cscore.sources")), null);
+			JavaCore.setClasspathVariable("opencv", new Path(props.getProperty("opencv.jar")), null);
+			JavaCore.setClasspathVariable("opencv.sources", new Path(props.getProperty("opencv.sources")), null);
 		} catch (JavaModelException|NullPointerException e) {
 		    // Classpath variables didn't get set
             WPILibJavaPlugin.logError("Error setting classpath variables", e);
