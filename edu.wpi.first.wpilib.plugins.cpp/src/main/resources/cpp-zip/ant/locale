@@ -1,0 +1,4 @@
+#!/bin/sh
+#locale hack script. Required for neon CPP debugging
+
+echo "UTF-8"

@@ -118,6 +118,16 @@
 
   </target>
 
+  <target name="debug-prepare" depends="kill-program">
+    <scp file="${wpilib.ant.dir}/locale" todir="${adminUsername}@${target}:/bin/" password="${adminPassword}" trust="true"/>
+    <sshexec host="${target}"
+             username="${adminUsername}"
+             password="${adminPassword}"
+             trust="true"
+             command="chmod -R +x /bin/locale"
+    />
+  </target>
+    
   <target name="kill-program" depends="get-target-ip" description="Kill the currently running FRC program">
 	  <sshexec host="${target}"
 		   username="${username}"
