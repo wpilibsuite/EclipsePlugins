@@ -62,6 +62,8 @@
 		<fileset dir="${userLibs.dir}" includes="*.jar"/>
 		<fileset file="${wpilib.jar}"/>
 		<fileset file="${networktables.jar}"/>
+		<fileset file="${opencv.jar}"/>
+		<fileset file="${cscore.jar}"/>
 		<fileset dir="${userLibs}" erroronmissingdir="false"/>
 	</path>
 
@@ -112,7 +114,13 @@
     <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.native.lib}">
       <libs.local>
         <fileset id="wpiNativeLibs.local" dir="${wpilib.native.lib}">
-          <include name="**/*.so"/>
+          <include name="libHALAthena.so"/>
+          <include name="libntcore.so"/>
+          <include name="libwpiutil.so"/>
+          <include name="libopencv*.so.3.1"/>
+          <include name="libcscore.so"/>
+          <include name="libopencv_java310.so"/>
+          <include name="libwpilibJavaJNI.so"/>
         </fileset>
       </libs.local>
     </deploy-libs>

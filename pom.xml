@@ -47,7 +47,8 @@
                     <allowMinorUpdates>true</allowMinorUpdates>
                     <allowSnapshots>true</allowSnapshots>
                     <includes>
-                        <include>edu.wpi.first.*:*</include>
+                        <include>edu.wpi.*:*</include>
+                        <include>org.opencv:*</include>
                     </includes>
                 </configuration>
             </plugin>

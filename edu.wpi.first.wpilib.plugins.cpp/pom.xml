@@ -79,6 +79,13 @@
                                     <type>zip</type>
                                     <destFileName>hal.jar</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.cscore.cpp</groupId>
+                                    <artifactId>cscore</artifactId>
+                                    <classifier>athena-uberzip</classifier>
+                                    <type>zip</type>
+                                    <destFileName>csuberzip.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
@@ -129,6 +136,7 @@
                                         <include name="athena.jar"/>
                                         <include name="hal.jar"/>
                                         <include name="athena-runtime.jar"/>
+                                        <include name="csuberzip.jar"/>
                                     </fileset>
                                 </unzip>
                             </target>
@@ -170,6 +178,13 @@
             <groupId>edu.wpi.first.wpilib</groupId>
             <artifactId>hal</artifactId>
             <version>1.0.0</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.cscore.cpp</groupId>
+            <artifactId>cscore</artifactId>
+            <version>0.9.0</version>
+            <classifier>athena-uberzip</classifier>
             <type>zip</type>
         </dependency>
     </dependencies>
