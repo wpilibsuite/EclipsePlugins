@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 
 import edu.wpi.first.wpilib.plugins.core.WPILibCore;
 
@@ -52,7 +53,7 @@ public abstract class AbstractInstaller {
 	 * @param sourcePath the file location of the zip file EX "/resources/simuation.zip"
 	 * @param destinationPath the file location to unzip into EX "/home/peter/wpilib/simulation/plugins"
 	 */
-  public void installIfNecessary(String sourcePath, String destinationPath, boolean clean){
+	public void installIfNecessary(String sourcePath, String destinationPath, boolean clean){
 		//we're installing from this directory
 		InputStream sourceStream;
 		try {
@@ -91,7 +92,7 @@ public abstract class AbstractInstaller {
 					try {
 						install(sourceStream,destination, clean);
 					} catch (InstallException e) {
-                        WPILibCore.logError("Error installing "+getFeatureName(), e);
+						WPILibCore.logError("Error installing "+getFeatureName(), e);
 						return new Status(IStatus.ERROR, WPILibCore.PLUGIN_ID,
 								getErrorMessage(e));
 					}
@@ -119,7 +120,7 @@ public abstract class AbstractInstaller {
 				try {
 					return "Extracting to " + installLocation.getCanonicalPath();
 				} catch (IOException ex) {
-                    WPILibCore.logError("installIfNecessary().getTaskMessage()", ex);
+					WPILibCore.logError("installIfNecessary().getTaskMessage()", ex);
 					return "Extracting";
 				}
 			}
@@ -128,6 +129,11 @@ public abstract class AbstractInstaller {
 		installJob.setUser(true);
 		installJob.setRule(ResourcesPlugin.getWorkspace().getRuleFactory().buildRule());
 		installJob.schedule();
+		try{
+			installJob.join();
+		} catch (InterruptedException e) {
+			WPILibCore.logError("Install job interrupted", e);
+		}
 	}
 
 	/**
@@ -152,9 +158,13 @@ public abstract class AbstractInstaller {
 	protected void install(InputStream sourceStream, File destination, boolean clean) throws InstallException {
 		if(destination.exists()) {
 			if(!removeFileHandler(destination, !clean)) {
-				MessageDialog.openError(null, "Error",
-					String.format("Could not update the old wpilib folder.%n"
-							+ "Please close any WPILib tools and restart Eclipse."));
+				Display.getDefault().asyncExec(new Runnable() {
+					 public void run() {
+							MessageDialog.openError(null, "Error",
+								String.format("Could not update the wpilib folder.%n"
+								+ "Close any WPILib tools or files and restart Eclipse."));
+					 }
+				});
 			}
 		}
 
@@ -237,7 +247,10 @@ public abstract class AbstractInstaller {
 		else if(file.isDirectory()) {
 			for(File f : file.listFiles()) {
 				if(!removeFileHandler(f, testRun))
+				{
+					WPILibCore.logInfo("Can't acquire write handle on file: " + f.toString());
 					return false;
+				}
 			}
 			if(testRun) return file.getParentFile().canWrite();
 			else return file.delete();

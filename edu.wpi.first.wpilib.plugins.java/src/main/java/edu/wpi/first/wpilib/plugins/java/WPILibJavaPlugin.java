@@ -80,7 +80,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 				return props.getProperty("version");
 			}
 		} catch (CoreException e) {
-            WPILibJavaPlugin.logError("Error getting properties.", e);
+			WPILibJavaPlugin.logError("Error getting properties.", e);
 			return "DEVELOPMENT";
 		}
 	}
@@ -96,7 +96,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 			File file = new File(WPILibCore.getDefault().getWPILibBaseDir()+"/java/current/ant/build.properties");
 			props = new AntPropertiesParser(new FileInputStream(file)).getProperties(defaults);
 		} catch (Exception e) {
-            WPILibJavaPlugin.logError("Error getting properties.", e);
+			WPILibJavaPlugin.logError("Error getting properties.", e);
 			props = new Properties(defaults);
 		}
 		return props;
@@ -105,26 +105,25 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 	public void updateProjects() {
 		WPILibJavaPlugin.logInfo("Updating projects");
 		
-		// Get the root of the workspace
-	    IWorkspace workspace = ResourcesPlugin.getWorkspace();
-	    IWorkspaceRoot root = workspace.getRoot();
-	    // Get all projects in the workspace
-	    IProject[] projects = root.getProjects();
-	    // Loop over all projects
-	    for (IProject project : projects) {
-			  try {
-				  if(project.hasNature("edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature") && project.hasNature("org.eclipse.jdt.core.javanature")){
+			// Get the root of the workspace
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IWorkspaceRoot root = workspace.getRoot();
+			// Get all projects in the workspace
+			IProject[] projects = root.getProjects();
+			// Loop over all projects
+			for (IProject project : projects) {
+				try {
+					if(project.hasNature("edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature") && project.hasNature("org.eclipse.jdt.core.javanature")){
 					updateVariables(project);
-				  } else {
-				  }
-			  } catch (CoreException e) {
+					} else {
+					}
+				} catch (CoreException e) {
 				WPILibJavaPlugin.logError("Error updating projects.", e);
-			  }
-	    }
+				}
+			}
 	}
 	
 	public void updateVariables(IProject project) throws CoreException {
-		//TODO: This races with the install on first launch (the reason for NullPointerException catch in the first try below)
 		Properties props = WPILibJavaPlugin.getDefault().getProjectProperties(project);
 		
 		//Update variables for wpilib, networktables, cscore and opencv
@@ -138,8 +137,8 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 			JavaCore.setClasspathVariable("opencv", new Path(props.getProperty("opencv.jar")), null);
 			JavaCore.setClasspathVariable("opencv.sources", new Path(props.getProperty("opencv.sources")), null);
 		} catch (JavaModelException|NullPointerException e) {
-		    // Classpath variables didn't get set
-            WPILibJavaPlugin.logError("Error setting classpath variables", e);
+			// Classpath variables didn't get set
+			WPILibJavaPlugin.logError("Error setting classpath variables", e);
 		}
 		
 		//Loop through files in $WPILIB$\\user\\java\\lib and add all jars to classpath
@@ -147,9 +146,9 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 			IJavaProject javaProject = JavaCore.create(project);
 			List<IClasspathEntry> newClasspathList = new ArrayList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
 			File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "java" + File.separator + "lib");
-            File[] filesList = dir.listFiles();
-            for (File file : filesList) {
-                if (file.isFile()) {
+			File[] filesList = dir.listFiles();
+			for (File file : filesList) {
+				if (file.isFile()) {
 					String fileNameSplit[] = file.getName().split("[.]");
 					if(fileNameSplit[fileNameSplit.length-1].equalsIgnoreCase("jar"))
 					{
@@ -168,9 +167,9 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 							WPILibJavaPlugin.logInfo("Adding: " + file.getName() + " to project: " + project.getName());
 						}
 					}
-                }
-            }
-            javaProject.setRawClasspath(newClasspathList.toArray(new IClasspathEntry[newClasspathList.size()]), null);
+				}
+			}
+			javaProject.setRawClasspath(newClasspathList.toArray(new IClasspathEntry[newClasspathList.size()]), null);
 		} catch (JavaModelException e) {
 			WPILibJavaPlugin.logError("Error updating classpath", e);
 		}
@@ -180,7 +179,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 	public void earlyStartup() {
 		new JavaInstaller(getCurrentVersion()).installIfNecessary(true);
 		Properties props = WPILibCore.getDefault().getProjectProperties(null);
-    	WPILibCore.getDefault().saveGlobalProperties(props);
+		WPILibCore.getDefault().saveGlobalProperties(props);
 		updateProjects();
 	}
 
