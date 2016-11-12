@@ -190,16 +190,10 @@
             modes="run,debug">
             <contextualLaunch>
             <enablement>
-			   <with 
-			      variable="activeWorkbenchWindow.activePerspective">
-			      <equals
-			         value="org.eclipse.cdt.ui.CPerspective">
-			      </equals>
-			   </with>
                <with
                      variable="selection">
                   <iterate>
-                     <and>
+                    <adapt type="org.eclipse.core.resources.IProject">
                         <test
                             value="edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature"
                             property="org.eclipse.core.resources.projectNature">
@@ -208,7 +202,7 @@
                             value="org.eclipse.cdt.core.cnature"
                             property="org.eclipse.core.resources.projectNature">
                         </test>
-                     </and>
+                    </adapt>
                   </iterate>
                </with>
             </enablement>
@@ -231,16 +225,10 @@
             modes="run,debug">
             <contextualLaunch>
             <enablement>
-			   <with 
-			      variable="activeWorkbenchWindow.activePerspective">
-			      <equals
-			         value="org.eclipse.cdt.ui.CPerspective">
-			      </equals>
-				  </with>
                <with
                      variable="selection">
                   <iterate>
-                     <and>
+                     <adapt type="org.eclipse.core.resources.IProject">
                         <test
                             value="edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature"
                             property="org.eclipse.core.resources.projectNature">
@@ -249,7 +237,7 @@
                             value="org.eclipse.cdt.core.cnature"
                             property="org.eclipse.core.resources.projectNature">
                         </test>
-                     </and>
+                     </adapt>
                   </iterate>
                </with>
             </enablement>
