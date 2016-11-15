@@ -6,7 +6,7 @@
 /**
  * Extend the shooter and then retract it after a second.
  */
-class ExtendShooter: public Command {
+class ExtendShooter: public frc::Command {
 public:
 	ExtendShooter();
 	void Initialize();

@@ -20,7 +20,7 @@
 #include "Subsystems/Pneumatics.h"
 #include "OI.h"
 
-class Robot: public IterativeRobot {
+class Robot: public frc::IterativeRobot {
 public:
 	static std::shared_ptr<DriveTrain> drivetrain;
 	static std::shared_ptr<Pivot> pivot;
@@ -30,10 +30,10 @@ public:
 	static std::unique_ptr<OI> oi;
 
 private:
-	Command* autonomousCommand = nullptr;
-	std::unique_ptr<Command> driveAndShootAuto{new DriveAndShootAutonomous()},
-	                         driveForwardAuto{new DriveForward()};
-	SendableChooser autoChooser;
+	frc::Command* autonomousCommand = nullptr;
+	std::unique_ptr<frc::Command> driveAndShootAuto{new DriveAndShootAutonomous()},
+	                              driveForwardAuto{new DriveForward()};
+	frc::SendableChooser autoChooser;
 
 	void RobotInit();
 	void AutonomousInit();

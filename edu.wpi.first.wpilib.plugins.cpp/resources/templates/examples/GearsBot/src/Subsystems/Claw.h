@@ -9,10 +9,10 @@
  * If using stronger motors, you should probably use a sensor so that the
  * motors don't stall.
  */
-class Claw: public Subsystem {
+class Claw: public frc::Subsystem {
 private:
-	SpeedController* motor;
-	DigitalInput* contact;
+	frc::SpeedController* motor;
+	frc::DigitalInput* contact;
 
 public:
 	Claw();

@@ -1,5 +1,14 @@
 #include "WPILib.h"
 
+/*
+ * All WPILib classes are in the FRC namespace. Either `using namespace frc` 
+ * or frc scope (ex. `frc::RobotDrive`) are required to use WPILib functionality. 
+ * For headers, use scope instead of `using namespace frc` to avoid global namespace
+ * pollution. For source files, either option is viable.
+ * See 
+ */
+using namespace frc;
+
 /**
  * This sample shows how to use the new CANTalon to just run a motor in a basic
  *   throttle mode, in the same manner as you might control a traditional PWM

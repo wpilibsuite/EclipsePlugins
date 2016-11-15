@@ -7,12 +7,12 @@ std::unique_ptr<ExampleSubsystem> CommandBase::examplesubsystem;
 std::unique_ptr<OI> CommandBase::oi;
 
 CommandBase::CommandBase(const std::string &name) :
-		Command(name)
+		frc::Command(name)
 {
 }
 
 CommandBase::CommandBase() :
-		Command()
+		frc::Command()
 {
 
 }

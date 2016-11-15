@@ -7,7 +7,7 @@
  * This command drives the robot over a given distance with simple proportional
  * control This command will drive a given distance limiting to a maximum speed.
  */
-class DriveForward: public Command {
+class DriveForward: public frc::Command {
 private:
 	double driveForwardSpeed;
 	double distance;

@@ -10,13 +10,13 @@
 
 #include "WPILib.h"
 
-class DoubleButton : public Trigger {
+class DoubleButton : public frc::Trigger {
 private:
-	Joystick* joy;
+	frc::Joystick* joy;
 	int button1, button2;
 
 public:
-	DoubleButton(Joystick* joy, int button1, int button2);
+	DoubleButton(frc::Joystick* joy, int button1, int button2);
 
     bool Get();
 };

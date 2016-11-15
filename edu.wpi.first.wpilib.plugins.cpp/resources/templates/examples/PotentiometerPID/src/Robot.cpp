@@ -1,5 +1,14 @@
 #include "WPILib.h"
 
+/*
+ * All WPILib classes are in the FRC namespace. Either `using namespace frc` 
+ * or frc scope (ex. `frc::RobotDrive`) are required to use WPILib functionality. 
+ * For headers, use scope instead of `using namespace frc` to avoid global namespace
+ * pollution. For source files, either option is viable.
+ * See 
+ */
+using namespace frc;
+
 /**
  *  This is a sample program to demonstrate how to use a soft potentiometer and a PID
  *  Controller to reach and maintain position setpoints on an elevator mechanism.

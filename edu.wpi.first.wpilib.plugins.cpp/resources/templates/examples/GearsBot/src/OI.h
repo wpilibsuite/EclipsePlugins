@@ -13,10 +13,10 @@
 class OI {
 public:
 	OI();
-	Joystick* GetJoystick();
+	frc::Joystick* GetJoystick();
 
 private:
-	Joystick* joy;
+	frc::Joystick* joy;
 };
 
 #endif /* OI_H_ */

@@ -6,7 +6,7 @@
 /**
  * Shoot the ball at the current angle.
  */
-class Shoot: public CommandGroup {
+class Shoot: public frc::CommandGroup {
 public:
 	Shoot();
 };

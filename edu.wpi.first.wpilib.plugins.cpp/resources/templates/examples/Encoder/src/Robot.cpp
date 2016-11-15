@@ -1,5 +1,14 @@
 #include "WPILib.h"
 
+/*
+ * All WPILib classes are in the FRC namespace. Either `using namespace frc` 
+ * or frc scope (ex. `frc::RobotDrive`) are required to use WPILib functionality. 
+ * For headers, use scope instead of `using namespace frc` to avoid global namespace
+ * pollution. For source files, either option is viable.
+ * See 
+ */
+using namespace frc;
+
 /**
  * Sample program displaying the value of a quadrature encoder on the SmartDashboard.
  * Quadrature Encoders are digital sensors which can detect the amount the encoder

@@ -9,7 +9,7 @@
  * NOTE: It doesn't wait for the claw to close since there is no sensor to
  * detect that.
  */
-class CloseClaw: public Command {
+class CloseClaw: public frc::Command {
 public:
 	CloseClaw();
 	void Initialize();

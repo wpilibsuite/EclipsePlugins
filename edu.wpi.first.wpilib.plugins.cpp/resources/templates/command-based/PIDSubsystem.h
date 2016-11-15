@@ -4,7 +4,7 @@
 #include "Commands/PIDSubsystem.h"
 #include "WPILib.h"
 
-class $classname: public PIDSubsystem
+class $classname: public frc::PIDSubsystem
 {
 public:
 	$classname();

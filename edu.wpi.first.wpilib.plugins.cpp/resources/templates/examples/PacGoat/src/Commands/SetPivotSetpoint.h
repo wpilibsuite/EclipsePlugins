@@ -8,7 +8,7 @@
  * the tolerance, but leaves the PID loop running to maintain the position.
  * Other commands using the pivot should make sure they disable PID!
  */
-class SetPivotSetpoint: public Command {
+class SetPivotSetpoint: public frc::Command {
 public:
 	SetPivotSetpoint(double setpoint);
 	void Initialize();

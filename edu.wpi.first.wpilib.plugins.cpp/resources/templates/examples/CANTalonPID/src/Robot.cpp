@@ -1,5 +1,14 @@
 #include "WPILib.h"
 
+/*
+ * All WPILib classes are in the FRC namespace. Either `using namespace frc` 
+ * or frc scope (ex. `frc::RobotDrive`) are required to use WPILib functionality. 
+ * For headers, use scope instead of `using namespace frc` to avoid global namespace
+ * pollution. For source files, either option is viable.
+ * See 
+ */
+using namespace frc;
+
 /**
  * This is a quick sample program to show how to use the new Talon SRX over CAN.
  * This particular sample demonstrates running a basic PID control loop with an

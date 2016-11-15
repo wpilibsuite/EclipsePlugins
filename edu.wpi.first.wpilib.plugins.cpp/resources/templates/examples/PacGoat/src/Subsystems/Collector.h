@@ -9,7 +9,7 @@
  * detection, a piston for opening and closing the claw, and a reed switch to
  * check if the piston is open.
  */
-class Collector: public Subsystem
+class Collector: public frc::Subsystem
 {
 public:
 	// Constants for some useful speeds
@@ -19,10 +19,10 @@ public:
 
 private:
 	// Subsystem devices
-  std::shared_ptr<SpeedController> rollerMotor;
-  std::shared_ptr<DigitalInput> ballDetector;
-  std::shared_ptr<Solenoid> piston;
-  std::shared_ptr<DigitalInput> openDetector;
+  std::shared_ptr<frc::SpeedController> rollerMotor;
+  std::shared_ptr<frc::DigitalInput> ballDetector;
+  std::shared_ptr<frc::Solenoid> piston;
+  std::shared_ptr<frc::DigitalInput> openDetector;
 
 public:
 	Collector();

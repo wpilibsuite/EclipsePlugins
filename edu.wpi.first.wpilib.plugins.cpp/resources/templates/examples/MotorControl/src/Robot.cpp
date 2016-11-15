@@ -1,5 +1,14 @@
 #include "WPILib.h"
 
+/*
+ * All WPILib classes are in the FRC namespace. Either `using namespace frc` 
+ * or frc scope (ex. `frc::RobotDrive`) are required to use WPILib functionality. 
+ * For headers, use scope instead of `using namespace frc` to avoid global namespace
+ * pollution. For source files, either option is viable.
+ * See 
+ */
+using namespace frc;
+
 /**
  * This sample program shows how to control a motor using a joystick. In the operator
  * control part of the program, the joystick is read and the value is written to the motor.

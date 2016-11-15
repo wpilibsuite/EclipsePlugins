@@ -3,7 +3,7 @@
 
 #include "WPILib.h"
 
-class $classname: public Trigger
+class $classname: public frc::Trigger
 {
 public:
 	$classname();

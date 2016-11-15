@@ -14,16 +14,16 @@
  * NOTE: Simulation currently approximates this as as single pneumatic cylinder
  * and ignores the latch.
  */
-class Shooter: public Subsystem
+class Shooter: public frc::Subsystem
 {
 private:
 	// Devices
-	std::shared_ptr<DoubleSolenoid> piston1;
-	std::shared_ptr<DoubleSolenoid> piston2;
-	std::shared_ptr<Solenoid> latchPiston;
-	std::shared_ptr<DigitalInput> piston1ReedSwitchFront;
-	std::shared_ptr<DigitalInput> piston1ReedSwitchBack;
-	std::shared_ptr<DigitalInput> hotGoalSensor; // NOTE: Currently ignored in simulation
+	std::shared_ptr<frc::DoubleSolenoid> piston1;
+	std::shared_ptr<frc::DoubleSolenoid> piston2;
+	std::shared_ptr<frc::Solenoid> latchPiston;
+	std::shared_ptr<frc::DigitalInput> piston1ReedSwitchFront;
+	std::shared_ptr<frc::DigitalInput> piston1ReedSwitchBack;
+	std::shared_ptr<frc::DigitalInput> hotGoalSensor; // NOTE: Currently ignored in simulation
 
 public:
 	Shooter();

@@ -4,7 +4,7 @@
 #include "Commands/CommandGroup.h"
 #include "WPILib.h"
 
-class $classname: public CommandGroup
+class $classname: public frc::CommandGroup
 {
 public:
 	$classname();
