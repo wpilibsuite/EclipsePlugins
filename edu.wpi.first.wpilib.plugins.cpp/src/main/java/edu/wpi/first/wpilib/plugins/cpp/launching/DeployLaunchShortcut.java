@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfigurationType;
@@ -175,8 +176,8 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 
 			// Kill running program before using RSE as RSE can't
 			WPILibCPPPlugin.logInfo("Running ant file: " + activeProj.getLocation().toOSString() + File.separator + "build.xml");
-			WPILibCPPPlugin.logInfo("Targets: kill-program, Mode: " + mode);
-			ILaunch killAnt = AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), "kill-program", null, mode);
+			WPILibCPPPlugin.logInfo("Targets: debug-prepare, Mode: " + mode);
+			ILaunch killAnt = AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), "debug-prepare", null, mode);
 			int tries = 0;
 			try{
 				while(!killAnt.isTerminated() && tries < DEBUG_KILL_WAIT_TRIES){
@@ -204,7 +205,13 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = manager.getLaunchConfigurationType(ICDTLaunchConfigurationConstants.ID_LAUNCH_C_REMOTE_APP);
 		int teamNumber = WPILibCore.getDefault().getTeamNumber(activeProj);
-		String remote_connection = RSEUtils.getTarget(teamNumber).getName();
+    String remote_connection = "";
+    if(Platform.getBundle("org.eclipse.platform").getVersion().getMinor() > 5 )
+    {
+      remote_connection = RemoteUtils.getTarget(teamNumber).getName();
+    } else{
+      remote_connection = RSEUtils.getTarget(teamNumber).getName();
+    }
 
 		ILaunchConfigurationWorkingCopy config = type.newInstance(null, activeProj.getName());
 		config.setAttribute(ICDTLaunchConfigurationConstants.ATTR_COREFILE_PATH, "");
