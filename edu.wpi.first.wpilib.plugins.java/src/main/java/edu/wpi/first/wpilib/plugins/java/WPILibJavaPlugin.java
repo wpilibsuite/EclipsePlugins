@@ -15,6 +15,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.core.IAccessRule;
+import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
@@ -37,6 +39,13 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 
 	// The shared instance
 	private static WPILibJavaPlugin plugin;
+
+	private static final String[] wpiClasspathLibraries = {
+		"wpilib",
+		"networktables",
+		"opencv",
+		"cscore"
+	};
 	
 	/**
 	 * The constructor
@@ -125,6 +134,44 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 	
 	public void updateVariables(IProject project) throws CoreException {
 		Properties props = WPILibJavaPlugin.getDefault().getProjectProperties(project);
+
+		IJavaProject javaProject = JavaCore.create(project);
+
+		// Ensure the classpath has all the proper libraries
+		try {
+			boolean[] foundLibraries = new boolean[wpiClasspathLibraries.length];
+
+			List<IClasspathEntry> newClasspathList = new ArrayList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
+			for (IClasspathEntry entry : newClasspathList) {
+				// Only grab var entries, and check to find if they're in our list
+				if (entry.getEntryKind() != IClasspathEntry.CPE_VARIABLE) {
+					continue;
+				}
+				IPath path = entry.getPath();
+				for (int i = 0; i < wpiClasspathLibraries.length; i++) {
+					if (path.equals(new Path(wpiClasspathLibraries[i]))) {
+						// Found existing classpath.
+						foundLibraries[i] = true;
+						break;
+					}
+				}
+			}
+
+			IAccessRule[] emptyAccessArray = new IAccessRule[0];
+			IClasspathAttribute[] emptySourceAttribute = new IClasspathAttribute[0];
+			for (int i = 0; i < foundLibraries.length; i++) {
+				if (!foundLibraries[i]) {
+					// If not found, add to classpath
+					newClasspathList.add(JavaCore.newVariableEntry(new Path(wpiClasspathLibraries[i]), 
+							new Path(wpiClasspathLibraries[i] + ".sources"), null, emptyAccessArray, emptySourceAttribute, false));
+					WPILibJavaPlugin.logInfo("Adding: " + wpiClasspathLibraries[i] + " to project: " + project.getName());
+				}
+			}
+
+			javaProject.setRawClasspath(newClasspathList.toArray(new IClasspathEntry[newClasspathList.size()]), null);
+		} catch (JavaModelException e) {
+			WPILibJavaPlugin.logError("Error creating wpilib classpath", e);
+		}
 		
 		//Update variables for wpilib, networktables, cscore and opencv
 		try {
@@ -143,7 +190,6 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 		
 		//Loop through files in $WPILIB$\\user\\java\\lib and add all jars to classpath
 		try{
-			IJavaProject javaProject = JavaCore.create(project);
 			List<IClasspathEntry> newClasspathList = new ArrayList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
 			File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "java" + File.separator + "lib");
 			File[] filesList = dir.listFiles();
