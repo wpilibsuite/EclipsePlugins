@@ -1,2 +1,2 @@
-env LD_LIBRARY_PATH=/opt/GenICam_v3_0_NI/bin/Linux32_ARM/:/usr/local/frc/lib /usr/local/frc/JRE/bin/java -XX:+UsePerfData -agentlib:jdwp=transport=dt_socket,address=8348,server=y,suspend=y -jar /home/lvuser/FRCUserProgram.jar
+/usr/local/frc/JRE/bin/java -Djava.library.path=/usr/local/frc/lib/ -XX:+UsePerfData -agentlib:jdwp=transport=dt_socket,address=8348,server=y,suspend=y -jar /home/lvuser/FRCUserProgram.jar
 
