@@ -1,2 +1,1 @@
-env LD_LIBRARY_PATH=/opt/GenICam_v3_0_NI/bin/Linux32_ARM/:/usr/local/frc/lib /usr/local/frc/JRE/bin/java -jar /home/lvuser/FRCUserProgram.jar
-
+/usr/local/frc/JRE/bin/java -Djava.library.path=/usr/local/frc/lib/ -jar /home/lvuser/FRCUserProgram.jar
