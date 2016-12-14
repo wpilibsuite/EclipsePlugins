@@ -183,6 +183,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 			JavaCore.setClasspathVariable("cscore.sources", new Path(props.getProperty("cscore.sources")), null);
 			JavaCore.setClasspathVariable("opencv", new Path(props.getProperty("opencv.jar")), null);
 			JavaCore.setClasspathVariable("opencv.sources", new Path(props.getProperty("opencv.sources")), null);
+			JavaCore.setClasspathVariable("USERLIBS_DIR", new Path(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "java" + File.separator + "lib"), null);
 		} catch (JavaModelException|NullPointerException e) {
 			// Classpath variables didn't get set
 			WPILibJavaPlugin.logError("Error setting classpath variables", e);
@@ -198,7 +199,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 					String fileNameSplit[] = file.getName().split("[.]");
 					if(fileNameSplit[fileNameSplit.length-1].equalsIgnoreCase("jar"))
 					{
-						IPath filePath = new Path(file.getAbsolutePath());
+						IPath filePath = new Path("USERLIBS_DIR/" + file.getName());
 						boolean alreadyAdded = false;
 						for(IClasspathEntry entry : newClasspathList)	//check if file is already on path
 						{
@@ -209,7 +210,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 						}
 						if(!alreadyAdded)
 						{
-							newClasspathList.add(JavaCore.newLibraryEntry(filePath, null, null, false));
+							newClasspathList.add(JavaCore.newVariableEntry(filePath, null, null, false));
 							WPILibJavaPlugin.logInfo("Adding: " + file.getName() + " to project: " + project.getName());
 						}
 					}
