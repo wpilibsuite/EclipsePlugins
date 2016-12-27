@@ -68,7 +68,7 @@ task updateWPILibVersionCommand() {
         if (project.hasProperty('jenkinsBuild'))
             version = version.replaceFirst('-', '.')
 
-        mavenArgsVersionRun << 'tycho-versions:set-version' << "-D\"newVersion=$version\""
+        mavenArgsVersionRun << 'tycho-versions:set-version' << "-DnewVersion=$version"
     }
 }
 
@@ -83,8 +83,9 @@ task updateDependencyVersionsCommand() {
 // General build properties
 
 def generateBuildProperties(args) {
-    args << "-D\"repo.local=file://${WPILibVersion.mavenLocalUrl}\"" <<
-            "-D\"repo.remote=${WPILibVersion.mavenRemoteUrl}\""
+    args << "-Drepo.local=file://${WPILibVersion.mavenLocalUrl}" <<
+            "-Drepo.remote=${WPILibVersion.mavenRemoteUrl}" <<
+            '-U'
 }
 
 def buildTasks = [addCleanCommand, addPackageCommand, generateNiImageProperties]
