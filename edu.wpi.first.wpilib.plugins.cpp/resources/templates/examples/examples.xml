@@ -33,7 +33,7 @@
 
   <tagDescription>
     <name>Analog</name>
-    <description>Examples programs that show different uses of analog inputs, 
+    <description>Examples programs that show different uses of analog inputs,
       outputs and various analog sensors</description>
   </tagDescription>
 
@@ -261,8 +261,8 @@
     <file source="examples/MecanumDrive/src/Robot.cpp" destination="src/Robot.cpp"></file>
   </files>
   </example>
-  
-  
+
+
 <example>
   <name>Ultrasonic</name>
   <description>Demonstrate maintaining a set distance using an ultrasonic sensor.</description>
@@ -299,8 +299,8 @@
     <file source="examples/UltrasonicPID/src/Robot.cpp" destination="src/Robot.cpp"></file>
   </files>
   </example>
-  
-  
+
+
   <example>
   <name>Gyro</name>
   <description>An example program showing how to drive straight with using a gyro sensor.</description>
@@ -319,8 +319,8 @@
     <file source="examples/Gyro/src/Robot.cpp" destination="src/Robot.cpp"></file>
   </files>
   </example>
-  
-  
+
+
     <example>
   <name>Gyro Mecanum</name>
   <description>An example program showing how to perform mecanum drive with field oriented controls.</description>
@@ -339,8 +339,8 @@
     <file source="examples/GyroMecanum/src/Robot.cpp" destination="src/Robot.cpp"></file>
   </files>
   </example>
-  
-  
+
+
     <example>
   <name>PotentiometerPID</name>
   <description>An example to demonstrate the use of a potentiometer and PID control to reach elevator position setpoints.</description>
@@ -358,8 +358,8 @@
     <file source="examples/PotentiometerPID/src/Robot.cpp" destination="src/Robot.cpp"></file>
   </files>
   </example>
-  
-  
+
+
       <example>
   <name>Potentiometer</name>
   <description>An example to demonstrate the use of a potentiometer and basic proportional control to reach elevator position setpoints.</description>
@@ -377,12 +377,11 @@
     <file source="examples/Potentiometer/src/Robot.cpp" destination="src/Robot.cpp"></file>
   </files>
   </example>
-  
-  
+
+
   <example>
   <name>Getting Started</name>
-  <description>An example program which demonstrates the simplest autonomous and
-  teleoperated routines.</description>
+  <description>An example program which demonstrates the simplest autonomous and teleoperated routines.</description>
   <tags>
     <tag>Getting Started with C++</tag>
     <tag>Complete List</tag>
@@ -391,8 +390,7 @@
     <package>src</package>
   </packages>
   <files>
-    <file source="examples/GettingStarted/src/Robot.cpp"
-      destination="src/Robot.cpp"></file>
+    <file source="examples/GettingStarted/src/Robot.cpp" destination="src/Robot.cpp" />
   </files>
   </example>
 
@@ -451,7 +449,7 @@
                   destination="src/Robot.cpp"></file>
         </files>
     </example>
-	
+
 	<example>
 		<name>2015 Vision Color Sample</name>
         <description>An example program that demonstrates image processing to locate Yellow totes by color.
