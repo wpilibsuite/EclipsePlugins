@@ -1,30 +1,25 @@
-/*
- * Robot.h
- *
- *  Created on: Jun 3, 2014
- *      Author: alex
- */
+#ifndef ROBOT_H_
+#define ROBOT_H_
 
-#ifndef MY_ROBOT_H_
-#define MY_ROBOT_H_
+#include <memory>
 
-#include "WPILib.h"
-#include "Commands/Command.h"
+#include <Commands/Command.h>
+#include <LiveWindow/LiveWindow.h>
+
 #include "Commands/Autonomous.h"
-
+#include "OI.h"
+#include "Subsystems/Claw.h"
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Elevator.h"
 #include "Subsystems/Wrist.h"
-#include "Subsystems/Claw.h"
-#include "OI.h"
 
 class Robot: public IterativeRobot {
 public:
-	static std::shared_ptr<DriveTrain> drivetrain;
-	static std::shared_ptr<Elevator> elevator;
-	static std::shared_ptr<Wrist> wrist;
-	static std::shared_ptr<Claw> claw;
-	static std::unique_ptr<OI> oi;
+	std::shared_ptr<DriveTrain> drivetrain = std::make_shared<DriveTrain>();
+	std::shared_ptr<Elevator> elevator = std::make_shared<Elevator>();
+	std::shared_ptr<Wrist> wrist = std::make_shared<Wrist>();
+	std::shared_ptr<Claw> claw = std::make_shared<Claw>();
+	std::unique_ptr<OI> oi = std::make_unique<OI>();
 
 private:
 	Autonomous autonomousCommand;
@@ -39,4 +34,4 @@ private:
 };
 
 
-#endif /* ROBOT_H_ */
+#endif  // ROBOT_H_

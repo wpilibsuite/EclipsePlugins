@@ -1,8 +1,11 @@
 #ifndef Claw_H
 #define Claw_H
 
-#include "Commands/Subsystem.h"
-#include "WPILib.h"
+#include <memory>
+
+#include <Commands/Subsystem.h>
+#include <DigitalInput.h>
+#include <Victor.h>
 
 /**
  * The claw subsystem is a simple system with a motor for opening and closing.
@@ -11,35 +14,36 @@
  */
 class Claw: public Subsystem {
 private:
-	SpeedController* motor;
-	DigitalInput* contact;
+	std::unique_ptr<SpeedController> motor = std::make_unique<Victor>(7);
+	std::unique_ptr<DigitalInput> contact = std::make_unique<DigitalInput>(5);
 
 public:
 	Claw();
-	void InitDefaultCommand() {}
 
-    /**
-     * Set the claw motor to move in the open direction.
-     */
+	void InitDefaultCommand();
+
+	/**
+	 * Set the claw motor to move in the open direction.
+	 */
 	void Open();
 
-    /**
-     * Set the claw motor to move in the close direction.
-     */
+	/**
+	 * Set the claw motor to move in the close direction.
+	 */
 	void Close();
 
-    /**
-     * Stops the claw motor from moving.
-     */
+	/**
+	 * Stops the claw motor from moving.
+	 */
 	void Stop();
 
-    /**
-     * Return true when the robot is grabbing an object hard enough
-     * to trigger the limit switch.
-     */
+	/**
+	 * Return true when the robot is grabbing an object hard enough
+	 * to trigger the limit switch.
+	 */
 	bool IsGripping();
 
-	void Log() {}
+	void Log();
 };
 
-#endif
+#endif  // Claw_H

@@ -2,10 +2,8 @@
 #define $classname_H
 
 #include "../CommandBase.h"
-#include "WPILib.h"
 
-class $classname: public CommandBase
-{
+class $classname : public CommandBase {
 public:
 	$classname();
 	void Initialize();
@@ -15,4 +13,4 @@ public:
 	void Interrupted();
 };
 
-#endif
+#endif  // $classname_H

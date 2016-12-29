@@ -24,16 +24,16 @@ public class Elevator extends PIDSubsystem {
 
     private static final double kP_real = 4, kI_real = 0.07,
             kP_simulation = 18, kI_simulation = 0.2;
-    
+
     public Elevator() {
         super(kP_real, kI_real, 0);
         if (Robot.isSimulation()) { // Check for simulation and update PID values
             getPIDController().setPID(kP_simulation, kI_simulation, 0, 0);
         }
         setAbsoluteTolerance(0.005);
-        
+
         motor = new Victor(5);
-        
+
         // Conversion value of potentiometer varies between the real world and simulation
         if (Robot.isReal()) {
             pot = new AnalogPotentiometer(2, -2.0/5);
@@ -41,7 +41,7 @@ public class Elevator extends PIDSubsystem {
             pot = new AnalogPotentiometer(2); // Defaults to meters
         }
 
-		// Let's show everything on the LiveWindow
+        // Let's show everything on the LiveWindow
         LiveWindow.addActuator("Elevator", "Motor", (Victor) motor);
         LiveWindow.addSensor("Elevator", "Pot", (AnalogPotentiometer) pot);
         LiveWindow.addActuator("Elevator", "PID", getPIDController());
@@ -49,9 +49,9 @@ public class Elevator extends PIDSubsystem {
 
     public void initDefaultCommand() {}
 
-	/**
-	 * The log method puts interesting information to the SmartDashboard.
-	 */
+    /**
+     * The log method puts interesting information to the SmartDashboard.
+     */
     public void log() {
         SmartDashboard.putData("Wrist Pot", (AnalogPotentiometer) pot);
     }

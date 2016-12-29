@@ -49,14 +49,11 @@ public class DriveStraight extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// Get everything in a safe starting state.
+        // Get everything in a safe starting state.
         Robot.drivetrain.reset();
-    	pid.reset();
+        pid.reset();
         pid.enable();
     }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
@@ -65,14 +62,8 @@ public class DriveStraight extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	// Stop PID and the wheels
-    	pid.disable();
+        // Stop PID and the wheels
+        pid.disable();
         Robot.drivetrain.drive(0, 0);
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-        end();
     }
 }

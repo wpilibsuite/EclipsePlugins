@@ -13,8 +13,8 @@ public class DriveAndShootAutonomous extends CommandGroup {
         addSequential(new CloseClaw());
         addSequential(new WaitForPressure(), 2);
         if (Robot.isReal()) {
-        	// NOTE: Simulation doesn't currently have the concept of hot. 
-        	addSequential(new CheckForHotGoal(2));
+            // NOTE: Simulation doesn't currently have the concept of hot.
+            addSequential(new CheckForHotGoal(2));
         }
         addSequential(new SetPivotSetpoint(45));
         addSequential(new DriveForward(8, 0.3));

@@ -1,26 +1,22 @@
-/*
- * Robot.h
- *
- *  Created on: Jun 3, 2014
- *      Author: alex
- */
-
 #ifndef MY_ROBOT_H_
 #define MY_ROBOT_H_
 
-#include "WPILib.h"
-#include "Commands/Command.h"
+#include <memory>
+
+#include <Commands/Command.h>
+#include <IterativeRobot.h>
+#include <SmartDashboard/SendableChooser.h>
 
 #include "Commands/DriveAndShootAutonomous.h"
 #include "Commands/DriveForward.h"
+#include "OI.h"
+#include "Subsystems/Collector.h"
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Pivot.h"
-#include "Subsystems/Collector.h"
-#include "Subsystems/Shooter.h"
 #include "Subsystems/Pneumatics.h"
-#include "OI.h"
+#include "Subsystems/Shooter.h"
 
-class Robot: public IterativeRobot {
+class Robot : public IterativeRobot {
 public:
 	static std::shared_ptr<DriveTrain> drivetrain;
 	static std::shared_ptr<Pivot> pivot;
@@ -32,7 +28,7 @@ public:
 private:
 	Command* autonomousCommand = nullptr;
 	std::unique_ptr<Command> driveAndShootAuto{new DriveAndShootAutonomous()},
-	                         driveForwardAuto{new DriveForward()};
+							 driveForwardAuto{new DriveForward()};
 	SendableChooser autoChooser;
 
 	void RobotInit();
@@ -47,4 +43,4 @@ private:
 	void Log();
 };
 
-#endif /* ROBOT_H_ */
+#endif  // ROBOT_H_

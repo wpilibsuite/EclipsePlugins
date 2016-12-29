@@ -54,7 +54,7 @@ public class Robot extends SampleRobot {
       // In closed loop mode, this sets the goal in the units mentioned above.
       // Since we are using an analog potentiometer, this will try to go to
       //   the middle of the potentiometer range.
-			motor.set(512);
+            motor.set(512);
 
       Timer.delay(5.0);
     }

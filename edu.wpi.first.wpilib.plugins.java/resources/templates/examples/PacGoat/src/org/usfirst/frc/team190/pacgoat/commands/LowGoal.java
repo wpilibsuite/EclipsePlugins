@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class LowGoal extends CommandGroup {
     public  LowGoal() {
-    	addSequential(new SetPivotSetpoint(Pivot.LOW_GOAL));
-    	addSequential(new SetCollectionSpeed(Collector.REVERSE));
-    	addSequential(new ExtendShooter());
+        addSequential(new SetPivotSetpoint(Pivot.LOW_GOAL));
+        addSequential(new SetCollectionSpeed(Collector.REVERSE));
+        addSequential(new ExtendShooter());
     }
 }

@@ -1,17 +1,16 @@
 #ifndef EXAMPLE_SUBSYSTEM_H
 #define EXAMPLE_SUBSYSTEM_H
 
-#include "Commands/Subsystem.h"
-#include "WPILib.h"
+#include <Commands/Subsystem.h>
 
-class ExampleSubsystem: public Subsystem
-{
-private:
-	// It's desirable that everything possible under private except
-	// for methods that implement subsystem capabilities
+class ExampleSubsystem : public Subsystem {
 public:
 	ExampleSubsystem();
 	void InitDefaultCommand();
+
+private:
+	// It's desirable that everything possible under private except
+	// for methods that implement subsystem capabilities
 };
 
-#endif
+#endif  // EXAMPLE_SUBSYSTEM_H

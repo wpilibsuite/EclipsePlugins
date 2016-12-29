@@ -17,15 +17,15 @@ import edu.wpi.first.wpilibj.Timer;
  * values are only transmitted from the Driver Station once every 20ms.
  */
 public class Robot extends SampleRobot {
-	
-    private SpeedController motor;	// the motor to directly control with a joystick
+
+    private SpeedController motor;    // the motor to directly control with a joystick
     private Joystick stick;
 
-	private final double k_updatePeriod = 0.005; // update every 0.005 seconds/5 milliseconds (200Hz)
+    private final double k_updatePeriod = 0.005; // update every 0.005 seconds/5 milliseconds (200Hz)
 
     public Robot() {
-        motor = new Talon(0);		// initialize the motor as a Talon on channel 0
-        stick = new Joystick(0);	// initialize the joystick on port 0
+        motor = new Talon(0);        // initialize the motor as a Talon on channel 0
+        stick = new Joystick(0);    // initialize the joystick on port 0
     }
 
     /**
@@ -33,12 +33,12 @@ public class Robot extends SampleRobot {
      */
     public void operatorControl() {
         while (isOperatorControl() && isEnabled()) {
-        	// Set the motor's output.
-        	// This takes a number from -1 (100% speed in reverse) to +1 (100% speed going forward)
-        	motor.set(stick.getY());
-        	
-            Timer.delay(k_updatePeriod);	// wait 5ms to the next update
+            // Set the motor's output.
+            // This takes a number from -1 (100% speed in reverse) to +1 (100% speed going forward)
+            motor.set(stick.getY());
+
+            Timer.delay(k_updatePeriod);    // wait 5ms to the next update
         }
-        
+
     }
 }

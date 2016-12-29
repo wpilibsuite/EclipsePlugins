@@ -11,13 +11,10 @@ import edu.wpi.first.wpilibj.command.Command;
  * Have the robot drive tank style using the PS3 Joystick until interrupted.
  */
 public class TankDriveWithJoystick extends Command {
-    
+
     public TankDriveWithJoystick() {
         requires(Robot.drivetrain);
     }
-
-    // Called just before this Command runs the f iirst time
-    protected void initialize() {}
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
@@ -32,11 +29,5 @@ public class TankDriveWithJoystick extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Robot.drivetrain.drive(0, 0);
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-        end();
     }
 }

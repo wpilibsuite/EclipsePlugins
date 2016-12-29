@@ -1,15 +1,14 @@
 #ifndef Autonomous_H
 #define Autonomous_H
 
-#include "Commands/CommandGroup.h"
+#include <Commands/CommandGroup.h>
 
 /**
- * The main autonomous command to pickup and deliver the
- * soda to the box.
+ * The main autonomous command to pickup and deliver the soda to the box.
  */
-class Autonomous: public CommandGroup {
+class Autonomous : public CommandGroup {
 public:
-	Autonomous();
+    Autonomous();
 };
 
-#endif
+#endif  // Autonomous_H

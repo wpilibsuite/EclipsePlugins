@@ -1,7 +1,7 @@
 #ifndef CheckForHotGoal_H
 #define CheckForHotGoal_H
 
-#include "WPILib.h"
+#include <Commands/Command.h>
 
 /**
  * This command looks for the hot goal and waits until it's detected or timed
@@ -12,11 +12,7 @@
 class CheckForHotGoal : public Command {
 public:
 	CheckForHotGoal(double time);
-	void Initialize();
-	void Execute();
 	bool IsFinished();
-	void End();
-	void Interrupted();
 };
 
-#endif
+#endif  // CheckForHotGoal_H

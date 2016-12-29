@@ -16,7 +16,7 @@ import $package.Robot;
 
 /**
  * The wrist subsystem is like the elevator, but with a rotational joint instead
- * of a linear joint. 
+ * of a linear joint.
  */
 public class Wrist extends PIDSubsystem {
     private SpeedController motor;
@@ -24,7 +24,7 @@ public class Wrist extends PIDSubsystem {
 
     private static final double kP_real = 1,
             kP_simulation = 0.05;
-    
+
     public Wrist() {
         super(kP_real, 0, 0);
         if (Robot.isSimulation()) { // Check for simulation and update PID values
@@ -33,7 +33,7 @@ public class Wrist extends PIDSubsystem {
         setAbsoluteTolerance(2.5);
 
         motor = new Victor(6);
-        
+
         // Conversion value of potentiometer varies between the real world and simulation
         if (Robot.isReal()) {
             pot = new AnalogPotentiometer(3, -270.0/5);
@@ -41,7 +41,7 @@ public class Wrist extends PIDSubsystem {
             pot = new AnalogPotentiometer(3); // Defaults to degrees
         }
 
-		// Let's show everything on the LiveWindow
+        // Let's show everything on the LiveWindow
         LiveWindow.addActuator("Wrist", "Motor", (Victor) motor);
         LiveWindow.addSensor("Wrist", "Pot", (AnalogPotentiometer) pot);
         LiveWindow.addActuator("Wrist", "PID", getPIDController());
@@ -49,9 +49,9 @@ public class Wrist extends PIDSubsystem {
 
     public void initDefaultCommand() {}
 
-	/**
-	 * The log method puts interesting information to the SmartDashboard.
-	 */
+    /**
+     * The log method puts interesting information to the SmartDashboard.
+     */
     public void log() {
         SmartDashboard.putData("Wrist Angle", (AnalogPotentiometer) pot);
     }

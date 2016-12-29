@@ -1,21 +1,9 @@
 
 #include "Robot.h"
 
-std::shared_ptr<DriveTrain> Robot::drivetrain;
-std::shared_ptr<Elevator> Robot::elevator;
-std::shared_ptr<Wrist> Robot::wrist;
-std::shared_ptr<Claw> Robot::claw;
-
-std::unique_ptr<OI> Robot::oi;
+#include <iostream>
 
 void Robot::RobotInit() {
-	drivetrain.reset(new DriveTrain());
-	elevator.reset(new Elevator());
-	wrist.reset(new Wrist());
-	claw.reset(new Claw());
-
-	oi.reset(new OI());
-
 	// Show what command your subsystem is running on the SmartDashboard
 	SmartDashboard::PutData(drivetrain.get());
 	SmartDashboard::PutData(elevator.get());

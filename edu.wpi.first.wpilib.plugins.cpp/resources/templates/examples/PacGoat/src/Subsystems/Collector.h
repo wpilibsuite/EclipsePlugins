@@ -1,30 +1,25 @@
 #ifndef Collector_H
 #define Collector_H
 
-#include "Commands/Subsystem.h"
-#include "WPILib.h"
+#include <memory>
+
+#include <Commands/Subsystem.h>
+#include <DigitalInput.h>
+#include <Solenoid.h>
+#include <Victor.h>
 
 /**
  * The Collector subsystem has one motor for the rollers, a limit switch for ball
  * detection, a piston for opening and closing the claw, and a reed switch to
  * check if the piston is open.
  */
-class Collector: public Subsystem
-{
+class Collector : public Subsystem {
 public:
 	// Constants for some useful speeds
 	static constexpr double FORWARD = 1;
 	static constexpr double STOP = 0;
 	static constexpr double REVERSE = -1;
 
-private:
-	// Subsystem devices
-  std::shared_ptr<SpeedController> rollerMotor;
-  std::shared_ptr<DigitalInput> ballDetector;
-  std::shared_ptr<Solenoid> piston;
-  std::shared_ptr<DigitalInput> openDetector;
-
-public:
 	Collector();
 
 	/**
@@ -65,6 +60,13 @@ public:
 	 * No default command.
 	 */
 	void InitDefaultCommand();
+
+private:
+	// Subsystem devices
+	std::shared_ptr<SpeedController> rollerMotor = std::make_shared<Victor>(6);
+	std::shared_ptr<DigitalInput> ballDetector = std::make_shared<DigitalInput>(10);
+	std::shared_ptr<Solenoid> piston = std::make_shared<Solenoid>(1);
+	std::shared_ptr<DigitalInput> openDetector = std::make_shared<DigitalInput>(6);
 };
 
-#endif
+#endif  // Collector_H

@@ -1,4 +1,7 @@
-#include "WPILib.h"
+#include <DoubleSolenoid.h>
+#include <Joystick.h>
+#include <SampleRobot.h>
+#include <Solenoid.h>
 
 /**
  * This is a sample program showing the use of the solenoid classes during
@@ -19,59 +22,58 @@
  *   in order to allow other threads to run. This is generally a good idea,
  *   especially as joystick values are only received every 20ms.
  */
-class Robot: public SampleRobot
-{
-	// Joystick with buttons to control solenoids with.
-	Joystick m_stick;
-	// Solenoids to control with the joystick.
-	// Solenoid corresponds to a single solenoid.
-	Solenoid m_solenoid;
-	// DoubleSolenoid corresponds to a double solenoid.
-	DoubleSolenoid m_doubleSolenoid;
-
-	// Update every 5milliseconds/0.005 seconds.
-	const double kUpdatePeriod = 0.005;
-
-	// Numbers of the buttons to use for triggering the solenoids.
-	const int kSolenoidButton = 1;
-	const int kDoubleSolenoidForward = 2;
-	const int kDoubleSolenoidReverse = 3;
-
+class Robot : public SampleRobot {
 public:
-	Robot() :
-			m_stick(0), // Use joystick on port 0.
-			m_solenoid(0), // Use solenoid on channel 0.
-			// Use double solenoid with Forward Channel of 1 and Reverse of 2.
-			m_doubleSolenoid(1, 2)
-	{
-	}
-
 	/**
 	 * Sets the solenoids from the position of joystick buttons.
 	 */
-	void OperatorControl()
-	{
-		while (IsOperatorControl() && IsEnabled())
-		{
-			// The output of GetRawButton is true/false depending on whether
-			//   the button is pressed; Set takes a boolean for for whether to
-			//   use the default (false) channel or the other (true).
+	void OperatorControl() {
+		while (IsOperatorControl() && IsEnabled()) {
+			/* The output of GetRawButton is true/false depending on whether
+			 *   the button is pressed; Set takes a boolean for for whether to
+			 *   use the default (false) channel or the other (true).
+			 */
 			m_solenoid.Set(m_stick.GetRawButton(kSolenoidButton));
 
-			// In order to set the double solenoid, we will say that if neither
-			//   button is pressed, it is off, if just one button is pressed,
-			//   set the solenoid to correspond to that button, and if both
-			//   are pressed, set the solenoid to Forwards.
-			if (m_stick.GetRawButton(kDoubleSolenoidForward))
+			/* In order to set the double solenoid, we will say that if neither
+			 *   button is pressed, it is off, if just one button is pressed,
+			 *   set the solenoid to correspond to that button, and if both
+			 *   are pressed, set the solenoid to Forwards.
+			 */
+			if (m_stick.GetRawButton(kDoubleSolenoidForward)) {
 				m_doubleSolenoid.Set(DoubleSolenoid::kForward);
-			else if (m_stick.GetRawButton(kDoubleSolenoidReverse))
+			}
+			else if (m_stick.GetRawButton(kDoubleSolenoidReverse)) {
 				m_doubleSolenoid.Set(DoubleSolenoid::kReverse);
-			else
+			}
+			else {
 				m_doubleSolenoid.Set(DoubleSolenoid::kOff);
+			}
 
-			Wait(kUpdatePeriod);				// wait for a motor update time
+			Wait(kUpdatePeriod);  // Wait for a motor update time
 		}
 	}
+
+private:
+	// Joystick with buttons to control solenoids with.
+	Joystick m_stick{0};
+
+	// Solenoids to control with the joystick.
+	// Solenoid corresponds to a single solenoid.
+	Solenoid m_solenoid{0};
+
+	/* DoubleSolenoid corresponds to a double solenoid.
+	 * Use double solenoid with forward channel of 1 and reverse of 2
+	 */
+	DoubleSolenoid m_doubleSolenoid{1, 2};
+
+	// Update every 5milliseconds/0.005 seconds.
+	constexpr double kUpdatePeriod = 0.005;
+
+	// Numbers of the buttons to use for triggering the solenoids.
+	constexpr int kSolenoidButton = 1;
+	constexpr int kDoubleSolenoidForward = 2;
+	constexpr int kDoubleSolenoidReverse = 3;
 };
 
 START_ROBOT_CLASS(Robot)

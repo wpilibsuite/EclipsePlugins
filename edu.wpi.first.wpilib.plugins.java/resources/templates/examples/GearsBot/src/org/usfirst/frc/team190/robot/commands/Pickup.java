@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class Pickup extends CommandGroup {
     public  Pickup() {
-    	addSequential(new CloseClaw());
-    	addParallel(new SetWristSetpoint(-45));
-    	addSequential(new SetElevatorSetpoint(0.25));
+        addSequential(new CloseClaw());
+        addParallel(new SetWristSetpoint(-45));
+        addSequential(new SetElevatorSetpoint(0.25));
     }
 }

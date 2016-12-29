@@ -1,9 +1,8 @@
 #include "PrepareToPickup.h"
-#include "OpenClaw.h"
-#include "SetWristSetpoint.h"
-#include "SetElevatorSetpoint.h"
 
-#include <iostream>
+#include "OpenClaw.h"
+#include "SetElevatorSetpoint.h"
+#include "SetWristSetpoint.h"
 
 PrepareToPickup::PrepareToPickup() : CommandGroup("PrepareToPickup") {
 	AddParallel(new OpenClaw());
