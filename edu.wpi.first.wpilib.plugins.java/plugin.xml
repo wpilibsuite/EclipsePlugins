@@ -32,6 +32,13 @@
       </wizard>
       <wizard
             category="edu.wpi.first.wpilib.plugins.java"
+            class="edu.wpi.first.wpilib.plugins.java.wizards.file_template.TimedCommandWizard"
+            icon="resources/icons/Command.png"
+            id="edu.wpi.first.wpilib.plugins.java.wizards.file_template.TimedCommandWizard"
+            name="TimedCommand">
+      </wizard>
+      <wizard
+            category="edu.wpi.first.wpilib.plugins.java"
             class="edu.wpi.first.wpilib.plugins.java.wizards.file_template.CommandGroupWizard"
             icon="resources/icons/CommandGroup.png"
             id="edu.wpi.first.wpilib.plugins.java.wizards.file_template.CommandGroupWizard"
@@ -74,6 +81,25 @@
                     </test>
                     <test
 						args="org.eclipse.jdt.core.javanature"
+                        property="org.eclipse.jdt.launching.hasProjectNature">
+                    </test>
+                </and>
+           </iterate></with>
+         </enablement>
+      </commonWizard>
+      <commonWizard
+            menuGroupId="edu.wpi.first.wpilib.plugins.java"
+            type="new"
+            wizardId="edu.wpi.first.wpilib.plugins.java.wizards.file_template.TimedCommandWizard">
+         <enablement>
+           <with variable="selection"><iterate>
+               <and>
+                    <test
+                        args="edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature"
+                        property="org.eclipse.jdt.launching.hasProjectNature">
+                    </test>
+                    <test
+                        args="org.eclipse.jdt.core.javanature"
                         property="org.eclipse.jdt.launching.hasProjectNature">
                     </test>
                 </and>
