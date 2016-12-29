@@ -8,7 +8,7 @@
  * The Pivot subsystem contains the Van-door motor and the pot for PID control
  * of angle of the pivot and claw.
  */
-class Pivot: public PIDSubsystem
+class Pivot: public frc::PIDSubsystem
 {
 public:
 	// Constants for some useful angles
@@ -19,10 +19,10 @@ public:
 
 private:
 	// Subsystem devices
-  std::shared_ptr<DigitalInput> upperLimitSwitch;
-  std::shared_ptr<DigitalInput> lowerLimitSwitch;
-  std::shared_ptr<Potentiometer> pot;
-  std::shared_ptr<SpeedController> motor;
+  std::shared_ptr<frc::DigitalInput> upperLimitSwitch;
+  std::shared_ptr<frc::DigitalInput> lowerLimitSwitch;
+  std::shared_ptr<frc::Potentiometer> pot;
+  std::shared_ptr<frc::SpeedController> motor;
 
 public:
 	Pivot();

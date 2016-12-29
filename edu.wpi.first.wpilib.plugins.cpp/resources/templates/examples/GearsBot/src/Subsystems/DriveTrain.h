@@ -8,12 +8,12 @@
  * the robots chassis. These include four drive motors, a left and right encoder
  * and a gyro.
  */
-class DriveTrain : public Subsystem {
+class DriveTrain : public frc::Subsystem {
 private:
-	RobotDrive* drive;
-  std::shared_ptr<Encoder> left_encoder, right_encoder;
-  std::shared_ptr<AnalogInput> rangefinder;
-  std::shared_ptr<AnalogGyro> gyro;
+	frc::RobotDrive* drive;
+  std::shared_ptr<frc::Encoder> left_encoder, right_encoder;
+  std::shared_ptr<frc::AnalogInput> rangefinder;
+  std::shared_ptr<frc::AnalogGyro> gyro;
 
 public:
 	DriveTrain();
@@ -39,7 +39,7 @@ public:
 	/**
 	 * @param joy The ps3 style joystick to use to drive tank style.
 	 */
-	void Drive(Joystick* joy);
+	void Drive(frc::Joystick* joy);
 
 	/**
 	 * @return The robots heading in degrees.

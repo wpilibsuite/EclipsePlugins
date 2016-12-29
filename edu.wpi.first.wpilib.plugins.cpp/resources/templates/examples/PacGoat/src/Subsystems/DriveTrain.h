@@ -8,15 +8,15 @@
  * The DriveTrain subsystem controls the robot's chassis and reads in
  * information about it's speed and position.
  */
-class DriveTrain: public Subsystem
+class DriveTrain: public frc::Subsystem
 {
 private:
 	// Subsystem devices
-	std::shared_ptr<SpeedController> frontLeftCIM, frontRightCIM;
-	std::shared_ptr<SpeedController> backLeftCIM, backRightCIM;
-	RobotDrive drive;
-	std::shared_ptr<Encoder> rightEncoder, leftEncoder;
-	std::shared_ptr<AnalogGyro> gyro;
+	std::shared_ptr<frc::SpeedController> frontLeftCIM, frontRightCIM;
+	std::shared_ptr<frc::SpeedController> backLeftCIM, backRightCIM;
+	frc::RobotDrive drive;
+	std::shared_ptr<frc::Encoder> rightEncoder, leftEncoder;
+	std::shared_ptr<frc::AnalogGyro> gyro;
 
 public:
 	DriveTrain();
@@ -30,7 +30,7 @@ public:
 	/**
 	 * @param joy PS3 style joystick to use as the input for tank drive.
 	 */
-	void TankDrive(Joystick* joy);
+	void TankDrive(frc::Joystick* joy);
 
 	/**
 	 * @param leftAxis Left sides value
@@ -46,12 +46,12 @@ public:
 	/**
 	 * @return The encoder getting the distance and speed of left side of the drivetrain.
 	 */
-  std::shared_ptr<Encoder> GetLeftEncoder();
+  std::shared_ptr<frc::Encoder> GetLeftEncoder();
 
 	/**
 	 * @return The encoder getting the distance and speed of right side of the drivetrain.
 	 */
-  std::shared_ptr<Encoder> GetRightEncoder();
+  std::shared_ptr<frc::Encoder> GetRightEncoder();
 
 	/**
 	 * @return The current angle of the drivetrain.

@@ -2,7 +2,7 @@
 #include "../RobotMap.h"
 
 $classname::$classname() :
-		Subsystem("ExampleSubsystem")
+		frc::Subsystem("ExampleSubsystem")
 {
 
 }

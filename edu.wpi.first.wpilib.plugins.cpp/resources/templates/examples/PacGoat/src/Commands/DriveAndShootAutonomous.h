@@ -7,7 +7,7 @@
  * Drive over the line and then shoot the ball. If the hot goal is not detected,
  * it will wait briefly.
  */
-class DriveAndShootAutonomous: public CommandGroup {
+class DriveAndShootAutonomous: public frc::CommandGroup {
 public:
 	DriveAndShootAutonomous();
 };

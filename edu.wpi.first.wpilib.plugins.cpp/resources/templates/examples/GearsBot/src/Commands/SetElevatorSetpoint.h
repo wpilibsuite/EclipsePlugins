@@ -8,7 +8,7 @@
  * the tolerance, but leaves the PID loop running to maintain the position. Other
  * commands using the elevator should make sure they disable PID!
  */
-class SetElevatorSetpoint: public Command {
+class SetElevatorSetpoint: public frc::Command {
 private:
 	double setpoint;
 public:

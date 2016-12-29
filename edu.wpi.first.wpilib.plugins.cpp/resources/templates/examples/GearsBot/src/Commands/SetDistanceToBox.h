@@ -10,7 +10,7 @@
  * command is running. The input is the averaged values of the left and right
  * encoders.
  */
-class SetDistanceToBox: public Command {
+class SetDistanceToBox: public frc::Command {
 public:
 	SetDistanceToBox(double distance);
 	void Initialize();
@@ -19,16 +19,16 @@ public:
 	void End();
 	void Interrupted();
 private:
-	PIDController* pid;
+	frc::PIDController* pid;
 };
 
-class SetDistanceToBoxPIDSource: public PIDSource {
+class SetDistanceToBoxPIDSource: public frc::PIDSource {
 public:
 	virtual ~SetDistanceToBoxPIDSource();
 	double PIDGet();
 };
 
-class SetDistanceToBoxPIDOutput: public PIDOutput {
+class SetDistanceToBoxPIDOutput: public frc::PIDOutput {
 public:
 	virtual ~SetDistanceToBoxPIDOutput();
 	void PIDWrite(float d);

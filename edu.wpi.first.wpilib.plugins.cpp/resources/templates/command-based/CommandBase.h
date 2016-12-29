@@ -2,7 +2,6 @@
 #define COMMAND_BASE_H
 
 #include <string>
-#include "Commands/Command.h"
 #include "Subsystems/ExampleSubsystem.h"
 #include "OI.h"
 #include "WPILib.h"
@@ -12,7 +11,7 @@
  * CommandBase stores creates and stores each control system. To access a
  * subsystem elsewhere in your code in your code use CommandBase.examplesubsystem
  */
-class CommandBase: public Command
+class CommandBase: public frc::Command
 {
 public:
 	CommandBase(const std::string &name);

@@ -9,12 +9,12 @@
  *
  * NOTE: The simulator currently doesn't support the compressor or pressure sensors.
  */
-class Pneumatics: public Subsystem
+class Pneumatics: public frc::Subsystem
 {
 private:
-  std::shared_ptr<AnalogInput> pressureSensor;
+  std::shared_ptr<frc::AnalogInput> pressureSensor;
 	#ifdef REAL
-		Compressor* compressor;
+		frc::Compressor* compressor;
 	#endif
 
 	static constexpr double MAX_PRESSURE = 2.55;

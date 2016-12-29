@@ -8,10 +8,10 @@
  * The wrist subsystem is like the elevator, but with a rotational joint instead
  * of a linear joint.
  */
-class Wrist : public PIDSubsystem {
+class Wrist : public frc::PIDSubsystem {
 private:
-	SpeedController* motor;
-    Potentiometer* pot; // TODO: Make Potentiometer
+	frc::SpeedController* motor;
+    frc::Potentiometer* pot; // TODO: Make Potentiometer
 
     static constexpr double kP_real = 1, kP_simulation = 0.05;
 

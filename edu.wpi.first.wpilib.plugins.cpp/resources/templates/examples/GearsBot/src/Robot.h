@@ -18,7 +18,7 @@
 #include "Subsystems/Claw.h"
 #include "OI.h"
 
-class Robot: public IterativeRobot {
+class Robot: public frc::IterativeRobot {
 public:
 	static std::shared_ptr<DriveTrain> drivetrain;
 	static std::shared_ptr<Elevator> elevator;
@@ -28,7 +28,7 @@ public:
 
 private:
 	Autonomous autonomousCommand;
-	LiveWindow *lw = LiveWindow::GetInstance();
+	frc::LiveWindow *lw = frc::LiveWindow::GetInstance();
 
 	void RobotInit();
 	void AutonomousInit();

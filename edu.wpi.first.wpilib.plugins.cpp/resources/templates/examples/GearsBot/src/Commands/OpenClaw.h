@@ -7,7 +7,7 @@
  * Opens the claw for one second. Real robots should use sensors, stalling
  * motors is BAD!
  */
-class OpenClaw: public Command {
+class OpenClaw: public frc::Command {
 public:
 	OpenClaw();
 	void Initialize();

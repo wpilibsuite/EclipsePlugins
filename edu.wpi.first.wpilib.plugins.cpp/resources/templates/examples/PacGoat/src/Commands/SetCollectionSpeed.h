@@ -8,7 +8,7 @@
  * there is no sensor for detecting speed, it finishes immediately. As a result,
  * the spinners may still be adjusting their speed.
  */
-class SetCollectionSpeed: public Command {
+class SetCollectionSpeed: public frc::Command {
 private:
 	double speed;
 public:

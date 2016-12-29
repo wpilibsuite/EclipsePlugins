@@ -10,7 +10,7 @@
  * enabled while this command is running. The input is the averaged
  * values of the left and right encoders.
  */
-class DriveStraight: public Command {
+class DriveStraight: public frc::Command {
 public:
 	DriveStraight(double distance);
 	void Initialize();
@@ -19,16 +19,16 @@ public:
 	void End();
 	void Interrupted();
 private:
-	PIDController* pid;
+	frc::PIDController* pid;
 };
 
-class DriveStraightPIDSource: public PIDSource {
+class DriveStraightPIDSource: public frc::PIDSource {
 public:
 	virtual ~DriveStraightPIDSource();
 	double PIDGet();
 };
 
-class DriveStraightPIDOutput: public PIDOutput {
+class DriveStraightPIDOutput: public frc::PIDOutput {
 public:
 	virtual ~DriveStraightPIDOutput();
 	void PIDWrite(float d);

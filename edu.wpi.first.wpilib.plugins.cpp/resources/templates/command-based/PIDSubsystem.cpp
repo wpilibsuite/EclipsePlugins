@@ -4,7 +4,7 @@
 #include "LiveWindow/LiveWindow.h"
 
 $classname::$classname() :
-		PIDSubsystem("$classname", 1.0, 0.0, 0.0)
+		frc::PIDSubsystem("$classname", 1.0, 0.0, 0.0)
 {
 	// Use these to get going:
 	// SetSetpoint() -  Sets where the PID controller should move the system

@@ -6,7 +6,7 @@
 /**
  * Get the robot set to collect balls.
  */
-class Collect: public CommandGroup {
+class Collect: public frc::CommandGroup {
 public:
 	Collect();
 };

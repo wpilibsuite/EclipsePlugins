@@ -6,7 +6,7 @@
 /**
  * Opens the claw
  */
-class OpenClaw: public Command {
+class OpenClaw: public frc::Command {
 public:
 	OpenClaw();
 	void Initialize();
