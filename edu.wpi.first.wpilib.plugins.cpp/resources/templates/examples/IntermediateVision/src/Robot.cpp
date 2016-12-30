@@ -4,6 +4,12 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 
+/**
+ * This is a demo program showing the use of OpenCV to do vision processing. The
+ * image is acquired from the USB Webcam, then is converted to grayscale and
+ * sent to the dashboard. OpenCV has many methods for different types of
+ * processing.
+ */
 class Robot: public IterativeRobot {
 private:
 	static void VisionThread() {
