@@ -1,67 +1,48 @@
-#include <string>
+#include <CameraServer.h>
+#include <IterativeRobot.h>
 
-#include <SampleRobot.h>
-#include <Timer.h>
-#include <Vison/VisionAPI.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
 
-/**
- * Uses IMAQdx to manually acquire a new image each frame, and annotate the
- * image by drawing a circle on it, and show it on the FRC Dashboard.
- */
-class IntermediateVisionRobot : public SampleRobot {
-public:
-	void RobotInit() override {
-		// Create an image
-		frame = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
-
-		/* the camera name (ex "cam0") can be found through the roborio web
-		 * interface
-		 */
-		imaqError = IMAQdxOpenCamera("cam0", IMAQdxCameraControlModeController,
-		                             &session);
-		if (imaqError != IMAQdxErrorSuccess) {
-			DriverStation::ReportError("IMAQdxOpenCamera error: " +
-			                           std::to_string(static_cast<long>(imaqError)) + "\n");
-		}
-
-		imaqError = IMAQdxConfigureGrab(session);
-		if (imaqError != IMAQdxErrorSuccess) {
-			DriverStation::ReportError("IMAQdxConfigureGrab error: " +
-			                           std::to_string(static_cast<long>(imaqError)) + "\n");
-		}
-	}
-
-	void OperatorControl() override {
-		// Acquire images
-		IMAQdxStartAcquisition(session);
-
-		/* Grab an image, draw the circle, and provide it for the camera server
-		 * which will in turn send it to the dashboard.
-		 */
-		while (IsOperatorControl() && IsEnabled()) {
-			IMAQdxGrab(session, frame, true, nullptr);
-			if (imaqError != IMAQdxErrorSuccess) {
-				DriverStation::ReportError("IMAQdxGrab error: " +
-				                           std::to_string(static_cast<long>(imaqError)) +
-				                           "\n");
-			}
-			else {
-				imaqDrawShapeOnImage(frame, frame, {10, 10, 100, 100},
-				                     DrawMode::IMAQ_DRAW_VALUE,
-				                     ShapeMode::IMAQ_SHAPE_OVAL, 0.0f);
-				CameraServer::GetInstance()->SetImage(frame);
-			}
-			Wait(0.005);  // Wait for a motor update time
-		}
-
-		// stop image acquisition
-		IMAQdxStopAcquisition(session);
-	}
-
+class Robot: public IterativeRobot {
 private:
-	IMAQdxSession session;
-	Image* frame;
-	IMAQdxError imaqError;
+	static void VisionThread() {
+		// Get the UsbCamera from CameraServer
+		cs::UsbCamera camera =
+				CameraServer::GetInstance()->StartAutomaticCapture();
+		// Set the resolution
+		camera.SetResolution(640, 480);
+
+		// Get a CvSink. This will capture Mats from the UsbCamera
+		cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+		// Setup a CvSource. This will send images back to the Dashboard
+		cs::CvSource outputStreamStd = CameraServer::GetInstance()->PutVideo(
+				"Gray", 640, 480);
+
+		// Mats are very memory expensive. Lets reuse these 2 Mats for all
+		// of our operations.
+		cv::Mat source;
+		cv::Mat output;
+
+		while (true) {
+			// Tell the CvSink to grab a frame from the UsbCamera and put it
+			// in the source mat
+			cvSink.GrabFrame(source);
+			// This line converts the source mat to grayscale and saves it
+			// in the output mat
+			cvtColor(source, output, cv::COLOR_BGR2GRAY);
+			// Give the output stream a new image to display
+			outputStreamStd.PutFrame(output);
+		}
+	}
+
+	void RobotInit() {
+		// We need to run our vision program in a separate Thread.
+		// If not, our robot program will not run
+		std::thread visionThread(VisionThread);
+		visionThread.detach();
+	}
+
 };
 
-START_ROBOT_CLASS(IntermediateVisionRobot)
+START_ROBOT_CLASS(Robot)

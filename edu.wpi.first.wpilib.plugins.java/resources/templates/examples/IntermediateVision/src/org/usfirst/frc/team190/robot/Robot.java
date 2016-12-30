@@ -1,57 +1,50 @@
 package $package;
 
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.DrawMode;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ShapeMode;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
- * This is a demo program showing the use of the NIVision class to do vision processing.
- * The image is acquired from the USB Webcam, then a circle is overlayed on it.
- * The NIVision class supplies dozens of methods for different types of processing.
- * The resulting image can then be sent to the FRC PC Dashboard with setImage()
+ * This is a demo program showing the use of OpenCV to do vision processing. The
+ * image is acquired from the USB Webcam, then is converted to grayscale and
+ * sent to the dashboard. OpenCV has many methods for different types of
+ * processing.
  */
-public class Robot extends SampleRobot {
-    int session;
-    Image frame;
+public class Robot extends IterativeRobot {
 
-    public void robotInit() {
+	public void robotInit() {
+		new Thread(() -> {
+			// Get the UsbCamera from CameraServer
+			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+			// Set the resolution
+			camera.setResolution(640, 480);
 
-        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+			// Get a CvSink. This will capture Mats from the UsbCamera
+			CvSink cvSink = CameraServer.getInstance().getVideo();
+			// Setup a CvSource. This will send images back to the Dashboard
+			CvSource outputStream = CameraServer.getInstance().putVideo("Gray", 640, 480);
 
-        // the camera name (ex "cam0") can be found through the roborio web interface
-        session = NIVision.IMAQdxOpenCamera("cam0",
-                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-        NIVision.IMAQdxConfigureGrab(session);
-    }
+			// Mats are very memory expensive. Lets reuse these 2 Mats for all
+			// of our operations.
+			Mat source = new Mat();
+			Mat output = new Mat();
 
-    public void operatorControl() {
-        NIVision.IMAQdxStartAcquisition(session);
+			while (true) {
+				// Tell the CvSink to grab a frame from the UsbCamera and put it
+				// in the source mat
+				cvSink.grabFrame(source);
+				// This line converts the source mat to grayscale and saves it
+				// in the output mat
+				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+				// Give the output stream a new image to display
+				outputStream.putFrame(output);
+			}
+		}).start();
+	}
 
-        /**
-         * grab an image, draw the circle, and provide it for the camera server
-         * which will in turn send it to the dashboard.
-         */
-        NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-
-        while (isOperatorControl() && isEnabled()) {
-
-            NIVision.IMAQdxGrab(session, frame, 1);
-            NIVision.imaqDrawShapeOnImage(frame, frame, rect,
-                    DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-
-            CameraServer.getInstance().setImage(frame);
-
-            /** robot code here! **/
-            Timer.delay(0.005);        // wait for a motor update time
-        }
-        NIVision.IMAQdxStopAcquisition(session);
-    }
-
-    public void test() {
-    }
 }
