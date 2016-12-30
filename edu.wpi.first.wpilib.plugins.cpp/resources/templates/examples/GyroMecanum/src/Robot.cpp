@@ -1,81 +1,40 @@
 #include <AnalogGyro.h>
-#include <CANTalon.h>
 #include <Joystick.h>
 #include <RobotDrive.h>
-#include <SampleRobot.h>
+#include <IterativeRobot.h>
 
 /**
  * This is a sample program that uses mecanum drive with a gyro sensor to
- * maintian rotation vectors in relation to the starting orientation of the
- * robot (field-oriented controls).
- *
- * WARNING: While it may look like a good choice to use for your code if you're
- * inexperienced, don't. Unless you know what you are doing, complex code will
- * be much more difficult under this system. Use IterativeRobot or Command-Based
- * instead if you're new.
+ * maintian rotation vectorsin relation to the starting orientation of the robot
+ * (field-oriented controls).
  */
-class Robot : public SampleRobot {
+class Robot: public IterativeRobot {
 public:
-	Robot() {
-		// Invert the left side motors
+	void robotInit() {
+		// invert the left side motors
+		// you may need to change or remove this to match your robot
 		myRobot.SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
-
-		// You may need to change or remove this to match your robot
 		myRobot.SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
+
+		gyro.SetSensitivity(VOLTS_PER_DEGREE_PER_SECOND);
 	}
 
 	/**
-	 * Runs during autonomous.
+	 * Mecanum drive is used with the gyro angle as an input.
 	 */
-	void Autonomous() {
-
-	}
-
-	/**
-	 * Runs the motors with arcade steering.
-	 */
-	void OperatorControl() {
-		// Calibrate gyro to have the value equal to degrees
-		gyro.SetSensitivity(voltsPerDegreePerSecond);
-
-		while (IsOperatorControl() && IsEnabled()) {
-			myRobot.MecanumDrive_Cartesian(joystick.GetX(), joystick.GetY(),
-			joystick.GetZ(), gyro.GetAngle());
-			 Wait(0.005);  // Wait 5ms to avoid hogging CPU cycles
-		}
-	}
-
-	/**
-	 * Runs during test mode.
-	 */
-	void Test() {
-
+	void teleopPeriodic() {
+		myRobot.MecanumDrive_Cartesian(joystick.GetX(), joystick.GetY(),
+				joystick.GetZ(), gyro.GetAngle());
 	}
 
 private:
-	// Channels for motors
-	constexpr int leftFrontMotorChannel = 1;
-	constexpr int rightFrontMotorChannel = 0;
-	constexpr int leftRearMotorChannel = 3;
-	constexpr int rightRearMotorChannel = 2;
+	// Gyro calibration constant, may need to be adjusted
+	// Gyro value of 360 is set to correspond to one full revolution
+	static constexpr double VOLTS_PER_DEGREE_PER_SECOND = 0.0128;
 
-	constexpr int gyroChannel = 0; // analog input
-
-	/* Gyro calibration constant, may need to be adjusted so that a gyro value
-	 * of 360 equals 360 degrees
-	 */
-	constexpr double voltsPerDegreePerSecond = .0128;
-
-	Joystick joystick{0};
-
-	/* Create the robot using CANTalons; change as appropriate for different
-	 * motors (eg, Victor, Jaguar, Talon, CANJaguar, etc.).
-	 */
-	RobotDrive myRobot(new CANTalon(leftFrontMotorChannel),
-	                   new CANTalon(leftRearMotorChannel),
-	                   new CANTalon(rightFrontMotorChannel),
-	                   new CANTalon(rightRearMotorChannel));
-	AnalogGyro gyro{gyroChannel};
+	RobotDrive myRobot { 0, 1, 2, 3 };
+	AnalogGyro gyro { 0 };
+	Joystick joystick { 0 };
 };
 
 START_ROBOT_CLASS(Robot)
