@@ -1,89 +1,53 @@
-
 package $package;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 
 /**
- * This is a sample program to demonstrate the use of a PID Controller with an ultrasonic
- * sensor to reach and maintain a set distance from an object.
- *
- * WARNING: While it may look like a good choice to use for your code if you're inexperienced,
- * don't. Unless you know what you are doing, complex code will be much more difficult under
- * this system. Use IterativeRobot or Command-Based instead if you're new.
+ * This is a sample program to demonstrate the use of a PIDController with an
+ * ultrasonic sensor to reach and maintain a set distance from an object.
  */
-public class Robot extends SampleRobot {
-    AnalogInput ultrasonic; //ultrasonic sensor
-    RobotDrive myRobot;
-    PIDController pidController;
+public class Robot extends IterativeRobot {
 
-    final int ultrasonicChannel = 3; //analog input
+	// distance in inches the robot wants to stay from an object
+	private static final double HOLD_DISTANCE = 12.0;
+	// factor to convert sensor values to a distance in inches
+	private static final double VALUE_TO_INCHES = 0.125;
 
-    //channels for motors
-    final int leftMotorChannel = 1;
-    final int rightMotorChannel = 0;
-    final int leftRearMotorChannel = 3;
-    final int rightRearMotorChannel = 2;
+	private AnalogInput ultrasonic;
+	private RobotDrive myRobot;
+	private PIDController pidController;
 
-    int holdDistance = 12; //distance in inches the robot wants to stay from an object
+	public void robotInit() {
+		myRobot = new RobotDrive(0, 1);
+		ultrasonic = new AnalogInput(0);
 
-    //proportional, integral, and derivative speed constants
-    //DANGER: when tuning PID constants, high/inappropriate values for pGain, iGain,
-    //and dGain may cause dangerous, uncontrollable, or undesired behavior!
-    final double pGain = 7, iGain = .018, dGain = 1.5;
+		pidController = new PIDController(7, 0.018, 1.5, ultrasonic, new MyPidOutput());
+	}
 
-    //conversion factor specific to the sensor being used. For this sensor,
-    //the sensor returned values from 0.0V to 5.0V with a resolution of 9.8mV/in.
-    final double VoltsToInches = 0.0098;
+	/**
+	 * Drives the robot a set distance from an object using PID control and the
+	 * ultrasonic sensor.
+	 */
+	public void teleopInit() {
+		// Set expected range to 0-24 inches; e.g. at 24 inches from object go
+		// full forward, at 0 inches from object go full backward.
+		pidController.setInputRange(0, 24 * VALUE_TO_INCHES);
+		// Set setpoint of the pidController
+		pidController.setSetpoint(HOLD_DISTANCE * VALUE_TO_INCHES);
+		pidController.enable(); // begin PID control
+	}
 
-    //internal class to write to myRobot (a RobotDrive object) using a PIDOutput
-    public class MyPIDOutput implements PIDOutput {
-        @Override
-        public void pidWrite(double output) {
-        myRobot.drive(output, 0); //drive robot from PID output
-        }
-    }
+	private class MyPidOutput implements PIDOutput {
 
-    public Robot() {
-    //make objects for the sensor and drive train
-    ultrasonic = new AnalogInput(ultrasonicChannel);
-    myRobot = new RobotDrive(new CANTalon(leftMotorChannel), new CANTalon(leftRearMotorChannel),
-        new CANTalon(rightMotorChannel), new CANTalon(rightRearMotorChannel));
+		@Override
+		public void pidWrite(double output) {
+			myRobot.drive(output, 0);
+		}
 
-    //ultrasonic (AnalogInput) can be used as a PIDSource without modification,
-    //PIDOutput is an instance of the internal class MyPIDOutput made earlier
-    pidController = new PIDController(pGain, iGain, dGain, ultrasonic, new MyPIDOutput());
-    }
+	}
 
-    /**
-     * Runs during autonomous.
-     */
-    public void autonomous() {
-    }
-
-    /**
-     * Drives the robot a set distance from an object using PID control and the
-     * ultrasonic sensor.
-     */
-    public void operatorControl() {
-        pidController.setSetpoint(holdDistance*VoltsToInches); //set setpoint to 12 inches
-
-        //Set expected range to 0-24 inches; e.g. at 24 inches from object go
-        //full forward, at 0 inches from object go full backward.
-        pidController.setInputRange(0, 24*VoltsToInches);
-
-        while (isOperatorControl() && isEnabled()) {
-            pidController.enable(); //begin PID control
-        }
-    }
-
-    /**
-     * Runs during test mode
-     */
-    public void test() {
-    }
 }
