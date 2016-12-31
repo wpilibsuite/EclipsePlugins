@@ -1,15 +1,18 @@
 #ifndef Pivot_H
 #define Pivot_H
 
-#include "Commands/PIDSubsystem.h"
-#include "WPILib.h"
+#include <memory>
+
+#include <AnalogPotentiometer.h>
+#include <Commands/PIDSubsystem.h>
+#include <DigitalInput.h>
+#include <Victor.h>
 
 /**
  * The Pivot subsystem contains the Van-door motor and the pot for PID control
  * of angle of the pivot and claw.
  */
-class Pivot: public PIDSubsystem
-{
+class Pivot : public PIDSubsystem {
 public:
 	// Constants for some useful angles
 	static constexpr double COLLECT = 105;
@@ -17,20 +20,14 @@ public:
 	static constexpr double SHOOT = 45;
 	static constexpr double SHOOT_NEAR = 30;
 
-private:
-	// Subsystem devices
-  std::shared_ptr<DigitalInput> upperLimitSwitch;
-  std::shared_ptr<DigitalInput> lowerLimitSwitch;
-  std::shared_ptr<Potentiometer> pot;
-  std::shared_ptr<SpeedController> motor;
-
-public:
 	Pivot();
 
 	/**
 	 *  No default command, if PID is enabled, the current setpoint will be maintained.
 	 */
-	void InitDefaultCommand() {}
+	void InitDefaultCommand() {
+
+	}
 
 	/**
 	 * @return The angle read in by the potentiometer
@@ -56,6 +53,21 @@ public:
 	 * @return The current angle of the pivot.
 	 */
 	double GetAngle();
+
+private:
+	// Subsystem devices
+
+	// Sensors for measuring the position of the pivot
+	std::shared_ptr<DigitalInput> upperLimitSwitch = std::make_shared<DigitalInput>(13);
+	std::shared_ptr<DigitalInput> lowerLimitSwitch = std::make_shared<DigitalInput>(12);
+
+	/* 0 degrees is vertical facing up.
+	 * Angle increases the more forward the pivot goes.
+	 */
+	std::shared_ptr<Potentiometer> pot = std::make_shared<AnalogPotentiometer>(1);
+
+	// Motor to move the pivot
+	std::shared_ptr<SpeedController> motor = std::make_shared<Victor>(5);
 };
 
-#endif
+#endif  // Pivot_H

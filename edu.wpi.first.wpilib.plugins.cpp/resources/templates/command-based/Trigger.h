@@ -1,13 +1,12 @@
 #ifndef $classname_H
 #define $classname_H
 
-#include "WPILib.h"
+#include <Buttons/Trigger.h>
 
-class $classname: public Trigger
-{
+class $classname : public Trigger {
 public:
 	$classname();
-	bool Get();
+	bool Get() const;
 };
 
-#endif
+#endif  // $classname_H

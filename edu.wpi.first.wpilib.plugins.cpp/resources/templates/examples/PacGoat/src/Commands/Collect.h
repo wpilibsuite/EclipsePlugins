@@ -1,14 +1,14 @@
 #ifndef Collect_H
 #define Collect_H
 
-#include "WPILib.h"
+#include <Commands/CommandGroup.h>
 
 /**
  * Get the robot set to collect balls.
  */
-class Collect: public CommandGroup {
+class Collect : public CommandGroup {
 public:
 	Collect();
 };
 
-#endif
+#endif  // Collect_H

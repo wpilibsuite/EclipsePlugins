@@ -1,24 +1,18 @@
 #ifndef Pneumatics_H
 #define Pneumatics_H
 
-#include "Commands/Subsystem.h"
-#include "WPILib.h"
+#include <memory>
+
+#include <AnalogInput.h>
+#include <Commands/Subsystem.h>
+#include <Compressor.h>
 
 /**
  * The Pneumatics subsystem contains the compressor and a pressure sensor.
  *
  * NOTE: The simulator currently doesn't support the compressor or pressure sensors.
  */
-class Pneumatics: public Subsystem
-{
-private:
-  std::shared_ptr<AnalogInput> pressureSensor;
-	#ifdef REAL
-		Compressor* compressor;
-	#endif
-
-	static constexpr double MAX_PRESSURE = 2.55;
-
+class Pneumatics : public Subsystem {
 public:
 	Pneumatics();
 
@@ -41,6 +35,14 @@ public:
 	 * Puts the pressure on the SmartDashboard.
 	 */
 	void WritePressure();
+
+private:
+	std::shared_ptr<AnalogInput> pressureSensor = std::make_shared<AnalogInput>(3);
+	#ifdef REAL
+		std::unique_ptr<Compressor> compressor;
+	#endif
+
+	static constexpr double MAX_PRESSURE = 2.55;
 };
 
-#endif
+#endif  // Pneumatics_H

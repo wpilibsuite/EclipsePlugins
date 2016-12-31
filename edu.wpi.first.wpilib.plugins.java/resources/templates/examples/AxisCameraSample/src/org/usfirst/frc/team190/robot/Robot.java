@@ -46,7 +46,7 @@ public class Robot extends SampleRobot {
             CameraServer.getInstance().setImage(frame);
 
             /** robot code here! **/
-            Timer.delay(0.005);		// wait for a motor update time
+            Timer.delay(0.005);        // wait for a motor update time
         }
     }
 

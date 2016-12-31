@@ -1,19 +1,10 @@
 #include "DriveTrain.h"
-#include "Commands/DriveWithJoystick.h"
-#define _USE_MATH_DEFINES
-#include <math.h>
 
-DriveTrain::DriveTrain()
-		: Subsystem("DriveTrain"),
-			// Configure drive motors
-			frontLeftCIM(new Victor(1)),
-			frontRightCIM(new Victor(2)),
-			backLeftCIM(new Victor(3)),
-			backRightCIM(new Victor(4)),
-			drive(frontRightCIM, backLeftCIM, frontRightCIM, backRightCIM),
-			rightEncoder(new Encoder(1, 2, true, Encoder::k4X)),
-			leftEncoder(new Encoder(3, 4, false, Encoder::k4X)),
-			gyro(new AnalogGyro(0)) {
+#include <cmath>
+
+#include "Commands/DriveWithJoystick.h"
+
+DriveTrain::DriveTrain() : Subsystem("DriveTrain") {
 	// XXX: LiveWindow::GetInstance()->AddActuator("DriveTrain", "Front Left CIM", (Victor) frontLeftCIM);
 	// XXX: LiveWindow::GetInstance()->AddActuator("DriveTrain", "Front Right CIM", (Victor) frontRightCIM);
 	// XXX: LiveWindow::GetInstance()->AddActuator("DriveTrain", "Back Left CIM", (Victor) backLeftCIM);
@@ -34,11 +25,11 @@ DriveTrain::DriveTrain()
 	rightEncoder->SetPIDSourceType(PIDSourceType::kDisplacement);
 	leftEncoder->SetPIDSourceType(PIDSourceType::kDisplacement);
 
-    #ifdef REAL
+	#ifdef REAL
 		// Converts to feet
 		rightEncoder->SetDistancePerPulse(0.0785398);
 		leftEncoder->SetDistancePerPulse(0.0785398);
-    #else
+	#else
 		// Convert to feet 4in diameter wheels with 360 tick simulated encoders
 		rightEncoder->SetDistancePerPulse((4.0/*in*/*M_PI)/(360.0*12.0/*in/ft*/));
 		leftEncoder->SetDistancePerPulse((4.0/*in*/*M_PI)/(360.0*12.0/*in/ft*/));
@@ -48,9 +39,9 @@ DriveTrain::DriveTrain()
 	LiveWindow::GetInstance()->AddSensor("DriveTrain", "Left Encoder", leftEncoder);
 
 	// Configure gyro
-    #ifdef REAL
+	#ifdef REAL
 		gyro->SetSensitivity(0.007); // TODO: Handle more gracefully?
-    #endif
+	#endif
 	LiveWindow::GetInstance()->AddSensor("DriveTrain", "Gyro", gyro);
 }
 

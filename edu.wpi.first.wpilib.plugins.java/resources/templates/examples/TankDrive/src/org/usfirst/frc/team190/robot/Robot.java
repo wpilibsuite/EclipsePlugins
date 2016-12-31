@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- * This is a demo program showing the use of the RobotDrive class, specifically it 
+ * This is a demo program showing the use of the RobotDrive class, specifically it
  * contains the code necessary to operate a robot with tank drive.
  *
  * The VM is configured to automatically run this class, and to call the
@@ -31,15 +31,15 @@ public class Robot extends SampleRobot {
         rightStick = new Joystick(1);
     }
 
-    
+
     /**
      * Runs the motors with tank steering.
      */
     public void operatorControl() {
         myRobot.setSafetyEnabled(true);
         while (isOperatorControl() && isEnabled()) {
-        	myRobot.tankDrive(leftStick, rightStick);
-            Timer.delay(0.005);		// wait for a motor update time
+            myRobot.tankDrive(leftStick, rightStick);
+            Timer.delay(0.005);        // wait for a motor update time
         }
     }
 

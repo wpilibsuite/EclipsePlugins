@@ -1,11 +1,6 @@
-/*
- * DoubleButton.cpp
- *
- *  Created on: Jun 24, 2014
- *      Author: alex
- */
-
 #include "DoubleButton.h"
+
+#include <Joystick.h>
 
 DoubleButton::DoubleButton(Joystick* joy, int button1, int button2) {
 	this->joy = joy;
@@ -14,6 +9,6 @@ DoubleButton::DoubleButton(Joystick* joy, int button1, int button2) {
 }
 
 bool DoubleButton::Get() {
-    return joy->GetRawButton(button1) && joy->GetRawButton(button2);
+	return joy->GetRawButton(button1) && joy->GetRawButton(button2);
 }
 

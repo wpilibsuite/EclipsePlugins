@@ -1,20 +1,13 @@
 #ifndef DriveForward_H
 #define DriveForward_H
 
-#include "WPILib.h"
+#include <Commands/Command.h>
 
 /**
  * This command drives the robot over a given distance with simple proportional
  * control This command will drive a given distance limiting to a maximum speed.
  */
-class DriveForward: public Command {
-private:
-	double driveForwardSpeed;
-	double distance;
-	double error;
-	static constexpr double TOLERANCE = .1;
-	static constexpr double KP = -1.0 / 5.0;
-	void init(double dist, double maxSpeed);
+class DriveForward : public Command {
 public:
 	DriveForward();
 	DriveForward(double dist);
@@ -23,7 +16,15 @@ public:
 	void Execute();
 	bool IsFinished();
 	void End();
-	void Interrupted();
+
+private:
+	double driveForwardSpeed;
+	double distance;
+	double error = 0;
+	constexpr double TOLERANCE = .1;
+	constexpr double KP = -1.0 / 5.0;
+
+	void init(double dist, double maxSpeed);
 };
 
-#endif
+#endif  // DriveForward_H

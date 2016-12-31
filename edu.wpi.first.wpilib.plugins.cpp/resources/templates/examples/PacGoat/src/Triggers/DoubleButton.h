@@ -1,24 +1,19 @@
-/*
- * DoubleButton.h
- *
- *  Created on: Jun 24, 2014
- *      Author: alex
- */
-
 #ifndef DOUBLEBUTTON_H_
 #define DOUBLEBUTTON_H_
 
-#include "WPILib.h"
+#include <Buttons/Trigger.h>
+
+class Joystick;
 
 class DoubleButton : public Trigger {
-private:
-	Joystick* joy;
-	int button1, button2;
-
 public:
 	DoubleButton(Joystick* joy, int button1, int button2);
 
-    bool Get();
+	bool Get();
+
+private:
+	Joystick* joy;
+	int button1, button2;
 };
 
-#endif /* DOUBLEBUTTON_H_ */
+#endif  // DOUBLEBUTTON_H_

@@ -1,7 +1,12 @@
 #ifndef DriveTrain_H
 #define DriveTrain_H
 
-#include "WPILib.h"
+#include <memory>
+
+#include <AnalogGyro.h>
+#include <AnalogInput.h>
+#include <Encoder.h>
+#include <RobotDrive.h>
 
 /**
  * The DriveTrain subsystem incorporates the sensors and actuators attached to
@@ -9,12 +14,6 @@
  * and a gyro.
  */
 class DriveTrain : public Subsystem {
-private:
-	RobotDrive* drive;
-  std::shared_ptr<Encoder> left_encoder, right_encoder;
-  std::shared_ptr<AnalogInput> rangefinder;
-  std::shared_ptr<AnalogGyro> gyro;
-
 public:
 	DriveTrain();
 
@@ -39,7 +38,7 @@ public:
 	/**
 	 * @param joy The ps3 style joystick to use to drive tank style.
 	 */
-	void Drive(Joystick* joy);
+	    void Drive(Joystick* joy);
 
 	/**
 	 * @return The robots heading in degrees.
@@ -60,6 +59,13 @@ public:
 	 * @return The distance to the obstacle detected by the rangefinder.
 	 */
 	double GetDistanceToObstacle();
+
+private:
+	RobotDrive* drive = std::make_shared<RobotDrive>(1, 2, 3, 4);
+	std::shared_ptr<Encoder> left_encoder = std::make_shared<Encoder>(1, 2);
+	std::shared_ptr<Encoder> right_encoder = std::make_shared<Encoder>(3, 4);
+	std::shared_ptr<AnalogInput> rangefinder = std::make_shared<AnalogInput>(6);
+	std::shared_ptr<AnalogGyro> gyro = std::make_shared<AnalogGyro>(1);
 };
 
-#endif
+#endif  // DriveTrain_H

@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class Shoot extends CommandGroup {
     public  Shoot() {
-    	addSequential(new WaitForPressure());
-    	addSequential(new SetCollectionSpeed(Collector.STOP));
-    	addSequential(new OpenClaw());
-    	addSequential(new ExtendShooter());
+        addSequential(new WaitForPressure());
+        addSequential(new SetCollectionSpeed(Collector.STOP));
+        addSequential(new OpenClaw());
+        addSequential(new ExtendShooter());
     }
 }

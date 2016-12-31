@@ -1,12 +1,10 @@
 #include "$classname.h"
 
-$classname::$classname()
-{
+$classname::$classname() {
 
 }
 
-bool $classname::Get()
-{
+bool $classname::Get() const {
 	return false;
 }
 

@@ -3,7 +3,7 @@ package $package.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Make sure the robot is in a state to pickup soda cans. 
+ * Make sure the robot is in a state to pickup soda cans.
  */
 public class PrepareToPickup extends CommandGroup {
     public  PrepareToPickup() {

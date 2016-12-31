@@ -1,17 +1,23 @@
 #ifndef OI_H
 #define OI_H
 
-#include "WPILib.h"
+#include <Buttons/JoystickButton.h>
+#include <Joystick.h>
+
 #include "Triggers/DoubleButton.h"
 
 class OI {
-private:
-	Joystick joystick;
-	JoystickButton L1, L2, R1, R2;
-	DoubleButton sticks;
 public:
 	OI();
 	Joystick* GetJoystick();
+
+private:
+	Joystick joystick{0};
+	JoystickButton L1{&joystick, 11};
+	JoystickButton L2{&joystick, 9};
+	JoystickButton R1{&joystick, 12};
+	JoystickButton R2{&joystick, 10};
+	DoubleButton sticks{&joystick, 2, 3};
 };
 
 #endif

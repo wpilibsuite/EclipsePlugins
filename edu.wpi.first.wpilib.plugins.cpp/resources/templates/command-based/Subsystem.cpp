@@ -1,16 +1,13 @@
 #include "$classname.h"
 #include "../RobotMap.h"
 
-$classname::$classname() :
-		Subsystem("ExampleSubsystem")
-{
+$classname::$classname() : Subsystem("ExampleSubsystem") {
 
 }
 
-void $classname::InitDefaultCommand()
-{
+void $classname::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
-	//SetDefaultCommand(new MySpecialCommand());
+	// SetDefaultCommand(new MySpecialCommand());
 }
 
 // Put methods for controlling this subsystem

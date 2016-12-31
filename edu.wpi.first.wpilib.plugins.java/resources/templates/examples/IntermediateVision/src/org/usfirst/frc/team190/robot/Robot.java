@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- * This is a demo program showing the use of the NIVision class to do vision processing. 
- * The image is acquired from the USB Webcam, then a circle is overlayed on it. 
- * The NIVision class supplies dozens of methods for different types of processing. 
+ * This is a demo program showing the use of the NIVision class to do vision processing.
+ * The image is acquired from the USB Webcam, then a circle is overlayed on it.
+ * The NIVision class supplies dozens of methods for different types of processing.
  * The resulting image can then be sent to the FRC PC Dashboard with setImage()
  */
 public class Robot extends SampleRobot {
@@ -43,11 +43,11 @@ public class Robot extends SampleRobot {
             NIVision.IMAQdxGrab(session, frame, 1);
             NIVision.imaqDrawShapeOnImage(frame, frame, rect,
                     DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-            
+
             CameraServer.getInstance().setImage(frame);
 
             /** robot code here! **/
-            Timer.delay(0.005);		// wait for a motor update time
+            Timer.delay(0.005);        // wait for a motor update time
         }
         NIVision.IMAQdxStopAcquisition(session);
     }
