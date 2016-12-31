@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.RobotDrive;
 public class Robot extends IterativeRobot {
 
 	// distance in inches the robot wants to stay from an object
-	private static final double HOLD_DISTANCE = 12.0;
+	private static final double kHoldDistance = 12.0;
 	// factor to convert sensor values to a distance in inches
-	private static final double VALUE_TO_INCHES = 0.125;
+	private static final double kValueToInches = 0.125;
 
 	private AnalogInput ultrasonic;
 	private RobotDrive myRobot;
@@ -35,9 +35,9 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		// Set expected range to 0-24 inches; e.g. at 24 inches from object go
 		// full forward, at 0 inches from object go full backward.
-		pidController.setInputRange(0, 24 * VALUE_TO_INCHES);
+		pidController.setInputRange(0, 24 * kValueToInches);
 		// Set setpoint of the pidController
-		pidController.setSetpoint(HOLD_DISTANCE * VALUE_TO_INCHES);
+		pidController.setSetpoint(kHoldDistance * kValueToInches);
 		pidController.enable(); // begin PID control
 	}
 

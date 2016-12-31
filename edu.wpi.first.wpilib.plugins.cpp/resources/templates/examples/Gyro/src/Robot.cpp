@@ -12,7 +12,7 @@
 class Robot: public IterativeRobot {
 public:
 	void RobotInit() {
-		gyro.SetSensitivity(VOLTS_PER_DEGREE_PER_SECOND);
+		gyro.SetSensitivity(kVoltsPerDegreePerSecond);
 	}
 
 	/**
@@ -20,19 +20,19 @@ public:
 	 * value is assigned from the error between the setpoint and the gyro angle.
 	 */
 	void TeleopPeriodic() {
-		double turningValue = (ANGLE_SETPOINT - gyro.GetAngle()) * KP;
+		double turningValue = (kAngleSetpoint - gyro.GetAngle()) * kP;
 		// Invert the direction of the turn if we are going backwards
 		turningValue = std::copysign(turningValue, joystick.GetY());
 		myRobot.Drive(joystick.GetY(), turningValue);
 	}
 
 private:
-	static constexpr double ANGLE_SETPOINT = 0.0;
-	static constexpr double KP = 0.005;  // Propotional turning constant
+	static constexpr double kAngleSetpoint = 0.0;
+	static constexpr double kP = 0.005;  // Propotional turning constant
 
 	// Gyro calibration constant, may need to be adjusted
 	// Gyro value of 360 is set to correspond to one full revolution
-	static constexpr double VOLTS_PER_DEGREE_PER_SECOND = 0.0128;
+	static constexpr double kVoltsPerDegreePerSecond = 0.0128;
 
 	RobotDrive myRobot{0, 1};
 	AnalogGyro gyro{0};

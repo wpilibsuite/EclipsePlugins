@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj.RobotDrive;
  */
 public class Robot extends IterativeRobot {
 
-    private static final double ANGLE_SETPOINT = 0.0;
-    private static final double KP = 0.005; // propotional turning constant
+    private static final double kAngleSetpoint = 0.0;
+    private static final double kP = 0.005; // propotional turning constant
 
     // gyro calibration constant, may need to be adjusted;
     // gyro value of 360 is set to correspond to one full revolution
-    private static final double VOLTS_PER_DEGREE_PER_SECOND = .0128;
+    private static final double kVoltsPerDegreePerSecond = .0128;
 
     private RobotDrive myRobot;
     private AnalogGyro gyro;
@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
         gyro = new AnalogGyro(0);
         joystick = new Joystick(0);
 
-        gyro.setSensitivity(VOLTS_PER_DEGREE_PER_SECOND);
+        gyro.setSensitivity(kVoltsPerDegreePerSecond);
     }
 
     /**
@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
      * value is assigned from the error between the setpoint and the gyro angle.
      */
     public void teleopPeriodic() {
-        double turningValue = (ANGLE_SETPOINT - gyro.getAngle()) * KP;
+        double turningValue = (kAngleSetpoint - gyro.getAngle()) * kP;
         // Invert the direction of the turn if we are going backwards
         turningValue = Math.copySign(turningValue, joystick.getY());
         myRobot.drive(joystick.getY(), turningValue);

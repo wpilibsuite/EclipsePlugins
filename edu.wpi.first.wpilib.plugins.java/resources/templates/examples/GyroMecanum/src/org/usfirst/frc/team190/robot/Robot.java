@@ -15,7 +15,7 @@ public class Robot extends IterativeRobot {
 
     // gyro calibration constant, may need to be adjusted;
     // gyro value of 360 is set to correspond to one full revolution
-    private static final double VOLTS_PER_DEGREE_PER_SECOND = .0128;
+    private static final double kVoltsPerDegreePerSecond = .0128;
 
     private RobotDrive myRobot;
     private AnalogGyro gyro;
@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
         myRobot.setInvertedMotor(MotorType.kFrontLeft, true);
         myRobot.setInvertedMotor(MotorType.kRearLeft, true);
 
-        gyro.setSensitivity(VOLTS_PER_DEGREE_PER_SECOND);
+        gyro.setSensitivity(kVoltsPerDegreePerSecond);
     }
 
     /**

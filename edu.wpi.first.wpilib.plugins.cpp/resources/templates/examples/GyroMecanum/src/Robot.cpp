@@ -16,7 +16,7 @@ public:
 		myRobot.SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
 		myRobot.SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 
-		gyro.SetSensitivity(VOLTS_PER_DEGREE_PER_SECOND);
+		gyro.SetSensitivity(kVoltsPerDegreePerSecond);
 	}
 
 	/**
@@ -30,7 +30,7 @@ public:
 private:
 	// Gyro calibration constant, may need to be adjusted
 	// Gyro value of 360 is set to correspond to one full revolution
-	static constexpr double VOLTS_PER_DEGREE_PER_SECOND = 0.0128;
+	static constexpr double kVoltsPerDegreePerSecond = 0.0128;
 
 	RobotDrive myRobot { 0, 1, 2, 3 };
 	AnalogGyro gyro { 0 };
