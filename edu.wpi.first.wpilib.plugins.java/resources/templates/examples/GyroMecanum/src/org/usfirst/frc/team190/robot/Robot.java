@@ -15,7 +15,7 @@ public class Robot extends IterativeRobot {
 
     // gyro calibration constant, may need to be adjusted;
     // gyro value of 360 is set to correspond to one full revolution
-    private static final double kVoltsPerDegreePerSecond = .0128;
+    private static final double kVoltsPerDegreePerSecond = 0.0128;
 
     private RobotDrive myRobot;
     private AnalogGyro gyro;

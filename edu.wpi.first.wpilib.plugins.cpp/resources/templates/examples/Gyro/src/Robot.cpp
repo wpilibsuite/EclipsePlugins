@@ -1,7 +1,8 @@
+#include <cmath>
+
 #include <AnalogGyro.h>
 #include <IterativeRobot.h>
 #include <Joystick.h>
-#include <math.h>
 #include <RobotDrive.h>
 
 /**
@@ -28,15 +29,15 @@ public:
 
 private:
 	static constexpr double kAngleSetpoint = 0.0;
-	static constexpr double kP = 0.005;  // Propotional turning constant
+	static constexpr double kP = 0.005;  // Proportional turning constant
 
 	// Gyro calibration constant, may need to be adjusted
 	// Gyro value of 360 is set to correspond to one full revolution
 	static constexpr double kVoltsPerDegreePerSecond = 0.0128;
 
-	RobotDrive myRobot{0, 1};
-	AnalogGyro gyro{0};
-	Joystick joystick{0};
+	RobotDrive myRobot { 0, 1 };
+	AnalogGyro gyro { 0 };
+	Joystick joystick { 0 };
 };
 
 START_ROBOT_CLASS(Robot)

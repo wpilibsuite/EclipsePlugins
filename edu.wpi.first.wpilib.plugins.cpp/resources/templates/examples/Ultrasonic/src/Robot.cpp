@@ -6,7 +6,7 @@
  * This is a sample program demonstrating how to use an ultrasonic sensor and
  * proportional control to maintain a set distance from an object.
  */
-class Robot : public IterativeRobot {
+class Robot: public IterativeRobot {
 public:
 	/**
 	 * Tells the robot to drive to a set distance (in inches) from an object

@@ -17,9 +17,9 @@ public:
 	void TeleopInit() {
 		// Set expected range to 0-24 inches; e.g. at 24 inches from object go
 		// full forward, at 0 inches from object go full backward.
-		pidController.SetInputRange(0, 24 * VALUE_TO_INCHES);
+		pidController.SetInputRange(0, 24 * kValueToInches);
 		// Set setpoint of the pidController
-		pidController.SetSetpoint(HOLD_DISTANCE * VALUE_TO_INCHES);
+		pidController.SetSetpoint(kHoldDistance * kValueToInches);
 		pidController.Enable(); // begin PID control
 	}
 
@@ -40,15 +40,15 @@ private:
 	};
 
 	// Distance in inches the robot wants to stay from an object
-	static constexpr int HOLD_DISTANCE = 12;
+	static constexpr int kHoldDistance = 12;
 
 	// Factor to convert sensor values to a distance in inches
-	static constexpr double VALUE_TO_INCHES = 0.125;
+	static constexpr double kValueToInches = 0.125;
 
-	AnalogInput ultrasonic{0};
-	RobotDrive myRobot{0, 1};
-	PIDController pidController{7, 0.018, 1.5, &ultrasonic,
-			new MyPIDOutput(myRobot)};
+	AnalogInput ultrasonic { 0 };
+	RobotDrive myRobot { 0, 1 };
+	PIDController pidController { 7, 0.018, 1.5, &ultrasonic,
+			new MyPIDOutput(myRobot) };
 };
 
 START_ROBOT_CLASS(Robot)
