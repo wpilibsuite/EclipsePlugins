@@ -13,7 +13,7 @@ public class $classname extends InstantCommand {
         // eg. requires(chassis);
     }
 
-    // Called just before this Command runs the first time
+    // Called once when the command executes
     protected void initialize() {
     }
 

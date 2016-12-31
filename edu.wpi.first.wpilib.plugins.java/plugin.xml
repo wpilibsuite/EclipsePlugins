@@ -39,6 +39,13 @@
       </wizard>
       <wizard
             category="edu.wpi.first.wpilib.plugins.java"
+            class="edu.wpi.first.wpilib.plugins.java.wizards.file_template.InstantCommandWizard"
+            icon="resources/icons/Command.png"
+            id="edu.wpi.first.wpilib.plugins.java.wizards.file_template.InstantCommandWizard"
+            name="InstantCommand">
+      </wizard>  
+      <wizard
+            category="edu.wpi.first.wpilib.plugins.java"
             class="edu.wpi.first.wpilib.plugins.java.wizards.file_template.CommandGroupWizard"
             icon="resources/icons/CommandGroup.png"
             id="edu.wpi.first.wpilib.plugins.java.wizards.file_template.CommandGroupWizard"
