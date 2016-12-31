@@ -1,7 +1,7 @@
 #include <AnalogGyro.h>
+#include <IterativeRobot.h>
 #include <Joystick.h>
 #include <RobotDrive.h>
-#include <IterativeRobot.h>
 
 /**
  * This is a sample program that uses mecanum drive with a gyro sensor to
@@ -10,7 +10,7 @@
  */
 class Robot: public IterativeRobot {
 public:
-	void robotInit() {
+	void RobotInit() {
 		// invert the left side motors
 		// you may need to change or remove this to match your robot
 		myRobot.SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
@@ -22,7 +22,7 @@ public:
 	/**
 	 * Mecanum drive is used with the gyro angle as an input.
 	 */
-	void teleopPeriodic() {
+	void TeleopPeriodic() {
 		myRobot.MecanumDrive_Cartesian(joystick.GetX(), joystick.GetY(),
 				joystick.GetZ(), gyro.GetAngle());
 	}

@@ -1,8 +1,8 @@
 package $package;
 
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
  * This is a sample program demonstrating how to use an ultrasonic sensor and

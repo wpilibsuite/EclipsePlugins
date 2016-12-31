@@ -1,8 +1,8 @@
 #include <AnalogGyro.h>
-#include <Joystick.h>
-#include <RobotDrive.h>
 #include <IterativeRobot.h>
+#include <Joystick.h>
 #include <math.h>
+#include <RobotDrive.h>
 
 /**
  * This is a sample program to demonstrate how to use a gyro sensor to make a robot drive
@@ -11,7 +11,7 @@
  */
 class Robot: public IterativeRobot {
 public:
-	void robotInit() {
+	void RobotInit() {
 		gyro.SetSensitivity(VOLTS_PER_DEGREE_PER_SECOND);
 	}
 
@@ -19,7 +19,7 @@ public:
 	 * The motor speed is set from the joystick while the RobotDrive turning
 	 * value is assigned from the error between the setpoint and the gyro angle.
 	 */
-	void teleopPeriodic() {
+	void TeleopPeriodic() {
 		double turningValue = (ANGLE_SETPOINT - gyro.GetAngle()) * KP;
 		// Invert the direction of the turn if we are going backwards
 		turningValue = std::copysign(turningValue, joystick.GetY());
