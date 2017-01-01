@@ -219,7 +219,6 @@
         <description>Demonstrate maintaining a set distance using an ultrasonic sensor.</description>
         <tags>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Complete List</tag>
             <tag>Sensors</tag>
             <tag>Analog</tag>
@@ -237,7 +236,6 @@
             control.</description>
         <tags>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Complete List</tag>
             <tag>Sensors</tag>
             <tag>Analog</tag>
@@ -254,7 +252,6 @@
         <description>An example program showing how to drive straight with using a gyro sensor.</description>
         <tags>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Complete List</tag>
             <tag>Sensors</tag>
             <tag>Analog</tag>
@@ -273,7 +270,6 @@
             controls.</description>
         <tags>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Complete List</tag>
             <tag>Sensors</tag>
             <tag>Analog</tag>

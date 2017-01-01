@@ -141,7 +141,6 @@
             <tag>Sensors</tag>
             <tag>Complete List</tag>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Analog</tag>
         </tags>
         <packages>
@@ -159,7 +158,6 @@
             <tag>Sensors</tag>
             <tag>Complete List</tag>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Analog</tag>
         </tags>
         <packages>
@@ -212,7 +210,6 @@
             <tag>Sensors</tag>
             <tag>Complete List</tag>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Analog</tag>
             <tag>Joystick</tag>
         </tags>
@@ -231,7 +228,6 @@
             <tag>Sensors</tag>
             <tag>Complete List</tag>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Analog</tag>
             <tag>Joystick</tag>
         </tags>
