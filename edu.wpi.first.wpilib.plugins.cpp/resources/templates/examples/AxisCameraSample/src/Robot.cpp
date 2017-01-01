@@ -1,44 +1,57 @@
-#include <memory>
-
-#include <SampleRobot.h>
-#include <Vision/AxisCamera.h>
-#include <Vision/VisionAPI.h>
+#include <CameraServer.h>
+#include <IterativeRobot.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/core/types.hpp>
 
 /**
- * Uses AxisCamera class to manually acquire a new image each frame, and
- * annotate the image by drawing a circle on it, and show it on the FRC
- * Dashboard.
+ * This is a demo program showing the use of OpenCV to do vision processing. The
+ * image is acquired from the Axis camera, then a rectangle is put on the image and
+ * sent to the dashboard. OpenCV has many methods for different types of
+ * processing.
  */
-class AxisCameraSample : public SampleRobot {
-	IMAQdxSession session;
-	Image* frame;
-	IMAQdxError imaqError;
-	std::unique_ptr<AxisCamera> camera;
+class Robot: public IterativeRobot {
+private:
+	static void VisionThread() {
+		// Get the Axis camera from CameraServer
+		cs::AxisCamera camera = CameraServer::GetInstance()->
+				AddAxisCamera("axis-camera.local");
+		// Set the resolution
+		camera.SetResolution(640, 480);
 
-public:
-	void RobotInit() override {
-		// Create an image
-		frame = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
+		// Get a CvSink. This will capture Mats from the Camera
+		cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+		// Setup a CvSource. This will send images back to the Dashboard
+		cs::CvSource outputStream = CameraServer::GetInstance()->
+				PutVideo("Rectangle", 640, 480);
 
-		/* open the camera at the IP address assigned. This is the IP address
-		 * that the camera can be accessed through the web interface.
-		 */
-		camera = std::make_unique<AxisCamera>("axis-camera.local");
-	}
+		// Mats are very memory expensive. Lets reuse this Mat.
+		cv::Mat mat;
 
-	void OperatorControl() override {
-		/* grab an image, draw the circle, and provide it for the camera server
-		 * which will in turn send it to the dashboard.
-		 */
-		while (IsOperatorControl() && IsEnabled()) {
-			camera->GetImage(frame);
-			imaqDrawShapeOnImage(frame, frame, {10, 10, 100, 100},
-			                     DrawMode::IMAQ_DRAW_VALUE,
-			                     ShapeMode::IMAQ_SHAPE_OVAL, 0.0f);
-			CameraServer::GetInstance()->SetImage(frame);
-			Wait(0.05);
+		while (true) {
+			// Tell the CvSink to grab a frame from the camera and put it
+			// in the source mat.  If there is an error notify the output.
+			if (cvSink.GrabFrame(mat) == 0) {
+				// Send the output the error.
+				outputStream.NotifyError(cvSink.GetError());
+				// skip the rest of the current iteration
+				continue;
+			}
+			// Put a rectangle on the image
+			rectangle(mat, cv::Point(100, 100), cv::Point(400, 400),
+					cv::Scalar(255, 255, 255), 5);
+			// Give the output stream a new image to display
+			outputStream.PutFrame(mat);
 		}
 	}
+
+	void RobotInit() {
+		// We need to run our vision program in a separate Thread.
+		// If not, our robot program will not run
+		std::thread visionThread(VisionThread);
+		visionThread.detach();
+	}
+
 };
 
-START_ROBOT_CLASS(AxisCameraSample)
+START_ROBOT_CLASS(Robot)

@@ -1,5 +1,5 @@
 #include <CameraServer.h>
-#include <SampleRobot.h>
+#include <IterativeRobot.h>
 
 /**
  * Uses the CameraServer class to automatically capture video from a USB webcam
@@ -7,24 +7,11 @@
  * is the easiest way to get camera images to the dashboard. Just add this to the
  * RobotInit() method in your program.
  */
-class QuickVisionRobot : public SampleRobot {
+class Robot: public IterativeRobot {
 public:
-	void RobotInit() override {
-		CameraServer::GetInstance()->SetQuality(50);
-
-		/* The camera name (ex "cam0") can be found through the roborio web
-		 * interface
-		 */
-		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
-	}
-
-	void OperatorControl() {
-		while (IsOperatorControl() && IsEnabled()) {
-			// Robot code here
-
-			Wait(0.005);  // Wait for a motor update time
-		}
+	void RobotInit() {
+		CameraServer::GetInstance()->StartAutomaticCapture();
 	}
 };
 
-START_ROBOT_CLASS(QuickVisionRobot)
+START_ROBOT_CLASS(Robot)

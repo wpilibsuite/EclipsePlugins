@@ -420,46 +420,6 @@
         </files>
     </example>
     <example>
-        <name>2015 Vision Color Sample</name>
-        <description>An example program that demonstrates image processing to locate Yellow totes by
-            color.
-            This example uses a file which must be copied over to the roboRIO via FTP to demonstrate
-            processing.
-            To use this code with a camera, you must integrate the code for image acquisition from
-            the appropriate
-            camera example;</description>
-        <tags>
-            <tag>Vision</tag>
-            <tag>Complete List</tag>
-        </tags>
-        <packages>
-            <package>src</package>
-        </packages>
-        <files>
-            <file source="examples/2015Vision/Color_src/Robot.cpp" destination="src/Robot.cpp" />
-        </files>
-    </example>
-    <example>
-        <name>2015 Vision Retro Sample</name>
-        <description>An example program that demonstrates image processing to locate Yellow totes by
-            the retroreflective target.
-            This example uses a file which must be copied over to the roboRIO via FTP to demonstrate
-            processing.
-            To use this code with a camera, you must integrate the code for image acquisition from
-            the appropriate
-            camera example;</description>
-        <tags>
-            <tag>Vision</tag>
-            <tag>Complete List</tag>
-        </tags>
-        <packages>
-            <package>src</package>
-        </packages>
-        <files>
-            <file source="examples/2015Vision/Retro_src/Robot.cpp" destination="src/Robot.cpp" />
-        </files>
-    </example>
-    <example>
         <name>GearsBot</name>
         <description>A fully functional example CommandBased program for
             WPIs GearsBot robot. This code can run on your computer if it

@@ -391,46 +391,6 @@
         </files>
     </example>
     <example>
-        <name>2015 Vision Color Sample</name>
-        <description>An example program that demonstrates image processing to locate Yellow totes by
-            color.
-            This example uses a file which must be copied over to the roboRIO via FTP to demonstrate
-            processing.
-            To use this code with a camera, you must integrate the code for image acquisition from
-            the appropriate
-            camera example;</description>
-        <tags>
-            <tag>Vision</tag>
-            <tag>Complete List</tag>
-        </tags>
-        <packages>
-            <package>src/$package-dir</package>
-        </packages>
-        <files>
-            <file source="examples/2015Vision/Color_src/Robot.java" destination="src/$package-dir/Robot.java" />
-        </files>
-    </example>
-    <example>
-        <name>2015 Vision Retro Sample</name>
-        <description>An example program that demonstrates image processing to locate Yellow totes by
-            the retroreflective target.
-            This example uses a file which must be copied over to the roboRIO via FTP to demonstrate
-            processing.
-            To use this code with a camera, you must integrate the code for image acquisition from
-            the appropriate
-            camera example;</description>
-        <tags>
-            <tag>Vision</tag>
-            <tag>Complete List</tag>
-        </tags>
-        <packages>
-            <package>src/$package-dir</package>
-        </packages>
-        <files>
-            <file source="examples/2015Vision/Retro_src/Robot.java" destination="src/$package-dir/Robot.java" />
-        </files>
-    </example>
-    <example>
         <name>Axis Camera Sample</name>
         <description>An example program that acquires images from an Axis network camera and adds
             some

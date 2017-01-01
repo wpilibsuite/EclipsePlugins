@@ -1,55 +1,61 @@
 package $package;
 
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.DrawMode;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ShapeMode;
-
+import edu.wpi.cscore.AxisCamera;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.vision.AxisCamera;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 
 /**
- * This demo shows the use of the AxisCamera class.
- * Uses AxisCamera class to manually acquire a new image each frame, and annotate the image by drawing
- * a circle on it, and show it on the FRC Dashboard.
+ * This is a demo program showing the use of OpenCV to do vision processing. The
+ * image is acquired from the Axis camera, then a rectangle is put on the image and
+ * sent to the dashboard. OpenCV has many methods for different types of
+ * processing.
  */
+public class Robot extends IterativeRobot {
 
-public class Robot extends SampleRobot {
-    int session;
-    Image frame;
-    AxisCamera camera;
+	Thread visionThread;
 
-    public void robotInit() {
+	public void robotInit() {
+		visionThread = new Thread(() -> {
+			// Get the Axis camera from CameraServer
+			AxisCamera camera = CameraServer.getInstance().addAxisCamera("axis-camera.local");
+			// Set the resolution
+			camera.setResolution(640, 480);
 
-        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+			// Get a CvSink. This will capture Mats from the camera
+			CvSink cvSink = CameraServer.getInstance().getVideo();
+			// Setup a CvSource. This will send images back to the Dashboard
+			CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
 
-        // open the camera at the IP address assigned. This is the IP address that the camera
-        // can be accessed through the web interface.
-        camera = new AxisCamera("10.1.91.100");
-    }
+			// Mats are very memory expensive. Lets reuse this Mat.
+			Mat mat = new Mat();
 
-    public void operatorControl() {
+			// This cannot be 'true'. The program will never exit if it is. This
+			// lets the robot stop this thread when restarting robot code or
+			// deploying.
+			while (!Thread.interrupted()) {
+				// Tell the CvSink to grab a frame from the camera and put it
+				// in the source mat.  If there is an error notify the output.
+				if (cvSink.grabFrame(mat) == 0) {
+					// Send the output the error.
+					outputStream.notifyError(cvSink.getError());
+					// skip the rest of the current iteration
+					continue;
+				}
+				// Put a rectangle on the image
+				Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400),
+						new Scalar(255, 255, 255), 5);
+				// Give the output stream a new image to display
+				outputStream.putFrame(mat);
+			}
+		});
+		visionThread.setDaemon(true);
+		visionThread.start();
+	}
 
-        /**
-         * grab an image from the camera, draw the circle, and provide it for the camera server
-         * which will in turn send it to the dashboard.
-         */
-        NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-
-        while (isOperatorControl() && isEnabled()) {
-            camera.getImage(frame);
-            NIVision.imaqDrawShapeOnImage(frame, frame, rect,
-                    DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-
-            CameraServer.getInstance().setImage(frame);
-
-            /** robot code here! **/
-            Timer.delay(0.005);        // wait for a motor update time
-        }
-    }
-
-    public void test() {
-    }
 }
