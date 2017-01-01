@@ -17,14 +17,22 @@ public class Robot extends IterativeRobot {
     // gyro value of 360 is set to correspond to one full revolution
     private static final double kVoltsPerDegreePerSecond = 0.0128;
 
+    private static final int kFrontLeftMotorPort = 0;
+    private static final int kFrontRightMotorPort = 1;
+    private static final int kRearLeftMotorPort = 2;
+    private static final int kRearRightMotorPort = 3;
+    private static final int kGyroPort = 0;
+    private static final int kJoystickPort = 0;
+
     private RobotDrive myRobot;
     private AnalogGyro gyro;
     private Joystick joystick;
 
     public void robotInit() {
-        myRobot = new RobotDrive(0, 1, 2, 3);
-        gyro = new AnalogGyro(0);
-        joystick = new Joystick(0);
+        myRobot = new RobotDrive(kFrontLeftMotorPort, kFrontRightMotorPort,
+            kRearLeftMotorPort, kRearRightMotorPort);
+        gyro = new AnalogGyro(kGyroPort);
+        joystick = new Joystick(kJoystickPort);
 
         // invert the left side motors
         // you may need to change or remove this to match your robot

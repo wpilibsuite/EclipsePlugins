@@ -25,15 +25,17 @@ public:
 private:
 	// Distance in inches the robot wants to stay from an object
 	static constexpr int kHoldDistance = 12;
-
 	// Factor to convert sensor values to a distance in inches
 	static constexpr double kValueToInches = 0.125;
-
 	// Proportional speed constant
 	static constexpr double kP = 0.05;
 
-	AnalogInput ultrasonic { 0 };
-	RobotDrive myRobot { 0, 1 };
+	static constexpr int kLeftMotorPort = 0;
+	static constexpr int kRightMotorPort = 1;
+	static constexpr int kUltrasonicPort = 0;
+
+	AnalogInput ultrasonic { kUltrasonicPort };
+	RobotDrive myRobot { kLeftMotorPort, kRightMotorPort };
 };
 
 START_ROBOT_CLASS(Robot)

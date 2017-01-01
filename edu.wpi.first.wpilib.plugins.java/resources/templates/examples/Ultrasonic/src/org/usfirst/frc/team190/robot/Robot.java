@@ -18,12 +18,16 @@ public class Robot extends IterativeRobot {
 	// proportional speed constant
 	private static final double kP = 0.05;
 
+	private static final int kLeftMotorPort = 0;
+	private static final int kRightMotorPort = 1;
+	private static final int kUltrasonicPort = 0;
+
 	private AnalogInput ultrasonic;
 	private RobotDrive myRobot;
 
 	public void robotInit() {
-		myRobot = new RobotDrive(0, 1);
-		ultrasonic = new AnalogInput(0);
+		myRobot = new RobotDrive(kLeftMotorPort, kRightMotorPort);
+		ultrasonic = new AnalogInput(kUltrasonicPort);
 	}
 
 	/**

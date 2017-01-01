@@ -19,14 +19,19 @@ public class Robot extends IterativeRobot {
     // gyro value of 360 is set to correspond to one full revolution
     private static final double kVoltsPerDegreePerSecond = 0.0128;
 
+    private static final int kLeftMotorPort = 0;
+    private static final int kRightMotorPort = 1;
+    private static final int kGyroPort = 0;
+    private static final int kJoystickPort = 0;
+
     private RobotDrive myRobot;
     private AnalogGyro gyro;
     private Joystick joystick;
 
     public void robotInit() {
-        myRobot = new RobotDrive(0, 1);
-        gyro = new AnalogGyro(0);
-        joystick = new Joystick(0);
+        myRobot = new RobotDrive(kLeftMotorPort, kRightMotorPort);
+        gyro = new AnalogGyro(kGyroPort);
+        joystick = new Joystick(kJoystickPort);
 
         gyro.setSensitivity(kVoltsPerDegreePerSecond);
     }

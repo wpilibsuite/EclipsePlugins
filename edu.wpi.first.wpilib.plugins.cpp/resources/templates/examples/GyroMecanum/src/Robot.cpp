@@ -32,9 +32,17 @@ private:
 	// Gyro value of 360 is set to correspond to one full revolution
 	static constexpr double kVoltsPerDegreePerSecond = 0.0128;
 
-	RobotDrive myRobot { 0, 1, 2, 3 };
-	AnalogGyro gyro { 0 };
-	Joystick joystick { 0 };
+	static constexpr int kFrontLeftMotorPort = 0;
+	static constexpr int kFrontRightMotorPort = 1;
+	static constexpr int kRearLeftMotorPort = 2;
+	static constexpr int kRearRightMotorPort = 3;
+	static constexpr int kGyroPort = 0;
+	static constexpr int kJoystickPort = 0;
+
+	RobotDrive myRobot { kFrontLeftMotorPort, kFrontRightMotorPort,
+			kRearLeftMotorPort, kRearRightMotorPort };
+	AnalogGyro gyro { kGyroPort };
+	Joystick joystick { kJoystickPort };
 };
 
 START_ROBOT_CLASS(Robot)
