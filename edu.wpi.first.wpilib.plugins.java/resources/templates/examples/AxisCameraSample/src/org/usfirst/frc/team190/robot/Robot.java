@@ -40,8 +40,13 @@ public class Robot extends IterativeRobot {
 			// deploying.
 			while (!Thread.interrupted()) {
 				// Tell the CvSink to grab a frame from the camera and put it
-				// in the source mat
-				cvSink.grabFrame(mat);
+				// in the source mat.  If there is an error notify the output.
+				if (cvSink.grabFrame(mat) == 0) {
+					// Send the output the error.
+					outputStream.notifyError(cvSink.getError());
+					// skip the rest of the current iteration
+					continue;
+				}
 				// Put a rectangle on the image
 				Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400),
 						new Scalar(255, 255, 255), 5);
