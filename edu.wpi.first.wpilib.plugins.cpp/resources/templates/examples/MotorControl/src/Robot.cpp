@@ -1,6 +1,7 @@
 #include <Joystick.h>
 #include <SampleRobot.h>
 #include <Talon.h>
+#include <Timer.h>
 
 /**
  * This sample program shows how to control a motor using a joystick. In the
@@ -13,7 +14,7 @@
  * good idea, especially since the joystick values are only transmitted from the
  * Driver Station once every 20ms.
  */
-class Robot : public SampleRobot {
+class Robot: public frc::SampleRobot {
 public:
 	/**
 	 * Runs the motor from the output of a Joystick.
@@ -25,23 +26,23 @@ public:
 			 */
 			m_motor.Set(m_stick.GetY());
 
-			Wait(kUpdatePeriod);  // Wait 5ms for the next update.
+			frc::Wait(kUpdatePeriod);  // Wait 5ms for the next update.
 		}
 	}
 
 private:
 	// Initialize Joystick on port 0
-	Joystick m_stick{0};
+	frc::Joystick m_stick { 0 };
 
 	/* The motor to control with the Joystick. This uses a Talon speed
 	 * controller; use the Victor or Jaguar classes for other speed controllers.
 	 *
 	 * Initialize the Talon on channel 0
 	 */
-	Talon m_motor{0};
+	frc::Talon m_motor { 0 };
 
 	// Update every 0.005 seconds/5 milliseconds.
-	constexpr double kUpdatePeriod = 0.005;
+	static constexpr double kUpdatePeriod = 0.005;
 };
 
 START_ROBOT_CLASS(Robot)

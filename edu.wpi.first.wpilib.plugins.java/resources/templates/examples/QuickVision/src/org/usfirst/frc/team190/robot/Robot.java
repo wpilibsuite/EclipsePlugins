@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * robotInit() method in your program.
  */
 public class Robot extends IterativeRobot {
-
+	@Override
 	public void robotInit() {
 		CameraServer.getInstance().startAutomaticCapture();
 	}

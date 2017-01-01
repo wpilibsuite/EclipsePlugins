@@ -6,7 +6,7 @@
 #include "Robot.h"
 
 LowGoal::LowGoal() {
-	AddSequential(new SetPivotSetpoint(Pivot::LOW_GOAL));
-	AddSequential(new SetCollectionSpeed(Collector::REVERSE));
+	AddSequential(new SetPivotSetpoint(Pivot::kLowGoal));
+	AddSequential(new SetCollectionSpeed(Collector::kReverse));
 	AddSequential(new ExtendShooter());
 }

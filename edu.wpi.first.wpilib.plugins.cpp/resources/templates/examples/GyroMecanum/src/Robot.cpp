@@ -8,9 +8,9 @@
  * maintian rotation vectorsin relation to the starting orientation of the robot
  * (field-oriented controls).
  */
-class Robot: public IterativeRobot {
+class Robot: public frc::IterativeRobot {
 public:
-	void RobotInit() {
+	void RobotInit() override {
 		// invert the left side motors
 		// you may need to change or remove this to match your robot
 		myRobot.SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
@@ -22,7 +22,7 @@ public:
 	/**
 	 * Mecanum drive is used with the gyro angle as an input.
 	 */
-	void TeleopPeriodic() {
+	void TeleopPeriodic() override {
 		myRobot.MecanumDrive_Cartesian(joystick.GetX(), joystick.GetY(),
 				joystick.GetZ(), gyro.GetAngle());
 	}
@@ -39,10 +39,10 @@ private:
 	static constexpr int kGyroPort = 0;
 	static constexpr int kJoystickPort = 0;
 
-	RobotDrive myRobot { kFrontLeftMotorPort, kFrontRightMotorPort,
+	frc::RobotDrive myRobot { kFrontLeftMotorPort, kFrontRightMotorPort,
 			kRearLeftMotorPort, kRearRightMotorPort };
-	AnalogGyro gyro { kGyroPort };
-	Joystick joystick { kJoystickPort };
+	frc::AnalogGyro gyro { kGyroPort };
+	frc::Joystick joystick { kJoystickPort };
 };
 
 START_ROBOT_CLASS(Robot)

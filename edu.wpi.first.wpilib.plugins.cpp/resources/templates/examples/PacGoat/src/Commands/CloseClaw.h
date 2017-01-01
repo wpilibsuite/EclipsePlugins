@@ -9,10 +9,10 @@
  * NOTE: It doesn't wait for the claw to close since there is no sensor to
  * detect that.
  */
-class CloseClaw : public InstantCommand {
+class CloseClaw: public frc::InstantCommand {
 public:
 	CloseClaw();
-	void Initialize();
+	void Initialize() override;
 };
 
 #endif  // CloseClaw_H

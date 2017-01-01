@@ -2,9 +2,10 @@
 #include <memory>
 #include <string>
 
+#include <Joystick.h>
+#include <SampleRobot.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
-#include <Joystick.h>
 #include <RobotDrive.h>
 #include <Timer.h>
 
@@ -20,23 +21,23 @@
  * be much more difficult under this system. Use IterativeRobot or Command-Based
  * instead if you're new.
  */
-class Robot : public SampleRobot {
-    RobotDrive myRobot{0, 1}; // robot drive system
-    Joystick stick{0}; // only joystick
-    std::unique_ptr<SendableChooser> chooser = std::make_unique<SendableChooser>();
-    const std::string autoNameDefault = "Default";
-    const std::string autoNameCustom = "My Auto";
+class Robot: public frc::SampleRobot {
+	frc::RobotDrive myRobot { 0, 1 }; // robot drive system
+	frc::Joystick stick { 0 }; // only joystick
+	frc::SendableChooser<std::string> chooser;
+	const std::string autoNameDefault = "Default";
+	const std::string autoNameCustom = "My Auto";
 
 public:
-    Robot() {
-        //Note SmartDashboard is not initialized here, wait until RobotInit to make SmartDashboard calls
-        myRobot.SetExpiration(0.1);
-    }
+	Robot() {
+		//Note SmartDashboard is not initialized here, wait until RobotInit to make SmartDashboard calls
+		myRobot.SetExpiration(0.1);
+	}
 
 	void RobotInit() {
-		chooser->AddDefault(autoNameDefault, static_cast<void*>(&autoNameDefault));
-		chooser->AddObject(autoNameCustom, static_cast<void*>(&autoNameCustom));
-		SmartDashboard::PutData("Auto Modes", chooser);
+		chooser.AddDefault(autoNameDefault, autoNameDefault);
+		chooser.AddObject(autoNameCustom, autoNameCustom);
+		frc::SmartDashboard::PutData("Auto Modes", &chooser);
 	}
 
 	/*
@@ -51,8 +52,8 @@ public:
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	void Autonomous() {
-		auto autoSelected = *static_cast<std::string*>(chooser->GetSelected());
-		// std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
+		auto autoSelected = chooser.GetSelected();
+		// std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", autoNameDefault);
 		std::cout << "Auto selected: " << autoSelected << std::endl;
 
 		if (autoSelected == autoNameCustom) {
@@ -60,15 +61,14 @@ public:
 			std::cout << "Running custom Autonomous" << std::endl;
 			myRobot.SetSafetyEnabled(false);
 			myRobot.Drive(-0.5, 1.0); // spin at half speed
-			Wait(2.0);                // for 2 seconds
+			frc::Wait(2.0);                // for 2 seconds
 			myRobot.Drive(0.0, 0.0);  // stop robot
-		}
-		else {
+		} else {
 			// Default Auto goes here
 			std::cout << "Running default Autonomous" << std::endl;
 			myRobot.SetSafetyEnabled(false);
 			myRobot.Drive(-0.5, 0.0); // drive forwards half speed
-			Wait(2.0);                // for 2 seconds
+			frc::Wait(2.0);                // for 2 seconds
 			myRobot.Drive(0.0, 0.0);  // stop robot
 		}
 	}
@@ -76,21 +76,21 @@ public:
 	/*
 	 * Runs the motors with arcade steering.
 	 */
-	void OperatorControl() {
+	void OperatorControl() override {
 		myRobot.SetSafetyEnabled(true);
 		while (IsOperatorControl() && IsEnabled()) {
 			// drive with arcade style (use right stick)
 			myRobot.ArcadeDrive(stick);
 
 			// wait for a motor update time
-			Wait(0.005);
+			frc::Wait(0.005);
 		}
 	}
 
 	/*
 	 * Runs during test mode
 	 */
-	void Test() {
+	void Test() override {
 
 	}
 };

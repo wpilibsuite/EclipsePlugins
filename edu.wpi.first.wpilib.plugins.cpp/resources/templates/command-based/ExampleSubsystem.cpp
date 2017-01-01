@@ -2,7 +2,8 @@
 
 #include "../RobotMap.h"
 
-ExampleSubsystem::ExampleSubsystem() : Subsystem("ExampleSubsystem") {
+ExampleSubsystem::ExampleSubsystem() :
+		frc::Subsystem("ExampleSubsystem") {
 
 }
 

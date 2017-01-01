@@ -1,3 +1,5 @@
+#include <array>
+
 #include <AnalogInput.h>
 #include <Joystick.h>
 #include <PIDController.h>
@@ -14,12 +16,12 @@
  * be much more difficult under this system. Use IterativeRobot or Command-Based
  * instead if you're new.
  */
-class Robot : public SampleRobot {
+class Robot: public frc::SampleRobot {
 public:
 	/**
 	 * Runs during autonomous.
 	 */
-	void Autonomous() {
+	void Autonomous() override {
 
 	}
 
@@ -28,9 +30,9 @@ public:
 	 * elevator positions. The elevator setpoint is selected by a joystick
 	 * button.
 	 */
-	void OperatorControl() {
+	void OperatorControl() override {
 		pidController.SetInputRange(0, 5);  // 0 to 5V
-		pidController.SetSetpoint(setPoints[0]);  // Set to first setpoint
+		pidController.SetSetpoint(kSetPoints[0]);  // Set to first setpoint
 
 		int index = 0;
 		bool currentValue;
@@ -44,10 +46,10 @@ public:
 			 */
 			currentValue = joystick.GetRawButton(buttonNumber);
 			if (currentValue && !previousValue) {
-				pidController.SetSetpoint(setPoints[index]);
+				pidController.SetSetpoint(kSetPoints[index]);
 
 				// Index of elevator setpoint wraps around
-				index = (index + 1) % (sizeof(setPoints) / 8);
+				index = (index + 1) % (sizeof(kSetPoints) / 8);
 			}
 			previousValue = currentValue;
 		}
@@ -56,18 +58,18 @@ public:
 	/**
 	 * Runs during test mode.
 	 */
-	void Test() {
+	void Test() override {
 
 	}
 
 private:
-	constexpr int potChannel = 1;       // Analog input pin
-	constexpr int motorChannel = 7;     // PWM channel
-	constexpr int joystickChannel = 0;  // USB number in DriverStation
-	constexpr int buttonNumber = 4;     // Button on joystick
+	static constexpr int potChannel = 1;       // Analog input pin
+	static constexpr int motorChannel = 7;     // PWM channel
+	static constexpr int joystickChannel = 0;  // USB number in DriverStation
+	static constexpr int buttonNumber = 4;     // Button on joystick
 
 	// Bottom, middle, and top elevator setpoints
-	constexpr double setPoints[3] = {1.0, 2.6, 4.3};
+	static constexpr std::array<double, 3> kSetPoints = { 1.0, 2.6, 4.3 };
 
 	/* proportional, integral, and derivative speed constants; motor inverted
 	 * DANGER: when tuning PID constants, high/inappropriate values for pGain,
@@ -76,21 +78,23 @@ private:
 	 *
 	 * These may need to be positive for a non-inverted motor
 	 */
-	constexpr double pGain = -5.0;
-	constexpr double iGain = -0.02;
-	constexpr double dGain = -2.0;
+	static constexpr double kP = -5.0;
+	static constexpr double kI = -0.02;
+	static constexpr double kD = -2.0;
 
-	AnalogInput potentiometer{potChannel};
-	Joystick joystick{joystickChannel};
-	Victor elevatorMotor{motorChannel};
+	frc::AnalogInput potentiometer { potChannel };
+	frc::Joystick joystick { joystickChannel };
+	frc::Victor elevatorMotor { motorChannel };
 
 	/* potentiometer (AnalogInput) and elevatorMotor (Victor) can be used as a
 	 * PIDSource and PIDOutput respectively. The PIDController takes pointers
 	 * to the PIDSource and PIDOutput, so you must use &potentiometer and
 	 * &elevatorMotor to get their pointers.
 	 */
-	PIDController pidController{pGain, iGain, dGain, &potentiometer,
-	                            &elevatorMotor};
+	frc::PIDController pidController { kP, kI, kD, &potentiometer,
+			&elevatorMotor };
 };
+
+constexpr std::array<double, 3> Robot::kSetPoints;
 
 START_ROBOT_CLASS(Robot)

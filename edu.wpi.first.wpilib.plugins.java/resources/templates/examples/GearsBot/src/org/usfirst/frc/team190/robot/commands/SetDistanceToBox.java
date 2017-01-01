@@ -7,8 +7,9 @@ package $package.commands;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.command.Command;
+
 import $package.Robot;
 
 /**
@@ -18,52 +19,57 @@ import $package.Robot;
  * encoders.
  */
 public class SetDistanceToBox extends Command {
-    private PIDController pid;
+	private PIDController pid;
 
-    public SetDistanceToBox(double distance) {
-        requires(Robot.drivetrain);
-        pid = new PIDController(-2, 0, 0, new PIDSource() {
-            PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+	public SetDistanceToBox(double distance) {
+		requires(Robot.drivetrain);
+		pid = new PIDController(-2, 0, 0, new PIDSource() {
+			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
-            public double pidGet() {
-                return Robot.drivetrain.getDistanceToObstacle();
-            }
+			@Override
+			public double pidGet() {
+				return Robot.drivetrain.getDistanceToObstacle();
+			}
 
-            @Override
-            public void setPIDSourceType(PIDSourceType pidSource) {
-                m_sourceType = pidSource;
-            }
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
 
-            @Override
-            public PIDSourceType getPIDSourceType() {
-                return m_sourceType;
-            }
-        }, new PIDOutput() {
-            public void pidWrite(double d) {
-                Robot.drivetrain.drive(d, d);
-            }
-        });
-        pid.setAbsoluteTolerance(0.01);
-        pid.setSetpoint(distance);
-    }
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
+			}
+		}, new PIDOutput() {
+			@Override
+			public void pidWrite(double d) {
+				Robot.drivetrain.drive(d, d);
+			}
+		});
+		pid.setAbsoluteTolerance(0.01);
+		pid.setSetpoint(distance);
+	}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-        // Get everything in a safe starting state.
-        Robot.drivetrain.reset();
-        pid.reset();
-        pid.enable();
-    }
+	// Called just before this Command runs the first time
+	@Override
+	protected void initialize() {
+		// Get everything in a safe starting state.
+		Robot.drivetrain.reset();
+		pid.reset();
+		pid.enable();
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return pid.onTarget();
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	@Override
+	protected boolean isFinished() {
+		return pid.onTarget();
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-        // Stop PID and the wheels
-        pid.disable();
-        Robot.drivetrain.drive(0, 0);
-    }
+	// Called once after isFinished returns true
+	@Override
+	protected void end() {
+		// Stop PID and the wheels
+		pid.disable();
+		Robot.drivetrain.drive(0, 0);
+	}
 }

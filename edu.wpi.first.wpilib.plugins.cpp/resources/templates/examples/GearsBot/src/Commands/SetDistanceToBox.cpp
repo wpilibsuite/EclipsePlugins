@@ -1,11 +1,13 @@
 #include "SetDistanceToBox.h"
 
+#include <PIDController.h>
+
 #include "Robot.h"
 
 SetDistanceToBox::SetDistanceToBox(double distance) {
 	Requires(Robot::drivetrain.get());
-	pid = new PIDController(-2, 0, 0, new SetDistanceToBoxPIDSource(),
-	                        new SetDistanceToBoxPIDOutput());
+	pid = new frc::PIDController(-2, 0, 0, new SetDistanceToBoxPIDSource(),
+			new SetDistanceToBoxPIDOutput());
 	pid->SetAbsoluteTolerance(0.01);
 	pid->SetSetpoint(distance);
 }
@@ -34,6 +36,6 @@ double SetDistanceToBoxPIDSource::PIDGet() {
 	return Robot::drivetrain->GetDistanceToObstacle();
 }
 
-void SetDistanceToBoxPIDOutput::PIDWrite(float d) {
+void SetDistanceToBoxPIDOutput::PIDWrite(double d) {
 	Robot::drivetrain->Drive(d, d);
 }

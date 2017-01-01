@@ -4,7 +4,8 @@
 
 #include "Robot.h"
 
-SetElevatorSetpoint::SetElevatorSetpoint(double setpoint) : Command("SetElevatorSetpoint") {
+SetElevatorSetpoint::SetElevatorSetpoint(double setpoint) :
+		frc::Command("SetElevatorSetpoint") {
 	this->setpoint = setpoint;
 	Requires(Robot::elevator.get());
 }

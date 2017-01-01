@@ -2,7 +2,8 @@
 
 #include "Robot.h"
 
-SetWristSetpoint::SetWristSetpoint(double setpoint) : Command("SetWristSetpoint") {
+SetWristSetpoint::SetWristSetpoint(double setpoint) :
+		frc::Command("SetWristSetpoint") {
 	this->setpoint = setpoint;
 	Requires(Robot::wrist.get());
 }

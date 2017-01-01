@@ -6,7 +6,7 @@
 /**
  * Spit the ball out into the low goal assuming that the robot is in front of it.
  */
-class LowGoal : public CommandGroup {
+class LowGoal: public frc::CommandGroup {
 public:
 	LowGoal();
 };

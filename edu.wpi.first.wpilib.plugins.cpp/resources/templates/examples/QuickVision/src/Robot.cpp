@@ -7,7 +7,7 @@
  * is the easiest way to get camera images to the dashboard. Just add this to the
  * RobotInit() method in your program.
  */
-class Robot: public IterativeRobot {
+class Robot: public frc::IterativeRobot {
 public:
 	void RobotInit() {
 		CameraServer::GetInstance()->StartAutomaticCapture();

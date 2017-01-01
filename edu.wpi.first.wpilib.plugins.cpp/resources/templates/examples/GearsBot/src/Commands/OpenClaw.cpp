@@ -2,7 +2,8 @@
 
 #include "Robot.h"
 
-OpenClaw::OpenClaw() : Command("OpenClaw") {
+OpenClaw::OpenClaw() :
+		frc::Command("OpenClaw") {
 	Requires(Robot::claw.get());
 	SetTimeout(1);
 }

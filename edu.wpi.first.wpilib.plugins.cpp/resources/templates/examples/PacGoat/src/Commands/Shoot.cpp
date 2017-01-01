@@ -8,7 +8,7 @@
 
 Shoot::Shoot() {
 	AddSequential(new WaitForPressure());
-	AddSequential(new SetCollectionSpeed(Collector::STOP));
+	AddSequential(new SetCollectionSpeed(Collector::kStop));
 	AddSequential(new OpenClaw());
 	AddSequential(new ExtendShooter());
 }

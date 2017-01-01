@@ -7,12 +7,12 @@
  * Opens the claw for one second. Real robots should use sensors, stalling
  * motors is BAD!
  */
-class CloseClaw : public Command {
+class CloseClaw: public frc::Command {
 public:
 	CloseClaw();
-	void Initialize();
-	bool IsFinished();
-	void End();
+	void Initialize() override;
+	bool IsFinished() override;
+	void End() override;
 };
 
 #endif  // CloseClaw_H

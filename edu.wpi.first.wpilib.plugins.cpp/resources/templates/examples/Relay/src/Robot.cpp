@@ -1,5 +1,7 @@
 #include <Joystick.h>
 #include <Relay.h>
+#include <SampleRobot.h>
+#include <Timer.h>
 
 /**
  * This is a sample program which uses joystick buttons to control a relay.
@@ -13,12 +15,12 @@
  *   in order to allow other threads to run. This is generally a good idea,
  *   especially as joystick values are only received every 20ms.
  */
-class Robot : public SampleRobot {
+class Robot: public frc::SampleRobot {
 public:
 	/**
 	 * Control a Relay using Joystick buttons.
 	 */
-	void OperatorControl() {
+	void OperatorControl() override {
 		while (IsOperatorControl() && IsEnabled()) {
 			/* Retrieve the button values. GetRawButton will return
 			 * true if the button is pressed and false if not.
@@ -34,35 +36,32 @@ public:
 			 */
 			if (forward && reverse) {
 				m_relay.Set(Relay::kOn);
-			}
-			else if (forward) {
+			} else if (forward) {
 				m_relay.Set(Relay::kForward);
-			}
-			else if (reverse) {
+			} else if (reverse) {
 				m_relay.Set(Relay::kReverse);
-			}
-			else {
+			} else {
 				m_relay.Set(Relay::kOff);
 			}
 
 			// Insert 5ms delay in loop.
-			Wait(kUpdatePeriod);
+			frc::Wait(kUpdatePeriod);
 		}
 	}
 
 private:
 	// Joystick with which to control the relay.
-	Joystick m_stick{0};
+	frc::Joystick m_stick { 0 };
 
 	// Relay to use for the
-	Relay m_relay{0};
+	frc::Relay m_relay { 0 };
 
 	// Numbers of the buttons to be used for controlling the Relay.
-	constexpr int kRelayForwardButton = 1;
-	constexpr int kRelayReverseButton = 2;
+	static constexpr int kRelayForwardButton = 1;
+	static constexpr int kRelayReverseButton = 2;
 
 	// Update every 5milliseconds/0.005 seconds.
-	constexpr double kUpdatePeriod = 0.005;
+	static constexpr double kUpdatePeriod = 0.005;
 };
 
 START_ROBOT_CLASS(Robot)

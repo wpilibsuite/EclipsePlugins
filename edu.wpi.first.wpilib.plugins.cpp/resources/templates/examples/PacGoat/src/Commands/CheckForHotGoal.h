@@ -9,10 +9,10 @@
  * points than get none. When called sequentially, this command will block until
  * the hot goal is detected or until it is timed out.
  */
-class CheckForHotGoal : public Command {
+class CheckForHotGoal: public frc::Command {
 public:
 	CheckForHotGoal(double time);
-	bool IsFinished();
+	bool IsFinished() override;
 };
 
 #endif  // CheckForHotGoal_H

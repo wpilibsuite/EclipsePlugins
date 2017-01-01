@@ -2,16 +2,17 @@
 #include <memory>
 #include <string>
 
+#include <IterativeRobot.h>
 #include <LiveWindow/LiveWindow.h>
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
 
-class Robot: public IterativeRobot {
+class Robot: public frc::IterativeRobot {
 public:
 	void RobotInit() {
-		chooser->AddDefault(autoNameDefault, static_cast<void*>(&autoNameDefault));
-		chooser->AddObject(autoNameCustom, static_cast<void*>(&autoNameCustom));
-		SmartDashboard::PutData("Auto Modes", chooser);
+		chooser.AddDefault(autoNameDefault, autoNameDefault);
+		chooser.AddObject(autoNameCustom, autoNameCustom);
+		frc::SmartDashboard::PutData("Auto Modes", &chooser);
 	}
 
 	/*
@@ -25,15 +26,14 @@ public:
 	 * if-else structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
-	void AutonomousInit() {
-		autoSelected = *static_cast<std::string*>(chooser->GetSelected());
+	void AutonomousInit() override {
+		autoSelected = chooser.GetSelected();
 		// std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
 		std::cout << "Auto selected: " << autoSelected << std::endl;
 
 		if (autoSelected == autoNameCustom) {
 			// Custom Auto goes here
-		}
-		else {
+		} else {
 			// Default Auto goes here
 		}
 	}
@@ -41,8 +41,7 @@ public:
 	void AutonomousPeriodic() {
 		if (autoSelected == autoNameCustom) {
 			// Custom Auto goes here
-		}
-		else {
+		} else {
 			// Default Auto goes here
 		}
 	}
@@ -60,8 +59,8 @@ public:
 	}
 
 private:
-	LiveWindow* lw = LiveWindow::GetInstance();
-	std::unique_ptr<SendableChooser> chooser = std::make_unique<SendableChooser>();
+	frc::LiveWindow* lw = LiveWindow::GetInstance();
+	frc::SendableChooser<std::string> chooser;
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;

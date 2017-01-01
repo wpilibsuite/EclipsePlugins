@@ -8,10 +8,10 @@
  * nothing and is intended to be used in command groups to wait for this
  * condition.
  */
-class WaitForBall : public Command {
+class WaitForBall : public frc::Command {
 public:
 	WaitForBall();
-	bool IsFinished();
+	bool IsFinished() override;
 };
 
 #endif  // WaitForBall_H

@@ -10,7 +10,8 @@
 #include "SetDistanceToBox.h"
 #include "SetWristSetpoint.h"
 
-Autonomous::Autonomous() : CommandGroup("Autonomous") {
+Autonomous::Autonomous() :
+		frc::CommandGroup("Autonomous") {
 	AddSequential(new PrepareToPickup());
 	AddSequential(new Pickup());
 	AddSequential(new SetDistanceToBox(0.10));

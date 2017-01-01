@@ -1,12 +1,13 @@
 #include <Joystick.h>
 #include <RobotDrive.h>
 #include <SampleRobot.h>
+#include <Timer.h>
 
 /**
  * This is a demo program showing how to use Mecanum control with the RobotDrive
  * class.
  */
-class Robot : public SampleRobot {
+class Robot: public frc::SampleRobot {
 public:
 	Robot() {
 		robotDrive.SetExpiration(0.1);
@@ -21,7 +22,7 @@ public:
 	/**
 	 * Runs the motors with Mecanum drive.
 	 */
-	void OperatorControl() {
+	void OperatorControl() override {
 		robotDrive.SetSafetyEnabled(false);
 		while (IsOperatorControl() && IsEnabled()) {
 			/* Use the joystick X axis for lateral movement, Y axis for forward
@@ -29,26 +30,26 @@ public:
 			 * field-oriented drive, so the gyro input is set to zero.
 			 */
 			robotDrive.MecanumDrive_Cartesian(stick.GetX(), stick.GetY(),
-			                                  stick.GetZ());
+					stick.GetZ());
 
-			Wait(0.005); // wait 5ms to avoid hogging CPU cycles
+			frc::Wait(0.005); // wait 5ms to avoid hogging CPU cycles
 		}
 	}
 
 private:
 	// Channels for the wheels
-	constexpr int frontLeftChannel = 2;
-	constexpr int rearLeftChannel = 3;
-	constexpr int frontRightChannel = 1;
-	constexpr int rearRightChannel = 0;
+	static constexpr int kFrontLeftChannel = 2;
+	static constexpr int kRearLeftChannel = 3;
+	static constexpr int kFrontRightChannel = 1;
+	static constexpr int kRearRightChannel = 0;
 
-	constexpr int joystickChannel = 0;
+	static constexpr int kJoystickChannel = 0;
 
 	// Robot drive system
-	RobotDrive robotDrive{frontLeftChannel, rearLeftChannel,
-	                      frontRightChannel, rearRightChannel};
+	frc::RobotDrive robotDrive { kFrontLeftChannel, kRearLeftChannel,
+			kFrontRightChannel, kRearRightChannel };
 	// Only joystick
-	Joystick stick{joystickChannel};
+	frc::Joystick stick { kJoystickChannel };
 };
 
 START_ROBOT_CLASS(Robot)

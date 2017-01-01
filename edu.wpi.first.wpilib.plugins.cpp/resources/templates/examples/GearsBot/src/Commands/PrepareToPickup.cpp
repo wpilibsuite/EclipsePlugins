@@ -4,7 +4,8 @@
 #include "SetElevatorSetpoint.h"
 #include "SetWristSetpoint.h"
 
-PrepareToPickup::PrepareToPickup() : CommandGroup("PrepareToPickup") {
+PrepareToPickup::PrepareToPickup() :
+		frc::CommandGroup("PrepareToPickup") {
 	AddParallel(new OpenClaw());
 	AddParallel(new SetWristSetpoint(0));
 	AddSequential(new SetElevatorSetpoint(0));

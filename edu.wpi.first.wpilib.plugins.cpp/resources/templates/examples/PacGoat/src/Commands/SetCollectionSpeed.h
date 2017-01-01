@@ -8,10 +8,10 @@
  * there is no sensor for detecting speed, it finishes immediately. As a result,
  * the spinners may still be adjusting their speed.
  */
-class SetCollectionSpeed : public InstantCommand {
+class SetCollectionSpeed: public frc::InstantCommand {
 public:
 	SetCollectionSpeed(double speed);
-	void Initialize();
+	void Initialize() override;
 
 private:
 	double speed;

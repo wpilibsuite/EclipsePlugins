@@ -2,7 +2,8 @@
 
 #include "Robot.h"
 
-TankDriveWithJoystick::TankDriveWithJoystick() : Command("TankDriveWithJoystick") {
+TankDriveWithJoystick::TankDriveWithJoystick() :
+		frc::Command("TankDriveWithJoystick") {
 	Requires(Robot::drivetrain.get());
 }
 
