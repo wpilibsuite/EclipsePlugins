@@ -18,8 +18,10 @@ import org.opencv.imgproc.Imgproc;
  */
 public class Robot extends IterativeRobot {
 
+	Thread visionThread;
+
 	public void robotInit() {
-		new Thread(() -> {
+		visionThread = new Thread(() -> {
 			// Get the UsbCamera from CameraServer
 			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 			// Set the resolution
@@ -46,7 +48,9 @@ public class Robot extends IterativeRobot {
 				// Give the output stream a new image to display
 				outputStream.putFrame(mat);
 			}
-		}).start();
+		});
+		visionThread.setDaemon(true);
+		visionThread.start();
 	}
 
 }
