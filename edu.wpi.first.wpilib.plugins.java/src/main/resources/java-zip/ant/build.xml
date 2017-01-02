@@ -162,7 +162,8 @@
                failonerror="false"
                command="killall -q netconsole-host || :"/>
 
-      <scp file="${wpilib.ant.dir}/netconsole-host" todir="${adminUsername}@${target}:/usr/local/frc/bin" password="${adminPassword}" trust="true" filemode="755" />
+      <scp file="${wpilib.ant.dir}/netconsole-host" todir="${adminUsername}@${target}:/usr/local/frc/bin" password="${adminPassword}" trust="true" />
+      <sshexec host="${target}" username="${adminUsername}" password="${adminPassword}" trust="true" command="chmod +x /usr/local/frc/bin/netconsole-host" />
 
       <scp file="${wpilib.ant.dir}/robotCommand" todir="${username}@${target}:${command.dir}" password="${password}" trust="true"/>
 
