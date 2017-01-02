@@ -162,6 +162,8 @@
                failonerror="false"
                command="killall -q netconsole-host || :"/>
 
+      <scp file="${wpilib.ant.dir}/netconsole-host" todir="${adminUsername}@${target}:/usr/local/frc/bin" password="${adminPassword}" trust="true" filemode="755" />
+
       <scp file="${wpilib.ant.dir}/robotCommand" todir="${username}@${target}:${command.dir}" password="${password}" trust="true"/>
 
     <echo>[athena-deploy] Starting program.</echo>
