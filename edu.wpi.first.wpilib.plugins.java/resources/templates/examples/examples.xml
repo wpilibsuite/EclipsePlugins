@@ -141,7 +141,6 @@
             <tag>Sensors</tag>
             <tag>Complete List</tag>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Analog</tag>
         </tags>
         <packages>
@@ -159,7 +158,6 @@
             <tag>Sensors</tag>
             <tag>Complete List</tag>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Analog</tag>
         </tags>
         <packages>
@@ -212,7 +210,6 @@
             <tag>Sensors</tag>
             <tag>Complete List</tag>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Analog</tag>
             <tag>Joystick</tag>
         </tags>
@@ -231,7 +228,6 @@
             <tag>Sensors</tag>
             <tag>Complete List</tag>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Analog</tag>
             <tag>Joystick</tag>
         </tags>
@@ -256,36 +252,6 @@
         </packages>
         <files>
             <file source="examples/MotorControl/src/org/usfirst/frc/team190/robot/Robot.java" destination="src/$package-dir/Robot.java" />
-        </files>
-    </example>
-    <example>
-        <name>CAN Talon SRX</name>
-        <description>Demonstrate running a Talon SRX with the basic throttle mode.</description>
-        <tags>
-            <tag>Actuators</tag>
-            <tag>Complete List</tag>
-            <tag>Robot and Motor</tag>
-        </tags>
-        <packages>
-            <package>src/$package-dir</package>
-        </packages>
-        <files>
-            <file source="examples/CANTalon/src/org/usfirst/frc/team190/robot/Robot.java" destination="src/$package-dir/Robot.java" />
-        </files>
-    </example>
-    <example>
-        <name>CAN Talon SRX PID</name>
-        <description>Demonstrate running a Talon SRX with PID Closed Loop control.</description>
-        <tags>
-            <tag>Actuators</tag>
-            <tag>Complete List</tag>
-            <tag>Robot and Motor</tag>
-        </tags>
-        <packages>
-            <package>src/$package-dir</package>
-        </packages>
-        <files>
-            <file source="examples/CANTalonPID/src/org/usfirst/frc/team190/robot/Robot.java" destination="src/$package-dir/Robot.java" />
         </files>
     </example>
     <example>

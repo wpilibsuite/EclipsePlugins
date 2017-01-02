@@ -1,69 +1,46 @@
-
 package $package;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
- * This is a sample program demonstrating how to use an ultrasonic sensor and proportional
- * control to maintain a set distance from an object.
- *
- * WARNING: While it may look like a good choice to use for your code if you're inexperienced,
- * don't. Unless you know what you are doing, complex code will be much more difficult under
- * this system. Use IterativeRobot or Command-Based instead if you're new.
+ * This is a sample program demonstrating how to use an ultrasonic sensor and
+ * proportional control to maintain a set distance from an object.
  */
 
-public class Robot extends SampleRobot {
-    AnalogInput ultrasonic; //ultrasonic sensor
-    RobotDrive myRobot;
+public class Robot extends IterativeRobot {
 
-    final int ultrasonicChannel = 3; //analog input pin
+	// distance in inches the robot wants to stay from an object
+	private static final double kHoldDistance = 12.0;
+	// factor to convert sensor values to a distance in inches
+	private static final double kValueToInches = 0.125;
+	// proportional speed constant
+	private static final double kP = 0.05;
 
-    //channels for motors
-    final int leftMotorChannel = 1;
-    final int rightMotorChannel = 0;
-    final int leftRearMotorChannel = 3;
-    final int rightRearMotorChannel = 2;
+	private static final int kLeftMotorPort = 0;
+	private static final int kRightMotorPort = 1;
+	private static final int kUltrasonicPort = 0;
 
-    int holdDistance = 12; //distance in inches the robot wants to stay from an object
-    final double valueToInches = 0.125; //factor to convert sensor values to a distance in inches
-    final double pGain = 0.05; //proportional speed constant
+	private AnalogInput ultrasonic;
+	private RobotDrive myRobot;
 
+	public void robotInit() {
+		myRobot = new RobotDrive(kLeftMotorPort, kRightMotorPort);
+		ultrasonic = new AnalogInput(kUltrasonicPort);
+	}
 
-    public Robot() {
-    //make objects for the sensor and the drive train
-    ultrasonic = new AnalogInput(ultrasonicChannel);
-        myRobot = new RobotDrive(new CANTalon(leftMotorChannel), new CANTalon(leftRearMotorChannel),
-            new CANTalon(rightMotorChannel), new CANTalon(rightRearMotorChannel));
-    }
+	/**
+	 * Tells the robot to drive to a set distance (in inches) from an object
+	 * using proportional control.
+	 */
+	public void teleopPeriodic() {
+		// sensor returns a value from 0-4095 that is scaled to inches
+		double currentDistance = ultrasonic.getValue() * kValueToInches;
+		// convert distance error to a motor speed
+		double currentSpeed = (kHoldDistance - currentDistance) * kP;
+		// drive robot
+		myRobot.drive(currentSpeed, 0);
+	}
 
-    /**
-     * Runs during autonomous.
-     */
-    public void autonomous() {
-
-    }
-
-    /**
-     * Tells the robot to drive to a set distance (in inches) from an object using proportional control.
-     */
-    public void operatorControl() {
-
-    double currentDistance; //distance measured from the ultrasonic sensor values
-    double currentSpeed; //speed to set the drive train motors
-
-    while (isOperatorControl() && isEnabled()) {
-            currentDistance = ultrasonic.getValue()*valueToInches; //sensor returns a value from 0-4095 that is scaled to inches
-            currentSpeed = (holdDistance - currentDistance)*pGain; //convert distance error to a motor speed
-            myRobot.drive(currentSpeed, 0); //drive robot
-    }
-    }
-
-    /**
-     * Runs during test mode
-     */
-    public void test() {
-    }
 }

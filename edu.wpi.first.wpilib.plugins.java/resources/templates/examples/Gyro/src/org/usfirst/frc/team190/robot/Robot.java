@@ -1,86 +1,50 @@
-
 package $package;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
- * This is a sample program to demonstrate how to use a gyro sensor to make a robot drive
- * straight. This program uses a joystick to drive forwards and backwards while the gyro
- * is used for direction keeping.
- *
- * WARNING: While it may look like a good choice to use for your code if you're inexperienced,
- * don't. Unless you know what you are doing, complex code will be much more difficult under
- * this system. Use IterativeRobot or Command-Based instead if you're new.
+ * This is a sample program to demonstrate how to use a gyro sensor to make a
+ * robot drive straight. This program uses a joystick to drive forwards and
+ * backwards while the gyro is used for direction keeping.
  */
-public class Robot extends SampleRobot {
+public class Robot extends IterativeRobot {
 
-    final int gyroChannel = 0; //analog input
-    final int joystickChannel = 0; //usb number in DriverStation
+    private static final double kAngleSetpoint = 0.0;
+    private static final double kP = 0.005; // propotional turning constant
 
-    //channels for motors
-    final int leftMotorChannel = 1;
-    final int rightMotorChannel = 0;
-    final int leftRearMotorChannel = 3;
-    final int rightRearMotorChannel = 2;
+    // gyro calibration constant, may need to be adjusted;
+    // gyro value of 360 is set to correspond to one full revolution
+    private static final double kVoltsPerDegreePerSecond = 0.0128;
 
-    double angleSetpoint = 0.0;
-    final double pGain = .006; //propotional turning constant
+    private static final int kLeftMotorPort = 0;
+    private static final int kRightMotorPort = 1;
+    private static final int kGyroPort = 0;
+    private static final int kJoystickPort = 0;
 
-    //gyro calibration constant, may need to be adjusted;
-    //gyro value of 360 is set to correspond to one full revolution
-    final double voltsPerDegreePerSecond = .0128;
+    private RobotDrive myRobot;
+    private AnalogGyro gyro;
+    private Joystick joystick;
 
-    RobotDrive myRobot;
-    AnalogGyro gyro;
-    Joystick joystick;
+    public void robotInit() {
+        myRobot = new RobotDrive(kLeftMotorPort, kRightMotorPort);
+        gyro = new AnalogGyro(kGyroPort);
+        joystick = new Joystick(kJoystickPort);
 
-    public Robot()
-    {
-        //make objects for the drive train, gyro, and joystick
-        myRobot = new RobotDrive(new CANTalon(leftMotorChannel), new CANTalon(
-          leftRearMotorChannel), new CANTalon(rightMotorChannel),
-          new CANTalon(rightRearMotorChannel));
-        gyro = new AnalogGyro(gyroChannel);
-        joystick = new Joystick(joystickChannel);
+        gyro.setSensitivity(kVoltsPerDegreePerSecond);
     }
 
     /**
-     * Runs during autonomous.
+     * The motor speed is set from the joystick while the RobotDrive turning
+     * value is assigned from the error between the setpoint and the gyro angle.
      */
-    public void autonomous() {
-
+    public void teleopPeriodic() {
+        double turningValue = (kAngleSetpoint - gyro.getAngle()) * kP;
+        // Invert the direction of the turn if we are going backwards
+        turningValue = Math.copySign(turningValue, joystick.getY());
+        myRobot.drive(joystick.getY(), turningValue);
     }
 
-    /**
-     * Sets the gyro sensitivity and drives the robot when the joystick is pushed. The
-     * motor speed is set from the joystick while the RobotDrive turning value is assigned
-     * from the error between the setpoint and the gyro angle.
-     */
-    public void operatorControl() {
-        double turningValue;
-        gyro.setSensitivity(voltsPerDegreePerSecond); //calibrates gyro values to equal degrees
-        while (isOperatorControl() && isEnabled()) {
-
-            turningValue =  (angleSetpoint - gyro.getAngle())*pGain;
-            if(joystick.getY() <= 0)
-            {
-                //forwards
-                myRobot.drive(joystick.getY(), turningValue);
-            } else {
-                //backwards
-                myRobot.drive(joystick.getY(), -turningValue);
-            }
-        }
-    }
-
-    /**
-     * Runs during test mode.
-     */
-    public void test(){
-
-    }
 }

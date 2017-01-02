@@ -1,71 +1,52 @@
-
 package $package;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 /**
- * This is a sample program that uses mecanum drive with a gyro sensor to maintian
- * rotation vectorsin relation to the starting orientation of the robot (field-oriented controls).
- *
- * WARNING: While it may look like a good choice to use for your code if you're inexperienced,
- * don't. Unless you know what you are doing, complex code will be much more difficult under
- * this system. Use IterativeRobot or Command-Based instead if you're new.
+ * This is a sample program that uses mecanum drive with a gyro sensor to
+ * maintian rotation vectorsin relation to the starting orientation of the robot
+ * (field-oriented controls).
  */
-public class Robot extends SampleRobot {
-    RobotDrive myRobot;
-    Joystick joystick;
-    AnalogGyro gyro;
+public class Robot extends IterativeRobot {
 
-    //channels for motors
-    final int leftMotorChannel = 1;
-    final int rightMotorChannel = 0;
-    final int leftRearMotorChannel = 3;
-    final int rightRearMotorChannel = 2;
+    // gyro calibration constant, may need to be adjusted;
+    // gyro value of 360 is set to correspond to one full revolution
+    private static final double kVoltsPerDegreePerSecond = 0.0128;
 
-    final int gyroChannel = 0; //analog input
+    private static final int kFrontLeftMotorPort = 0;
+    private static final int kFrontRightMotorPort = 1;
+    private static final int kRearLeftMotorPort = 2;
+    private static final int kRearRightMotorPort = 3;
+    private static final int kGyroPort = 0;
+    private static final int kJoystickPort = 0;
 
-    //gyro calibration constant, may need to be adjusted so that a gyro value of 360
-    //equals 360 degrees
-    final double voltsPerDegreePerSecond = .0128;
+    private RobotDrive myRobot;
+    private AnalogGyro gyro;
+    private Joystick joystick;
 
-    public Robot() {
-        //make objects for drive train, joystick, and gyro
-        myRobot = new RobotDrive(new CANTalon(leftMotorChannel), new CANTalon(leftRearMotorChannel),
-          new CANTalon(rightMotorChannel), new CANTalon(rightRearMotorChannel));
-        myRobot.setInvertedMotor(MotorType.kFrontLeft, true); // invert the left side motors
-        myRobot.setInvertedMotor(MotorType.kRearLeft, true); // you may need to change or remove this to match your robot
+    public void robotInit() {
+        myRobot = new RobotDrive(kFrontLeftMotorPort, kFrontRightMotorPort,
+            kRearLeftMotorPort, kRearRightMotorPort);
+        gyro = new AnalogGyro(kGyroPort);
+        joystick = new Joystick(kJoystickPort);
 
-        joystick = new Joystick(0);
-        gyro = new AnalogGyro(gyroChannel);
+        // invert the left side motors
+        // you may need to change or remove this to match your robot
+        myRobot.setInvertedMotor(MotorType.kFrontLeft, true);
+        myRobot.setInvertedMotor(MotorType.kRearLeft, true);
+
+        gyro.setSensitivity(kVoltsPerDegreePerSecond);
     }
 
     /**
-     * Runs during autonomous.
+     * Mecanum drive is used with the gyro angle as an input.
      */
-    public void autonomous() {
-
+    public void teleopPeriodic() {
+        myRobot.mecanumDrive_Cartesian(joystick.getX(), joystick.getY(), joystick.getZ(), gyro.getAngle());
     }
 
-    /**
-     * Gyro sensitivity is set and mecanum drive is used with the gyro angle as an input.
-     */
-    public void operatorControl() {
-        gyro.setSensitivity(voltsPerDegreePerSecond); //calibrate gyro to have the value equal to degrees
-        while (isOperatorControl() && isEnabled()) {
-            myRobot.mecanumDrive_Cartesian(joystick.getX(), joystick.getY(), joystick.getZ(), gyro.getAngle());
-            Timer.delay(0.005);    // wait 5ms to avoid hogging CPU cycles
-        }
-    }
-
-    /**
-     * Runs during test mode
-     */
-    public void test() {
-    }
 }

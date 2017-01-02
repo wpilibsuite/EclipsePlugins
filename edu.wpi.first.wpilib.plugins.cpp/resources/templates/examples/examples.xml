@@ -120,38 +120,6 @@
         </files>
     </example>
     <example>
-        <name>CAN Talon SRX</name>
-        <description>Quick demo of running the SRX at a given throttle value.</description>
-        <tags>
-            <tag>Robot and Motor</tag>
-            <tag>Digital</tag>
-            <tag>Actuators</tag>
-            <tag>Complete List</tag>
-        </tags>
-        <packages>
-            <package>src</package>
-        </packages>
-        <files>
-            <file source="examples/CANTalon/src/Robot.cpp" destination="src/Robot.cpp" />
-        </files>
-    </example>
-    <example>
-        <name>CAN Talon SRX PID</name>
-        <description>Quick demo of running the SRX with a PID loop.</description>
-        <tags>
-            <tag>Robot and Motor</tag>
-            <tag>Digital</tag>
-            <tag>Actuators</tag>
-            <tag>Complete List</tag>
-        </tags>
-        <packages>
-            <package>src</package>
-        </packages>
-        <files>
-            <file source="examples/CANTalonPID/src/Robot.cpp" destination="src/Robot.cpp" />
-        </files>
-    </example>
-    <example>
         <name>Relay</name>
         <description>Demonstrate controlling a Relay from Joystick buttons.</description>
         <tags>
@@ -251,7 +219,6 @@
         <description>Demonstrate maintaining a set distance using an ultrasonic sensor.</description>
         <tags>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Complete List</tag>
             <tag>Sensors</tag>
             <tag>Analog</tag>
@@ -269,7 +236,6 @@
             control.</description>
         <tags>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Complete List</tag>
             <tag>Sensors</tag>
             <tag>Analog</tag>
@@ -286,7 +252,6 @@
         <description>An example program showing how to drive straight with using a gyro sensor.</description>
         <tags>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Complete List</tag>
             <tag>Sensors</tag>
             <tag>Analog</tag>
@@ -305,7 +270,6 @@
             controls.</description>
         <tags>
             <tag>Robot and Motor</tag>
-            <tag>CAN</tag>
             <tag>Complete List</tag>
             <tag>Sensors</tag>
             <tag>Analog</tag>
