@@ -3,10 +3,10 @@
 
 #include <Commands/Subsystem.h>
 
-class ExampleSubsystem : public Subsystem {
+class ExampleSubsystem: public frc::Subsystem {
 public:
 	ExampleSubsystem();
-	void InitDefaultCommand();
+	void InitDefaultCommand() override;
 
 private:
 	// It's desirable that everything possible under private except

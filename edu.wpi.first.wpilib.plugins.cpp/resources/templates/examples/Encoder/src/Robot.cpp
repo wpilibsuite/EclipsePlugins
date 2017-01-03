@@ -19,7 +19,7 @@
  *   distance that the robot drives can be precisely controlled during the
  *   autonomous mode.
  */
-class Robot: public SampleRobot {
+class Robot: public frc::SampleRobot {
 	/**
 	 * The Encoder object is constructed with 4 parameters, the last two being
 	 *   optional.
@@ -33,7 +33,7 @@ class Robot: public SampleRobot {
 	 *   and defaults to k4X. Faster (k4X) encoding gives greater positional
 	 *   precision but more noise in the rate.
 	 */
-	Encoder m_encoder{1, 2, false, Encoder::k4X};
+	frc::Encoder m_encoder { 1, 2, false, Encoder::k4X };
 
 	/**
 	 * Time to wait between updating SmartDashboard values.
@@ -41,7 +41,7 @@ class Robot: public SampleRobot {
 	 *   to avoid hogging CPU power, especially as there will be no
 	 *   perceivable difference in the SmartDashboard display.
 	 */
-	constexpr double kUpdatePeriod = 0.005; // 5milliseconds / 0.005 seconds.
+	static constexpr double kUpdatePeriod = 0.005; // 5milliseconds / 0.005 seconds.
 
 public:
 	Robot() {
@@ -59,11 +59,11 @@ public:
 		 */
 		m_encoder.SetDistancePerPulse(1.0 / 360.0 * 2.0 * 3.1415 * 1.5);
 
-		 /* Defines the lowest rate at which the encoder will not be considered
-		  *   stopped, for the purposes of the GetStopped() method.
-		  * Units are in distance / second, where distance refers to the units
-		  *   of distance that you are using, in this case inches.
-		  */
+		/* Defines the lowest rate at which the encoder will not be considered
+		 *   stopped, for the purposes of the GetStopped() method.
+		 * Units are in distance / second, where distance refers to the units
+		 *   of distance that you are using, in this case inches.
+		 */
 		m_encoder.SetMinRate(1.0);
 	}
 
@@ -74,13 +74,13 @@ public:
 	void OperatorControl() {
 		while (IsOperatorControl() && IsEnabled()) {
 			// Retrieve the net displacement of the Encoder since the lsat Reset.
-			SmartDashboard::PutNumber("Encoder Distance",
-			                          m_encoder.GetDistance());
+			frc::SmartDashboard::PutNumber("Encoder Distance",
+					m_encoder.GetDistance());
 
 			// Retrieve the current rate of the encoder.
-			SmartDashboard::PutNumber("Encoder Rate", m_encoder.GetRate());
+			frc::SmartDashboard::PutNumber("Encoder Rate", m_encoder.GetRate());
 
-			Wait(kUpdatePeriod);  // Wait a short bit before updating again.
+			frc::Wait(kUpdatePeriod); // Wait a short bit before updating again.
 		}
 	}
 };

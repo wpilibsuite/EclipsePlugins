@@ -1,8 +1,6 @@
 #ifndef Collector_H
 #define Collector_H
 
-#include <memory>
-
 #include <Commands/Subsystem.h>
 #include <DigitalInput.h>
 #include <Solenoid.h>
@@ -13,12 +11,12 @@
  * detection, a piston for opening and closing the claw, and a reed switch to
  * check if the piston is open.
  */
-class Collector : public Subsystem {
+class Collector: public frc::Subsystem {
 public:
 	// Constants for some useful speeds
-	static constexpr double FORWARD = 1;
-	static constexpr double STOP = 0;
-	static constexpr double REVERSE = -1;
+	static constexpr double kForward = 1;
+	static constexpr double kStop = 0;
+	static constexpr double kReverse = -1;
 
 	Collector();
 
@@ -59,14 +57,14 @@ public:
 	/**
 	 * No default command.
 	 */
-	void InitDefaultCommand();
+	void InitDefaultCommand() override;
 
 private:
 	// Subsystem devices
-	std::shared_ptr<SpeedController> rollerMotor = std::make_shared<Victor>(6);
-	std::shared_ptr<DigitalInput> ballDetector = std::make_shared<DigitalInput>(10);
-	std::shared_ptr<Solenoid> piston = std::make_shared<Solenoid>(1);
-	std::shared_ptr<DigitalInput> openDetector = std::make_shared<DigitalInput>(6);
+	frc::Victor rollerMotor { 6 };
+	frc::DigitalInput ballDetector { 10 };
+	frc::Solenoid piston { 1 };
+	frc::DigitalInput openDetector { 6 };
 };
 
 #endif  // Collector_H

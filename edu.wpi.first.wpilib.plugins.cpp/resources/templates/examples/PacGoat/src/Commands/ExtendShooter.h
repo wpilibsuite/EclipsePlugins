@@ -6,11 +6,11 @@
 /**
  * Extend the shooter and then retract it after a second.
  */
-class ExtendShooter : public TimedCommand {
+class ExtendShooter : public frc::TimedCommand {
 public:
 	ExtendShooter();
-	void Initialize();
-	void End();
+	void Initialize() override;
+	void End() override;
 };
 
 #endif  // ExtendShooter_H

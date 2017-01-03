@@ -6,12 +6,12 @@
 /**
  * Have the robot drive tank style using the PS3 Joystick until interrupted.
  */
-class TankDriveWithJoystick : public Command {
+class TankDriveWithJoystick: public frc::Command {
 public:
 	TankDriveWithJoystick();
-	void Execute();
-	bool IsFinished();
-	void End();
+	void Execute() override;
+	bool IsFinished() override;
+	void End() override;
 };
 
 #endif  // TankDriveWithJoystick_H

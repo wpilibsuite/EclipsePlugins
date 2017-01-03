@@ -2,7 +2,8 @@
 
 #include "Robot.h"
 
-ExtendShooter::ExtendShooter() : TimedCommand(1) {
+ExtendShooter::ExtendShooter() :
+		frc::TimedCommand(1.0) {
 	Requires(Robot::shooter.get());
 }
 

@@ -3,17 +3,20 @@
 
 #include <Buttons/Trigger.h>
 
+namespace frc {
 class Joystick;
+}
 
-class DoubleButton : public Trigger {
+class DoubleButton: public frc::Trigger {
 public:
-	DoubleButton(Joystick* joy, int button1, int button2);
+	DoubleButton(frc::Joystick* joy, int button1, int button2);
 
 	bool Get();
 
 private:
-	Joystick* joy;
-	int button1, button2;
+	frc::Joystick* joy;
+	int button1;
+	int button2;
 };
 
 #endif  // DOUBLEBUTTON_H_

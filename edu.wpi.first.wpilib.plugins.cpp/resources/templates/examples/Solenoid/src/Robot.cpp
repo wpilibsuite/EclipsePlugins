@@ -2,6 +2,7 @@
 #include <Joystick.h>
 #include <SampleRobot.h>
 #include <Solenoid.h>
+#include <Timer.h>
 
 /**
  * This is a sample program showing the use of the solenoid classes during
@@ -22,12 +23,12 @@
  *   in order to allow other threads to run. This is generally a good idea,
  *   especially as joystick values are only received every 20ms.
  */
-class Robot : public SampleRobot {
+class Robot: public frc::SampleRobot {
 public:
 	/**
 	 * Sets the solenoids from the position of joystick buttons.
 	 */
-	void OperatorControl() {
+	void OperatorControl() override {
 		while (IsOperatorControl() && IsEnabled()) {
 			/* The output of GetRawButton is true/false depending on whether
 			 *   the button is pressed; Set takes a boolean for for whether to
@@ -41,39 +42,37 @@ public:
 			 *   are pressed, set the solenoid to Forwards.
 			 */
 			if (m_stick.GetRawButton(kDoubleSolenoidForward)) {
-				m_doubleSolenoid.Set(DoubleSolenoid::kForward);
-			}
-			else if (m_stick.GetRawButton(kDoubleSolenoidReverse)) {
-				m_doubleSolenoid.Set(DoubleSolenoid::kReverse);
-			}
-			else {
-				m_doubleSolenoid.Set(DoubleSolenoid::kOff);
+				m_doubleSolenoid.Set(frc::DoubleSolenoid::kForward);
+			} else if (m_stick.GetRawButton(kDoubleSolenoidReverse)) {
+				m_doubleSolenoid.Set(frc::DoubleSolenoid::kReverse);
+			} else {
+				m_doubleSolenoid.Set(frc::DoubleSolenoid::kOff);
 			}
 
-			Wait(kUpdatePeriod);  // Wait for a motor update time
+			frc::Wait(kUpdatePeriod);  // Wait for a motor update time
 		}
 	}
 
 private:
 	// Joystick with buttons to control solenoids with.
-	Joystick m_stick{0};
+	frc::Joystick m_stick { 0 };
 
 	// Solenoids to control with the joystick.
 	// Solenoid corresponds to a single solenoid.
-	Solenoid m_solenoid{0};
+	frc::Solenoid m_solenoid { 0 };
 
 	/* DoubleSolenoid corresponds to a double solenoid.
 	 * Use double solenoid with forward channel of 1 and reverse of 2
 	 */
-	DoubleSolenoid m_doubleSolenoid{1, 2};
+	frc::DoubleSolenoid m_doubleSolenoid { 1, 2 };
 
 	// Update every 5milliseconds/0.005 seconds.
-	constexpr double kUpdatePeriod = 0.005;
+	static constexpr double kUpdatePeriod = 0.005;
 
 	// Numbers of the buttons to use for triggering the solenoids.
-	constexpr int kSolenoidButton = 1;
-	constexpr int kDoubleSolenoidForward = 2;
-	constexpr int kDoubleSolenoidReverse = 3;
+	static constexpr int kSolenoidButton = 1;
+	static constexpr int kDoubleSolenoidForward = 2;
+	static constexpr int kDoubleSolenoidReverse = 3;
 };
 
 START_ROBOT_CLASS(Robot)

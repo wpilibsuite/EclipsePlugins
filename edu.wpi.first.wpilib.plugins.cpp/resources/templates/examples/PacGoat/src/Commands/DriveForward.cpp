@@ -31,18 +31,17 @@ void DriveForward::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void DriveForward::Execute() {
 	error = (distance - Robot::drivetrain->GetRightEncoder()->GetDistance());
-	if (driveForwardSpeed * KP * error >= driveForwardSpeed) {
+	if (driveForwardSpeed * kP * error >= driveForwardSpeed) {
 		Robot::drivetrain->TankDrive(driveForwardSpeed, driveForwardSpeed);
-	}
-	else {
-		Robot::drivetrain->TankDrive(driveForwardSpeed * KP * error,
-		                             driveForwardSpeed * KP * error);
+	} else {
+		Robot::drivetrain->TankDrive(driveForwardSpeed * kP * error,
+				driveForwardSpeed * kP * error);
 	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveForward::IsFinished() {
-	return (std::fabs(error) <= TOLERANCE) || IsTimedOut();
+	return (std::fabs(error) <= kTolerance) || IsTimedOut();
 }
 
 // Called once after isFinished returns true

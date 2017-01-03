@@ -2,7 +2,7 @@
 
 #include <Joystick.h>
 
-DoubleButton::DoubleButton(Joystick* joy, int button1, int button2) {
+DoubleButton::DoubleButton(frc::Joystick* joy, int button1, int button2) {
 	this->joy = joy;
 	this->button1 = button1;
 	this->button2 = button2;

@@ -1,8 +1,8 @@
 package $package.commands;
 
-import $package.Robot;
-
 import edu.wpi.first.wpilibj.command.InstantCommand;
+
+import $package.Robot;
 
 /**
  * Close the claw.
@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  */
 public class CloseClaw extends InstantCommand {
 
-    public CloseClaw() {
-        requires(Robot.collector);
-    }
+	public CloseClaw() {
+		requires(Robot.collector);
+	}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-        Robot.collector.close();
-    }
+	// Called just before this Command runs the first time
+	@Override
+	protected void initialize() {
+		Robot.collector.close();
+	}
 }

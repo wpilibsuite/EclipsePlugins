@@ -6,7 +6,7 @@
 /**
  * Place a held soda can onto the platform.
  */
-class Place : public CommandGroup {
+class Place: public frc::CommandGroup {
 public:
 	Place();
 };

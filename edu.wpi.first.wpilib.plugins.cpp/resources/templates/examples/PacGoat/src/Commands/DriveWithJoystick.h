@@ -7,12 +7,12 @@
  * This command allows PS3 joystick to drive the robot. It is always running
  * except when interrupted by another command.
  */
-class DriveWithJoystick : public Command {
+class DriveWithJoystick : public frc::Command {
 public:
 	DriveWithJoystick();
-	void Execute();
-	bool IsFinished();
-	void End();
+	void Execute() override;
+	bool IsFinished() override;
+	void End() override;
 };
 
 #endif  // DriveWithJoystick_H

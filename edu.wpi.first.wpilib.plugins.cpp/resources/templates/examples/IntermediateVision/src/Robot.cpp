@@ -1,3 +1,5 @@
+#include <thread>
+
 #include <CameraServer.h>
 #include <IterativeRobot.h>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -10,7 +12,7 @@
  * sent to the dashboard. OpenCV has many methods for different types of
  * processing.
  */
-class Robot: public IterativeRobot {
+class Robot: public frc::IterativeRobot {
 private:
 	static void VisionThread() {
 		// Get the USB camera from CameraServer

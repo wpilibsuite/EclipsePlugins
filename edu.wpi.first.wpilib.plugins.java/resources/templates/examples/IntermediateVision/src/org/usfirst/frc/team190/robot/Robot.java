@@ -17,9 +17,9 @@ import org.opencv.imgproc.Imgproc;
  * processing.
  */
 public class Robot extends IterativeRobot {
-
 	Thread visionThread;
 
+	@Override
 	public void robotInit() {
 		visionThread = new Thread(() -> {
 			// Get the UsbCamera from CameraServer
@@ -57,5 +57,4 @@ public class Robot extends IterativeRobot {
 		visionThread.setDaemon(true);
 		visionThread.start();
 	}
-
 }

@@ -7,7 +7,7 @@
  * Pickup a soda can (if one is between the open claws) and
  * get it in a safe state to drive around.
  */
-class Pickup : public CommandGroup {
+class Pickup: public frc::CommandGroup {
 public:
 	Pickup();
 };

@@ -1,16 +1,16 @@
 #ifndef OpenClaw_H
 #define OpenClaw_H
 
-#include <Command/Command.h>
+#include <Commands/Command.h>
 
 /**
  * Opens the claw
  */
-class OpenClaw : public Command {
+class OpenClaw: public frc::Command {
 public:
 	OpenClaw();
-	void Initialize();
-	bool IsFinished();
+	void Initialize() override;
+	bool IsFinished() override;
 };
 
 #endif  // OpenClaw_H

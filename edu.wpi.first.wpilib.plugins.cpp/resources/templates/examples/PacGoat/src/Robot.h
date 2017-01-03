@@ -16,7 +16,7 @@
 #include "Subsystems/Pneumatics.h"
 #include "Subsystems/Shooter.h"
 
-class Robot : public IterativeRobot {
+class Robot: public IterativeRobot {
 public:
 	static std::shared_ptr<DriveTrain> drivetrain;
 	static std::shared_ptr<Pivot> pivot;
@@ -26,19 +26,20 @@ public:
 	static std::unique_ptr<OI> oi;
 
 private:
-	Command* autonomousCommand = nullptr;
-	std::unique_ptr<Command> driveAndShootAuto{new DriveAndShootAutonomous()},
-							 driveForwardAuto{new DriveForward()};
-	SendableChooser autoChooser;
+	frc::Command* autonomousCommand = nullptr;
+	std::unique_ptr<frc::Command> driveAndShootAuto {
+		new DriveAndShootAutonomous() };
+	std::unique_ptr<frc::Command> driveForwardAuto { new DriveForward() };
+	SendableChooser<frc::Command*> autoChooser;
 
-	void RobotInit();
-	void AutonomousInit();
-	void AutonomousPeriodic();
-	void TeleopInit();
-	void TeleopPeriodic();
-	void TestPeriodic();
-	void DisabledInit();
-	void DisabledPeriodic();
+	void RobotInit() override;
+	void AutonomousInit() override;
+	void AutonomousPeriodic() override;
+	void TeleopInit() override;
+	void TeleopPeriodic() override;
+	void TestPeriodic() override;
+	void DisabledInit() override;
+	void DisabledPeriodic() override;
 
 	void Log();
 };

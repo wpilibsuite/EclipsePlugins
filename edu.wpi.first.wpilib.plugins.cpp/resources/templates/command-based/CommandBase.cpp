@@ -4,18 +4,14 @@
 
 #include "Subsystems/ExampleSubsystem.h"
 
-// Initialize a single static instance of all of your subsystems
-std::unique_ptr<ExampleSubsystem> CommandBase::exampleSubsystem;
-std::unique_ptr<OI> CommandBase::oi;
+// Initialize a single static instance of all of your subsystems. The following
+// line should be repeated for each subsystem in the project.
+std::unique_ptr<ExampleSubsystem> CommandBase::exampleSubsystem =
+		std::make_unique<ExampleSubsystem>();
 
-CommandBase::CommandBase(const std::string &name) : Command(name) {
+std::unique_ptr<OI> CommandBase::oi = std::make_unique<OI>();
 
-}
+CommandBase::CommandBase(const std::string &name) :
+		frc::Command(name) {
 
-void CommandBase::init() {
-	// Create a single static instance of all of your subsystems. The following
-	// line should be repeated for each subsystem in the project.
-	exampleSubsystem.reset(new ExampleSubsystem());
-
-	oi.reset(new OI());
 }

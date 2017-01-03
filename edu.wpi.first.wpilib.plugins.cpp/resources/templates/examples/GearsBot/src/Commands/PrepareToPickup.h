@@ -6,7 +6,7 @@
 /**
  * Make sure the robot is in a state to pickup soda cans.
  */
-class PrepareToPickup : public CommandGroup {
+class PrepareToPickup: public frc::CommandGroup {
 public:
 	PrepareToPickup();
 };

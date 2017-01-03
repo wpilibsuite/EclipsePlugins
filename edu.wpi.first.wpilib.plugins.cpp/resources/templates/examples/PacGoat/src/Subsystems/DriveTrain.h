@@ -9,11 +9,15 @@
 #include <RobotDrive.h>
 #include <Victor.h>
 
+namespace frc {
+class Joystick;
+}
+
 /**
  * The DriveTrain subsystem controls the robot's chassis and reads in
  * information about it's speed and position.
  */
-class DriveTrain : public Subsystem {
+class DriveTrain: public frc::Subsystem {
 public:
 	DriveTrain();
 
@@ -26,7 +30,7 @@ public:
 	/**
 	 * @param joy PS3 style joystick to use as the input for tank drive.
 	 */
-	void TankDrive(Joystick* joy);
+	void TankDrive(frc::Joystick* joy);
 
 	/**
 	 * @param leftAxis Left sides value
@@ -56,14 +60,17 @@ public:
 
 private:
 	// Subsystem devices
-	std::shared_ptr<SpeedController> frontLeftCIM = std::make_shared<Victor>(1);
-	std::shared_ptr<SpeedController> frontRightCIM = std::make_shared<Victor>(2);
-	std::shared_ptr<SpeedController> backLeftCIM = std::make_shared<Victor>(3);
-	std::shared_ptr<SpeedController> backRightCIM = std::make_shared<Victor>(4);
-	RobotDrive drive{frontRightCIM, backLeftCIM, frontRightCIM, backRightCIM};
-	std::shared_ptr<Encoder> rightEncoder = std::make_shared<Encoder>(1, 2, true, Encoder::k4X);
-	std::shared_ptr<Encoder> leftEncoder = std::make_shared<Encoder>(3, 4, false, Encoder::k4X);
-	std::shared_ptr<AnalogGyro> gyro = std::make_shared<AnalogGyro>(0);
+	frc::Victor frontLeftCIM { 1 };
+	frc::Victor rearLeftCIM { 2 };
+	frc::Victor frontRightCIM { 3 };
+	frc::Victor rearRightCIM { 4 };
+	frc::RobotDrive drive { frontRightCIM, rearLeftCIM, frontRightCIM,
+			rearRightCIM };
+	std::shared_ptr<frc::Encoder> rightEncoder = std::make_shared<frc::Encoder>(
+			1, 2, true, Encoder::k4X);
+	std::shared_ptr<frc::Encoder> leftEncoder = std::make_shared<frc::Encoder>(
+			3, 4, false, Encoder::k4X);
+	frc::AnalogGyro gyro { 0 };
 };
 
 #endif  // DriveTrain_H

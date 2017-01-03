@@ -7,8 +7,8 @@
 #include "Robot.h"
 
 Collect::Collect() {
-	AddSequential(new SetCollectionSpeed(Collector::FORWARD));
+	AddSequential(new SetCollectionSpeed(Collector::kForward));
 	AddParallel(new CloseClaw());
-	AddSequential(new SetPivotSetpoint(Pivot::COLLECT));
+	AddSequential(new SetPivotSetpoint(Pivot::kCollect));
 	AddSequential(new WaitForBall());
 }

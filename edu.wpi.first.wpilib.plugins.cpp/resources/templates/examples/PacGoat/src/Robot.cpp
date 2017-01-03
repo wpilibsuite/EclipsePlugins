@@ -4,44 +4,36 @@
 
 #include <SmartDashboard/SmartDashboard.h>
 
-std::shared_ptr<Collector> Robot::collector;
-std::shared_ptr<DriveTrain> Robot::drivetrain;
-std::unique_ptr<OI> Robot::oi;
-std::shared_ptr<Pivot> Robot::pivot;
-std::shared_ptr<Pneumatics> Robot::pneumatics;
-std::shared_ptr<Shooter> Robot::shooter;
+std::shared_ptr<DriveTrain> Robot::drivetrain = std::make_shared<DriveTrain>();
+std::shared_ptr<Pivot> Robot::pivot = std::make_shared<Pivot>();
+std::shared_ptr<Collector> Robot::collector = std::make_shared<Collector>();
+std::shared_ptr<Shooter> Robot::shooter = std::make_shared<Shooter>();
+std::shared_ptr<Pneumatics> Robot::pneumatics = std::make_shared<Pneumatics>();
+std::unique_ptr<OI> Robot::oi = std::make_unique<OI>();
 
 void Robot::RobotInit() {
-	drivetrain.reset(new DriveTrain());
-	pivot.reset(new Pivot());
-	collector.reset(new Collector());
-	shooter.reset(new Shooter());
-	pneumatics.reset(new Pneumatics());
-
-	oi.reset(new OI());
-
 	// Show what command your subsystem is running on the SmartDashboard
-	SmartDashboard::PutData(drivetrain.get());
-	SmartDashboard::PutData(pivot.get());
-	SmartDashboard::PutData(collector.get());
-	SmartDashboard::PutData(shooter.get());
-	SmartDashboard::PutData(pneumatics.get());
+	frc::SmartDashboard::PutData(drivetrain.get());
+	frc::SmartDashboard::PutData(pivot.get());
+	frc::SmartDashboard::PutData(collector.get());
+	frc::SmartDashboard::PutData(shooter.get());
+	frc::SmartDashboard::PutData(pneumatics.get());
 
 	// instantiate the command used for the autonomous period
 	autoChooser.AddDefault("Drive and Shoot", driveAndShootAuto.get());
 	autoChooser.AddObject("Drive Forward", driveForwardAuto.get());
-	SmartDashboard::PutData("Auto Mode", &autoChooser);
+	frc::SmartDashboard::PutData("Auto Mode", &autoChooser);
 
 	pneumatics->Start();  // Pressurize the pneumatics.
 }
 
 void Robot::AutonomousInit() {
-	autonomousCommand = static_cast<Command*>(autoChooser.GetSelected());
+	autonomousCommand = autoChooser.GetSelected();
 	autonomousCommand->Start();
 }
 
 void Robot::AutonomousPeriodic() {
-	Scheduler::GetInstance()->Run();
+	frc::Scheduler::GetInstance()->Run();
 	Log();
 }
 
@@ -57,12 +49,12 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-	Scheduler::GetInstance()->Run();
+	frc::Scheduler::GetInstance()->Run();
 	Log();
 }
 
 void Robot::TestPeriodic() {
-	LiveWindow::GetInstance()->Run();
+	frc::LiveWindow::GetInstance()->Run();
 }
 
 void Robot::DisabledInit() {
@@ -78,9 +70,11 @@ void Robot::DisabledPeriodic() {
  */
 void Robot::Log() {
 	Robot::pneumatics->WritePressure();
-	SmartDashboard::PutNumber("Pivot Pot Value", pivot->GetAngle());
-	SmartDashboard::PutNumber("Left Distance", drivetrain->GetLeftEncoder()->GetDistance());
-	SmartDashboard::PutNumber("Right Distance", drivetrain->GetRightEncoder()->GetDistance());
+	frc::SmartDashboard::PutNumber("Pivot Pot Value", pivot->GetAngle());
+	frc::SmartDashboard::PutNumber("Left Distance",
+			drivetrain->GetLeftEncoder()->GetDistance());
+	frc::SmartDashboard::PutNumber("Right Distance",
+			drivetrain->GetRightEncoder()->GetDistance());
 }
 
 START_ROBOT_CLASS(Robot)

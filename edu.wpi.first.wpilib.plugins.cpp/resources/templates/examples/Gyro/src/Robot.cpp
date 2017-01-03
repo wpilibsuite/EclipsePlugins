@@ -10,9 +10,9 @@
  * straight. This program uses a joystick to drive forwards and backwards while the gyro
  * is used for direction keeping.
  */
-class Robot: public IterativeRobot {
+class Robot: public frc::IterativeRobot {
 public:
-	void RobotInit() {
+	void RobotInit() override {
 		gyro.SetSensitivity(kVoltsPerDegreePerSecond);
 	}
 
@@ -20,7 +20,7 @@ public:
 	 * The motor speed is set from the joystick while the RobotDrive turning
 	 * value is assigned from the error between the setpoint and the gyro angle.
 	 */
-	void TeleopPeriodic() {
+	void TeleopPeriodic() override {
 		double turningValue = (kAngleSetpoint - gyro.GetAngle()) * kP;
 		// Invert the direction of the turn if we are going backwards
 		turningValue = std::copysign(turningValue, joystick.GetY());
@@ -40,9 +40,9 @@ private:
 	static constexpr int kGyroPort = 0;
 	static constexpr int kJoystickPort = 0;
 
-	RobotDrive myRobot { kLeftMotorPort, kRightMotorPort };
-	AnalogGyro gyro { kGyroPort };
-	Joystick joystick { kJoystickPort };
+	frc::RobotDrive myRobot { kLeftMotorPort, kRightMotorPort };
+	frc::AnalogGyro gyro { kGyroPort };
+	frc::Joystick joystick { kJoystickPort };
 };
 
 START_ROBOT_CLASS(Robot)

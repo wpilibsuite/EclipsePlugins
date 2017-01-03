@@ -13,19 +13,19 @@
  * be much more difficult under this system. Use IterativeRobot or Command-Based
  * instead if you're new.
  */
-class Robot : public SampleRobot {
+class Robot: public frc::SampleRobot {
 public:
 	/**
 	 * Runs during autonomous.
 	 */
-	void Autonomous() {
+	void Autonomous() override {
 
 	}
 
 	/**
 	 * Runs during operator control.
 	 */
-	void OperatorControl() {
+	void OperatorControl() override {
 		bool buttonState;
 		bool prevButtonState = false;
 
@@ -33,17 +33,17 @@ public:
 		int index = 0;
 
 		// Number of setpoints
-		const int size = 3;
+		constexpr int size = 3;
 
 		// Bottom, middle, and top elevator setpoints
-		const double setpoints[size] = {1.0, 2.6, 4.3};
+		constexpr double setpoints[size] = { 1.0, 2.6, 4.3 };
 
 		// Holds desired setpoint, initialized to first setpoint
 		double currentSetpoint = setpoints[0];
 
 		while (IsOperatorControl() && IsEnabled()) {
 			// Check if button is pressed
-			buttonState = joystick.GetRawButton(buttonNumber);
+			buttonState = joystick.GetRawButton(kButtonNumber);
 
 			// If button has been pressed and released once
 			if (buttonState && !prevButtonState) {
@@ -61,7 +61,7 @@ public:
 			currentPosition = potentiometer.GetAverageVoltage();
 
 			// Convert position error to speed
-			motorSpeed = (currentPosition - currentSetpoint) * pGain
+			motorSpeed = (currentPosition - currentSetpoint) * kP;
 
 			// Drive elevator motor
 			elevatorMotor.Set(motorSpeed);
@@ -71,27 +71,27 @@ public:
 	/**
 	 * Runs during test mode.
 	 */
-	void Test() {
+	void Test() override {
 
 	}
 
 private:
-	constexpr int potChannel = 1;       // Analog input pin
-	constexpr int motorChannel = 7;     // PWM channel
-	constexpr int joystickChannel = 0;  // USB number in DriverStation
-	constexpr int buttonNumber = 4;     // Joystick button
+	static constexpr int kPotChannel = 1;       // Analog input pin
+	static constexpr int kMotorChannel = 7;     // PWM channel
+	static constexpr int kJoystickChannel = 0;  // USB number in DriverStation
+	static constexpr int kButtonNumber = 4;     // Joystick button
 
 	// Proportional speed constant
-	constexpr double pGain = 1.0;
+	static constexpr double kP = 1.0;
 
 	double motorSpeed;
 
 	// Sensor voltage reading corresponding to current elevator position
 	double currentPosition;
 
-	AnalogInput potentiometer{potChannel};
-	Victor elevatorMotor{motorChannel};
-	Joystick joystick{joystickChannel};
+	frc::AnalogInput potentiometer { kPotChannel };
+	frc::Victor elevatorMotor { kMotorChannel };
+	frc::Joystick joystick { kJoystickChannel };
 };
 
 START_ROBOT_CLASS(Robot)

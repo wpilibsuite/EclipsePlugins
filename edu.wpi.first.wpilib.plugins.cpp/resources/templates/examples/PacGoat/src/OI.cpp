@@ -13,19 +13,19 @@ OI::OI() {
 	R1.WhenPressed(new LowGoal());
 	R2.WhenPressed(new Collect());
 
-	L1.WhenPressed(new SetPivotSetpoint(Pivot::SHOOT));
-	L2.WhenPressed(new SetPivotSetpoint(Pivot::SHOOT_NEAR));
+	L1.WhenPressed(new SetPivotSetpoint(Pivot::kShoot));
+	L2.WhenPressed(new SetPivotSetpoint(Pivot::kShootNear));
 
 	sticks.WhenActive(new Shoot());
 
 	// SmartDashboard Buttons
-	SmartDashboard::PutData("Drive Forward", new DriveForward(2.25));
-	SmartDashboard::PutData("Drive Backward", new DriveForward(-2.25));
-	SmartDashboard::PutData("Start Rollers", new SetCollectionSpeed(Collector::FORWARD));
-	SmartDashboard::PutData("Stop Rollers", new SetCollectionSpeed(Collector::STOP));
-	SmartDashboard::PutData("Reverse Rollers", new SetCollectionSpeed(Collector::REVERSE));
+	frc::SmartDashboard::PutData("Drive Forward", new DriveForward(2.25));
+	frc::SmartDashboard::PutData("Drive Backward", new DriveForward(-2.25));
+	frc::SmartDashboard::PutData("Start Rollers", new SetCollectionSpeed(Collector::kForward));
+	frc::SmartDashboard::PutData("Stop Rollers", new SetCollectionSpeed(Collector::kStop));
+	frc::SmartDashboard::PutData("Reverse Rollers", new SetCollectionSpeed(Collector::kReverse));
 }
 
-Joystick* OI::GetJoystick() {
+frc::Joystick* OI::GetJoystick() {
 	return &joystick;
 }

@@ -1,8 +1,6 @@
 #ifndef Claw_H
 #define Claw_H
 
-#include <memory>
-
 #include <Commands/Subsystem.h>
 #include <DigitalInput.h>
 #include <Victor.h>
@@ -12,15 +10,11 @@
  * If using stronger motors, you should probably use a sensor so that the
  * motors don't stall.
  */
-class Claw: public Subsystem {
-private:
-	std::unique_ptr<SpeedController> motor = std::make_unique<Victor>(7);
-	std::unique_ptr<DigitalInput> contact = std::make_unique<DigitalInput>(5);
-
+class Claw: public frc::Subsystem {
 public:
 	Claw();
 
-	void InitDefaultCommand();
+	void InitDefaultCommand() override;
 
 	/**
 	 * Set the claw motor to move in the open direction.
@@ -44,6 +38,10 @@ public:
 	bool IsGripping();
 
 	void Log();
+
+private:
+	frc::Victor motor { 7 };
+	frc::DigitalInput contact { 5 };
 };
 
 #endif  // Claw_H

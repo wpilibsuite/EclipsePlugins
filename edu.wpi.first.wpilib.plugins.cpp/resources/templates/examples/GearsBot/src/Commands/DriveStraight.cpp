@@ -1,11 +1,13 @@
 #include "DriveStraight.h"
 
+#include <PIDController.h>
+
 #include "Robot.h"
 
 DriveStraight::DriveStraight(double distance) {
 	Requires(Robot::drivetrain.get());
-	pid = new PIDController(4, 0, 0, new DriveStraightPIDSource(),
-                                     new DriveStraightPIDOutput());
+	pid = new frc::PIDController(4, 0, 0, new DriveStraightPIDSource(),
+			new DriveStraightPIDOutput());
 	pid->SetAbsoluteTolerance(0.01);
 	pid->SetSetpoint(distance);
 }
@@ -34,6 +36,6 @@ double DriveStraightPIDSource::PIDGet() {
 	return Robot::drivetrain->GetDistance();
 }
 
-void DriveStraightPIDOutput::PIDWrite(float d) {
+void DriveStraightPIDOutput::PIDWrite(double d) {
 	Robot::drivetrain->Drive(d, d);
 }

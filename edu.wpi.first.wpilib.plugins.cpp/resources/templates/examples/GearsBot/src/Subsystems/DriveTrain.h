@@ -1,19 +1,23 @@
 #ifndef DriveTrain_H
 #define DriveTrain_H
 
-#include <memory>
-
 #include <AnalogGyro.h>
 #include <AnalogInput.h>
+#include <Commands/Subsystem.h>
 #include <Encoder.h>
 #include <RobotDrive.h>
+#include <Talon.h>
+
+namespace frc {
+class Joystick;
+}
 
 /**
  * The DriveTrain subsystem incorporates the sensors and actuators attached to
  * the robots chassis. These include four drive motors, a left and right encoder
  * and a gyro.
  */
-class DriveTrain : public Subsystem {
+class DriveTrain: public frc::Subsystem {
 public:
 	DriveTrain();
 
@@ -21,7 +25,7 @@ public:
 	 * When no other command is running let the operator drive around
 	 * using the PS3 joystick.
 	 */
-	void InitDefaultCommand();
+	void InitDefaultCommand() override;
 
 	/**
 	 * The log method puts interesting information to the SmartDashboard.
@@ -38,7 +42,7 @@ public:
 	/**
 	 * @param joy The ps3 style joystick to use to drive tank style.
 	 */
-	    void Drive(Joystick* joy);
+	void Drive(frc::Joystick* joy);
 
 	/**
 	 * @return The robots heading in degrees.
@@ -61,11 +65,15 @@ public:
 	double GetDistanceToObstacle();
 
 private:
-	RobotDrive* drive = std::make_shared<RobotDrive>(1, 2, 3, 4);
-	std::shared_ptr<Encoder> left_encoder = std::make_shared<Encoder>(1, 2);
-	std::shared_ptr<Encoder> right_encoder = std::make_shared<Encoder>(3, 4);
-	std::shared_ptr<AnalogInput> rangefinder = std::make_shared<AnalogInput>(6);
-	std::shared_ptr<AnalogGyro> gyro = std::make_shared<AnalogGyro>(1);
+	frc::Talon frontLeft { 1 };
+	frc::Talon rearLeft { 2 };
+	frc::Talon frontRight { 3 };
+	frc::Talon rearRight { 4 };
+	frc::RobotDrive drive { frontLeft, rearLeft, frontRight, rearRight };
+	frc::Encoder leftEncoder { 1, 2 };
+	frc::Encoder rightEncoder { 3, 4 };
+	frc::AnalogInput rangefinder { 6 };
+	frc::AnalogGyro gyro { 1 };
 };
 
 #endif  // DriveTrain_H

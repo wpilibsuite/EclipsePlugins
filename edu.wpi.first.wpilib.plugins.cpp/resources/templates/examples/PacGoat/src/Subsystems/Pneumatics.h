@@ -1,8 +1,6 @@
 #ifndef Pneumatics_H
 #define Pneumatics_H
 
-#include <memory>
-
 #include <AnalogInput.h>
 #include <Commands/Subsystem.h>
 #include <Compressor.h>
@@ -12,14 +10,14 @@
  *
  * NOTE: The simulator currently doesn't support the compressor or pressure sensors.
  */
-class Pneumatics : public Subsystem {
+class Pneumatics: public frc::Subsystem {
 public:
 	Pneumatics();
 
 	/**
 	 * No default command
 	 */
-	void InitDefaultCommand();
+	void InitDefaultCommand() override;
 
 	/**
 	 * Start the compressor going. The compressor automatically starts and stops as it goes above and below maximum pressure.
@@ -37,12 +35,13 @@ public:
 	void WritePressure();
 
 private:
-	std::shared_ptr<AnalogInput> pressureSensor = std::make_shared<AnalogInput>(3);
-	#ifdef REAL
-		std::unique_ptr<Compressor> compressor;
-	#endif
+	frc::AnalogInput pressureSensor { 3 };
 
-	static constexpr double MAX_PRESSURE = 2.55;
+#ifndef SIMULATION
+	frc::Compressor compressor { 1 };  // TODO: (1, 14, 1, 8);
+#endif
+
+	static constexpr double kMaxPressure = 2.55;
 };
 
 #endif  // Pneumatics_H

@@ -1,14 +1,19 @@
-
 #include "Robot.h"
 
 #include <iostream>
 
+std::shared_ptr<DriveTrain> Robot::drivetrain = std::make_shared<DriveTrain>();
+std::shared_ptr<Elevator> Robot::elevator = std::make_shared<Elevator>();
+std::shared_ptr<Wrist> Robot::wrist = std::make_shared<Wrist>();
+std::shared_ptr<Claw> Robot::claw = std::make_shared<Claw>();
+std::unique_ptr<OI> Robot::oi = std::make_unique<OI>();
+
 void Robot::RobotInit() {
 	// Show what command your subsystem is running on the SmartDashboard
-	SmartDashboard::PutData(drivetrain.get());
-	SmartDashboard::PutData(elevator.get());
-	SmartDashboard::PutData(wrist.get());
-	SmartDashboard::PutData(claw.get());
+	frc::SmartDashboard::PutData(drivetrain.get());
+	frc::SmartDashboard::PutData(elevator.get());
+	frc::SmartDashboard::PutData(wrist.get());
+	frc::SmartDashboard::PutData(claw.get());
 }
 
 void Robot::AutonomousInit() {
@@ -17,7 +22,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-	Scheduler::GetInstance()->Run();
+	frc::Scheduler::GetInstance()->Run();
 }
 
 void Robot::TeleopInit() {
@@ -30,7 +35,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-	Scheduler::GetInstance()->Run();
+	frc::Scheduler::GetInstance()->Run();
 }
 
 void Robot::TestPeriodic() {
