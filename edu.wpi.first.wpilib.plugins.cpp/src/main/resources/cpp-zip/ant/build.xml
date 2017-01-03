@@ -68,7 +68,7 @@
   </target>
 
   <target name="deploy" depends="get-target-ip, dependencies" description="Deploy the progam and start it running.">
-    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.lib}">
+    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.lib}" libs.deployDir="${libDeploy.dir}">
       <libs.local>
         <fileset id="wpiNativeLibs.local" dir="${wpilib.lib}">
           <include name="libHALAthena.so"/>
@@ -80,7 +80,7 @@
         </fileset>
       </libs.local>
     </deploy-libs>
-    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}">
+    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}" libs.deployDir="${libDeploy.dir}">
       <libs.local>
         <fileset dir="${userLibs.dir}">
           <include name="**/*.so"/>
@@ -113,8 +113,14 @@
                failonerror="false"
                command="killall -q netconsole-host || :"/>
 
-    <scp file="${wpilib.ant.dir}/netconsole-host" todir="${adminUsername}@${target}:/usr/local/frc/bin" password="${adminPassword}" trust="true" />
-    <sshexec host="${target}" username="${adminUsername}" password="${adminPassword}" trust="true" command="chmod +x /usr/local/frc/bin/netconsole-host" />
+
+    <deploy-libs libs.name="netconsole-host" libs.basedir="${wpilib.ant.dir}" libs.deployDir="/usr/local/frc/bin">
+      <libs.local>
+        <fileset id="netconsole.local" dir="${wpilib.ant.dir}">
+          <include name="netconsole-host"/>
+        </fileset>
+      </libs.local>
+    </deploy-libs>
 
     <scp file="${wpilib.ant.dir}/robotCommand" todir="${username}@${target}:/home/lvuser/" password="${password}" trust="true"/>
     <echo>[athena-deploy] Giving program CAP_SYS_NICE capability.</echo>
@@ -196,6 +202,7 @@
   <macrodef name="deploy-libs">
     <attribute name="libs.name"/>
     <attribute name="libs.basedir"/>
+    <attribute name="libs.deployDir"/>
     <element name="libs.local"/>
     <sequential>
       <local name="libs.local.notEmpty"/>
@@ -204,7 +211,7 @@
       <local name="libs.local.modified.property"/>
 
       <delete file="@{libs.basedir}/@{libs.name}.properties"/>
-      <scp file="${adminUsername}@${target}:${libDeploy.dir}/@{libs.name}.properties"
+      <scp file="${adminUsername}@${target}:@{libs.deployDir}/@{libs.name}.properties"
            todir="@{libs.basedir}"
            password="${adminPassword}"
            trust="true"
@@ -229,7 +236,7 @@
         <isset property="libs.local.modified.property"/>
         <then>
           <echo message="Deploying libraries ${line.separator} ${libs.local.modified.property}"/>
-          <scp todir="${adminUsername}@${target}:${libDeploy.dir}"
+          <scp todir="${adminUsername}@${target}:@{libs.deployDir}"
                password="${adminPassword}"
                trust="true">
             <fileset dir="@{libs.basedir}" includes="${libs.local.modified.property}"/>
@@ -239,7 +246,7 @@
                    username="${adminUsername}"
                    password="${adminPassword}"
                    trust="true"
-                   command="chmod -R +x ${libDeploy.dir}"
+                   command="chmod -R +x @{libs.deployDir}"
           />
         </then>
       </if>
