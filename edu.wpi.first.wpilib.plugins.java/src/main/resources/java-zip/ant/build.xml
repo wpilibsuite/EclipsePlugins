@@ -70,7 +70,7 @@
   <target name="compile" description="Compile the source code.">
     <mkdir dir="${build.dir}"/>
 	<path id="classpath.path">
-		<fileset dir="${userLibs.dir}" includes="*.jar"/>
+		<fileset dir="${userLibs.dir}" includes="*.jar" excludes="*-sources.jar,*-javadoc.jar" />
 		<fileset file="${wpilib.jar}"/>
 		<fileset file="${networktables.jar}"/>
 		<fileset file="${opencv.jar}"/>
