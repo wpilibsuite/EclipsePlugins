@@ -267,12 +267,15 @@
 
   <target name="dependencies" depends="get-target-ip">
     <property name="ant.enable.asserts" value="true"/>
-	<post to="http://${target}/nisysapi/server" logfile="sysProps.xml" verbose="false" encoding="UTF-16LE" append="false">
+	<post to="http://${target}/nisysapi/server" property="roboRIOSysValuesUTF16" verbose="false" encoding="UTF-16LE" append="false">
 		<prop name="Function" value="GetPropertiesOfItem"/>
 		<prop name="Plugins" value="nisyscfg"/>
 		<prop name="Items" value="system"/>
 	</post>
-	<loadfile srcFile="sysProps.xml" encoding="UTF-16LE" property="roboRIOSysValues"/>
+	<!-- post erroneously turns UTF-16LE 0x0A00 (LF) into non-UTF16
+	0x0D0A00 (CRLF), so do a poor man's conversion from UTF-16 by just
+	removing all the nul characters. -->
+	<propertyregex property="roboRIOSysValues" input="${roboRIOSysValuesUTF16}" regexp="\x00" replace="" global="true" defaultValue="${roboRIOSysValuesUTF16}"/>
 	<propertyregex property="roboRIOImage" input="${roboRIOSysValues}" regexp="FRC_roboRIO_[0-9]+_v([0-9]+)" select="\1" defaultValue="ImageRegExFail"/>
 	<propertyregex property="roboRIOImageYear" input="${roboRIOSysValues}" regexp="FRC_roboRIO_([0-9]+)_v" select="\1" defaultValue="ImageRegExFail"/>
 	<assert message="Image of roboRIO does not match plugin. ${line.separator}Allowed image year: ${roboRIOAllowedYear} version: ${roboRIOAllowedImages}. ${line.separator}Actual image year: ${roboRIOImageYear} version ${roboRIOImage}. ${line.separator}RoboRIO needs to be re-imaged or plugins updated.">
