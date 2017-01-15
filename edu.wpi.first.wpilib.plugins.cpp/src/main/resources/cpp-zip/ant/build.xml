@@ -23,6 +23,7 @@
     <property name="ant.enable.asserts" value="true"/>
     <assert name="team-number" exists="true" message="Team number not set. Go to Window->Preferences->WPILib Preferences to set it."/>
 
+    <echo>Finding roboRIO, please ignore any [hostinfo] error messages</echo>
     <var name="target" unset="true"/>
     <trycatch>
       <try>
