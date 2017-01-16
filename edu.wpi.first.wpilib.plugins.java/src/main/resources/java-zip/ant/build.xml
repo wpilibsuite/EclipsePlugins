@@ -232,7 +232,7 @@
   </target>
 
   <target name="debug-deploy" depends="jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
-    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.native.lib}">
+    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.native.lib}" libs.deployDir="${libDeploy.dir}">
       <libs.local>
         <fileset id="wpiNativeLibs.local" dir="${wpilib.native.lib}">
           <include name="**/*.so"/>
