@@ -33,8 +33,7 @@ public class WPILibPreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
 	IntegerFieldEditor teamNumberEditor;
-	private ComboFieldEditor toolsVersionEditor;
-	private BooleanFieldEditor autoUpdateEditor;
+	private BooleanFieldEditor autoManageLibraries;
 
 	public WPILibPreferencePage() {
 		super(GRID);
@@ -52,12 +51,9 @@ public class WPILibPreferencePage
 		teamNumberEditor =	new IntegerFieldEditor(PreferenceConstants.TEAM_NUMBER,
 						"&Team Number:", getFieldEditorParent());
 		addField(teamNumberEditor);
-		toolsVersionEditor = new ComboFieldEditor(PreferenceConstants.TOOLS_VERSION,
-				"&Tools Version:", getFieldEditorParent(), getInstalledVersions());
-		addField(toolsVersionEditor);
-		autoUpdateEditor =	new BooleanFieldEditor(PreferenceConstants.UPDATE_TOOLS_VERSION,
-				"&Auto Update Tools Version", getFieldEditorParent());
-		addField(autoUpdateEditor);
+		autoManageLibraries = new BooleanFieldEditor(PreferenceConstants.MANAGE_LIBRARIES,
+				"&Auto Manage User Libraries", getFieldEditorParent());
+		addField(autoManageLibraries);
 	}
 	
 	private List<String> getInstalledVersions() {
@@ -89,10 +85,10 @@ public class WPILibPreferencePage
 		performOk();
 	}
 
-    @Override public boolean performOk() {
-    	Properties props = WPILibCore.getDefault().getProjectProperties(null);
-    	props.setProperty("team-number", teamNumberEditor.getStringValue());
-    	WPILibCore.getDefault().saveGlobalProperties(props);
+		@Override public boolean performOk() {
+			Properties props = WPILibCore.getDefault().getProjectProperties(null);
+			props.setProperty("team-number", teamNumberEditor.getStringValue());
+			WPILibCore.getDefault().saveGlobalProperties(props);
 		return super.performOk();
 	}
 }

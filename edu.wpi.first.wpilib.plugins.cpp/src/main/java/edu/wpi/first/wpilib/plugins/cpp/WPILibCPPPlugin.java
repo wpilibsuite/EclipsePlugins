@@ -125,35 +125,39 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 		final IManagedBuildInfo buildInfo = ManagedBuildManager.getBuildInfo(project, true);
 		final IConfiguration config = buildInfo.getDefaultConfiguration();
 		final ITool[] tools = config.getRootFolderInfo().getTools();
+		IOption option;
 		
 		for (final ITool tool : tools) {
 			if (tool.getId().contains(".cpp.linker.")) {
-				IOption option = tool.getOptionBySuperClassId("gnu.cpp.link.option.libs");
-				if(option != null) {
-					try {
-						String[] libs = option.getLibraries();
-						List<String> libList = new ArrayList<String>();
-						
-						File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp" + File.separator + "lib");
-						File[] filesList = dir.listFiles();
-						for (File file : filesList) {
-							if (file.isFile()) {
-								String[] splitFileName = file.getName().substring(3).split("[.]");
-								if(splitFileName[splitFileName.length-1].equals("so") || splitFileName[splitFileName.length-1].equals("a"))
-								{
-									String libName = file.getName().substring(3, file.getName().length()-splitFileName[splitFileName.length-1].length()-1);
-									if(!libList.contains(libName))
+				if(WPILibCore.getDefault().getManageLibraries())
+				{
+					option = tool.getOptionBySuperClassId("gnu.cpp.link.option.libs");
+					if(option != null) {
+						try {
+							String[] libs = option.getLibraries();
+							List<String> libList = new ArrayList<String>();
+							
+							File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp" + File.separator + "lib");
+							File[] filesList = dir.listFiles();
+							for (File file : filesList) {
+								if (file.isFile()) {
+									String[] splitFileName = file.getName().substring(3).split("[.]");
+									if(splitFileName[splitFileName.length-1].equals("so") || splitFileName[splitFileName.length-1].equals("a"))
 									{
-										libList.add(libName);
-										WPILibCPPPlugin.logInfo("Adding library to cpp link: " + file.getName());
+										String libName = file.getName().substring(3, file.getName().length()-splitFileName[splitFileName.length-1].length()-1);
+										if(!libList.contains(libName))
+										{
+											libList.add(libName);
+											WPILibCPPPlugin.logInfo("Adding library to cpp link: " + file.getName());
+										}
 									}
 								}
 							}
+							libList.add("wpi");
+							option.setValue(libList.toArray(new String[libList.size()]));
+						} catch (final BuildException e) {
+							WPILibCPPPlugin.logError("Error retrieving library information from tool option", e);
 						}
-						libList.add("wpi");
-						option.setValue(libList.toArray(new String[libList.size()]));
-					} catch (final BuildException e) {
-						WPILibCPPPlugin.logError("Error retrieving library information from tool option", e);
 					}
 				}
 				
@@ -178,7 +182,7 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 				}
 			} else if (tool.getId().contains(".cpp.compiler")) {
 				try {
-					IOption option = tool.getOptionBySuperClassId("gnu.cpp.compiler.option.include.paths");
+					option = tool.getOptionBySuperClassId("gnu.cpp.compiler.option.include.paths");
 					String[] paths = option.getBasicStringListValue();
 					List<String> includePathsList = new ArrayList<String>(Arrays.asList(paths));
 					if(!includePathsList.contains(USER_INCLUDE_PATH))
