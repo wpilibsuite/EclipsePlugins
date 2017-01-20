@@ -152,6 +152,11 @@ public class WPILibCore extends AbstractUIPlugin {
 		return getPreferenceStore()
 				.getString(PreferenceConstants.TOOLS_VERSION);
 	}
+	
+	public boolean getManageLibraries() {
+		return getPreferenceStore()
+				.getBoolean(PreferenceConstants.MANAGE_LIBRARIES);
+	}
 
 	public static void logInfo(String msg) {
 		getDefault().getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));

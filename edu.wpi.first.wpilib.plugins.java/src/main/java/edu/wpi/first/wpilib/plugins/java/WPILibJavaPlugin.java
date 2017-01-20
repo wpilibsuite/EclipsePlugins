@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -190,35 +191,53 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 		}
 		
 		//Loop through files in $WPILIB$\\user\\java\\lib and add all jars to classpath
-		try{
-			List<IClasspathEntry> newClasspathList = new ArrayList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
-			File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "java" + File.separator + "lib");
-			File[] filesList = dir.listFiles();
-			for (File file : filesList) {
-				if (file.isFile()) {
-					String fileNameSplit[] = file.getName().split("[.]");
-					if(fileNameSplit[fileNameSplit.length-1].equalsIgnoreCase("jar"))
+		if(WPILibCore.getDefault().getManageLibraries())
+		{
+			try{
+				List<IClasspathEntry> newClasspathList = new ArrayList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
+				File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "java" + File.separator + "lib");
+				File[] filesList = dir.listFiles();
+				IPath userLibPath = new Path("USERLIBS_DIR/");
+				for(Iterator<IClasspathEntry> iterator = newClasspathList.iterator(); iterator.hasNext();)
+				{
+					IClasspathEntry classpathEntry = iterator.next();
+					if(userLibPath.isPrefixOf(classpathEntry.getPath()))
 					{
-						IPath filePath = new Path("USERLIBS_DIR/" + file.getName());
-						boolean alreadyAdded = false;
-						for(IClasspathEntry entry : newClasspathList)	//check if file is already on path
+						File f = new File(dir.getPath() + File.separator + classpathEntry.getPath().lastSegment());
+						if(!f.exists())
 						{
-							if(entry.getPath().equals(filePath))
-							{
-								alreadyAdded = true;
-							}
-						}
-						if(!alreadyAdded)
-						{
-							newClasspathList.add(JavaCore.newVariableEntry(filePath, null, null, false));
-							WPILibJavaPlugin.logInfo("Adding: " + file.getName() + " to project: " + project.getName());
+							WPILibJavaPlugin.logInfo("Library missing, removing: " + classpathEntry.getPath().lastSegment());
+							iterator.remove();
 						}
 					}
 				}
+						
+				for (File file : filesList) {
+					if (file.isFile()) {
+						String fileNameSplit[] = file.getName().split("[.]");
+						if(fileNameSplit[fileNameSplit.length-1].equalsIgnoreCase("jar"))
+						{
+							IPath filePath = new Path("USERLIBS_DIR/" + file.getName());
+							boolean alreadyAdded = false;
+							for(IClasspathEntry entry : newClasspathList)	//check if file is already on path
+							{
+								if(entry.getPath().equals(filePath))
+								{
+									alreadyAdded = true;
+								}
+							}
+							if(!alreadyAdded)
+							{
+								newClasspathList.add(JavaCore.newVariableEntry(filePath, null, null, false));
+								WPILibJavaPlugin.logInfo("Adding: " + file.getName() + " to project: " + project.getName());
+							}
+						}
+					}
+				}
+				javaProject.setRawClasspath(newClasspathList.toArray(new IClasspathEntry[newClasspathList.size()]), null);
+			} catch (JavaModelException e) {
+				WPILibJavaPlugin.logError("Error updating classpath", e);
 			}
-			javaProject.setRawClasspath(newClasspathList.toArray(new IClasspathEntry[newClasspathList.size()]), null);
-		} catch (JavaModelException e) {
-			WPILibJavaPlugin.logError("Error updating classpath", e);
 		}
 	}
 
