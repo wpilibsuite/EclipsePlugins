@@ -190,7 +190,27 @@
 
   </target>
 
-  <target name="debug-prepare" depends="kill-program">
+  <target name="debug-prepare" depends="get-target-ip,dependencies,kill-program">
+    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.lib}" libs.deployDir="${libDeploy.dir}">
+      <libs.local>
+        <fileset id="wpiNativeLibs.local" dir="${wpilib.lib}">
+          <include name="libHALAthena.so"/>
+          <include name="libntcore.so"/>
+          <include name="libwpiutil.so"/>
+          <include name="libopencv*.so.3.1"/>
+          <include name="libcscore.so"/>
+          <include name="libwpilibc.so"/>
+        </fileset>
+      </libs.local>
+    </deploy-libs>
+    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}" libs.deployDir="${libDeploy.dir}">
+      <libs.local>
+        <fileset dir="${userLibs.dir}">
+          <include name="**/*.so"/>
+        </fileset>
+      </libs.local>
+    </deploy-libs>
+
     <scp file="${wpilib.ant.dir}/locale" todir="${adminUsername}@${target}:/bin/" password="${adminPassword}" trust="true"/>
     <sshexec host="${target}"
              username="${adminUsername}"
