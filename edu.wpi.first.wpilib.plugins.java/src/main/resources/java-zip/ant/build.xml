@@ -231,16 +231,22 @@
 
   </target>
 
-  <target name="debug-deploy" depends="jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
-    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.native.lib}">
+  <target name="debug-deploy" depends="clean,jar,get-target-ip,dependencies" description="Deploy the jar and start the program running.">
+    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.native.lib}" libs.deployDir="${libDeploy.dir}">
       <libs.local>
         <fileset id="wpiNativeLibs.local" dir="${wpilib.native.lib}">
-          <include name="**/*.so"/>
+          <include name="libHALAthena.so"/>
+          <include name="libntcore.so"/>
+          <include name="libwpiutil.so"/>
+          <include name="libopencv*.so.3.1"/>
+          <include name="libcscore.so"/>
+          <include name="libopencv_java310.so"/>
+          <include name="libwpilibJavaJNI.so"/>
         </fileset>
       </libs.local>
     </deploy-libs>
 
-    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}">
+    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}"  libs.deployDir="${libDeploy.dir}">
       <libs.local>
         <fileset dir="${userLibs.dir}">
           <include name="**/*.so"/>
