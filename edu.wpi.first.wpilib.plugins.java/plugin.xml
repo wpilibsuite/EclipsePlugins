@@ -56,7 +56,7 @@
             class="edu.wpi.first.wpilib.plugins.java.wizards.file_template.SubsystemWizard"
             icon="resources/icons/Subsystem.png"
             id="edu.wpi.first.wpilib.plugins.java.wizards.file_template.SubsystemWizard"
-            name="Subsytem">
+            name="Subsystem">
       </wizard>
       <wizard
             category="edu.wpi.first.wpilib.plugins.java"
