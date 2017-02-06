@@ -90,6 +90,25 @@
             </if>
           </sequential>
           <sequential>
+            <echo>Trying mDNS: roboRIO-${team-number}-FRC.frc-robot.local</echo>
+            <hostinfo prefix="targethost_robot_local" host="roboRIO-${team-number}-FRC.frc-robot.local" />
+            <if>
+              <not>
+                <equals arg1="${targethost_robot_local.ADDR4}" arg2="0.0.0.0"/>
+              </not>
+              <then>
+                <echo>Resolved mDNS to ${targethost_robot_local.ADDR4}</echo>
+                <if>
+                  <socket server="${targethost_robot_local.ADDR4}" port="80"/>
+                  <then>
+                    <property name="target" value="${targethost_robot_local.ADDR4}"/>
+                    <fail>${targethost_robot_local.ADDR4}</fail>
+                  </then>
+                </if>
+              </then>
+            </if>
+          </sequential>
+          <sequential>
             <sleep seconds="20"/>
             <fail></fail>
           </sequential>
