@@ -1,7 +1,6 @@
 #include <Encoder.h>
-#include <SampleRobot.h>
+#include <IterativeRobot.h>
 #include <SmartDashboard/SmartDashboard.h>
-#include <Timer.h>
 
 /**
  * Sample program displaying the value of a quadrature encoder on the
@@ -19,7 +18,7 @@
  *   distance that the robot drives can be precisely controlled during the
  *   autonomous mode.
  */
-class Robot: public frc::SampleRobot {
+class Robot: public frc::IterativeRobot {
 	/**
 	 * The Encoder object is constructed with 4 parameters, the last two being
 	 *   optional.
@@ -34,14 +33,6 @@ class Robot: public frc::SampleRobot {
 	 *   precision but more noise in the rate.
 	 */
 	frc::Encoder m_encoder { 1, 2, false, Encoder::k4X };
-
-	/**
-	 * Time to wait between updating SmartDashboard values.
-	 * It is generally a good idea to stick a short wait in these loops
-	 *   to avoid hogging CPU power, especially as there will be no
-	 *   perceivable difference in the SmartDashboard display.
-	 */
-	static constexpr double kUpdatePeriod = 0.005; // 5milliseconds / 0.005 seconds.
 
 public:
 	Robot() {
@@ -67,21 +58,12 @@ public:
 		m_encoder.SetMinRate(1.0);
 	}
 
-	/**
-	 * Retrieve various information from the encoder and display it on the
-	 *   SmartDashboard.
-	 */
-	void OperatorControl() {
-		while (IsOperatorControl() && IsEnabled()) {
-			// Retrieve the net displacement of the Encoder since the lsat Reset.
-			frc::SmartDashboard::PutNumber("Encoder Distance",
-					m_encoder.GetDistance());
+	void TeleopPeriodic() override {
+		// Retrieve the net displacement of the Encoder since the lsat Reset.
+		frc::SmartDashboard::PutNumber("Encoder Distance", m_encoder.GetDistance());
 
-			// Retrieve the current rate of the encoder.
-			frc::SmartDashboard::PutNumber("Encoder Rate", m_encoder.GetRate());
-
-			frc::Wait(kUpdatePeriod); // Wait a short bit before updating again.
-		}
+		// Retrieve the current rate of the encoder.
+		frc::SmartDashboard::PutNumber("Encoder Rate", m_encoder.GetRate());
 	}
 };
 
