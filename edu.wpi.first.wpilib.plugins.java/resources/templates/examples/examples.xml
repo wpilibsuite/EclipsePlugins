@@ -186,24 +186,6 @@
         </files>
     </example>
     <example>
-        <name>Potentiometer</name>
-        <description>An example to demonstrate the use of a potentiometer and basic proportional
-            control to reach elevator position setpoints.</description>
-        <tags>
-            <tag>Sensors</tag>
-            <tag>Complete List</tag>
-            <tag>Actuators</tag>
-            <tag>Analog</tag>
-            <tag>Joystick</tag>
-        </tags>
-        <packages>
-            <package>src/$package-dir</package>
-        </packages>
-        <files>
-            <file source="examples/Potentiometer/src/org/usfirst/frc/team190/robot/Robot.java" destination="src/$package-dir/Robot.java" />
-        </files>
-    </example>
-    <example>
         <name>Gyro</name>
         <description>An example program showing how to drive straight with using a gyro sensor.</description>
         <tags>

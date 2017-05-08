@@ -301,24 +301,6 @@
         </files>
     </example>
     <example>
-        <name>Potentiometer</name>
-        <description>An example to demonstrate the use of a potentiometer and basic proportional
-            control to reach elevator position setpoints.</description>
-        <tags>
-            <tag>Joystick</tag>
-            <tag>Actuators</tag>
-            <tag>Complete List</tag>
-            <tag>Sensors</tag>
-            <tag>Analog</tag>
-        </tags>
-        <packages>
-            <package>src</package>
-        </packages>
-        <files>
-            <file source="examples/Potentiometer/src/Robot.cpp" destination="src/Robot.cpp" />
-        </files>
-    </example>
-    <example>
         <name>Getting Started</name>
         <description>An example program which demonstrates the simplest autonomous and
             teleoperated routines.</description>
