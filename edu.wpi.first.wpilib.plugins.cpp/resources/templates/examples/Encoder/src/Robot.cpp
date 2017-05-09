@@ -59,7 +59,7 @@ public:
 	}
 
 	void TeleopPeriodic() override {
-		// Retrieve the net displacement of the Encoder since the lsat Reset.
+		// Retrieve the net displacement of the Encoder since the last Reset.
 		frc::SmartDashboard::PutNumber("Encoder Distance", m_encoder.GetDistance());
 
 		// Retrieve the current rate of the encoder.
