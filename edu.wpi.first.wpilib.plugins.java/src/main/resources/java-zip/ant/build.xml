@@ -11,6 +11,16 @@
   </taskdef>
   <taskdef resource="net/jtools/classloadertask/antlib.xml" classpath="${classloadertask.jar}"/>
   <classloader loader="system" classpath="${jsch.jar}"/>
+  <typedef resource="com/github/judoole/webdav/jackrabbit-webdav-tasks.xml">
+    <classpath>
+      <pathelement location="${wpilib.ant.dir}/jackrabbit-webdav-anttasks-0.5.jar"/>
+      <pathelement location="${wpilib.ant.dir}/jakarta-commons-httpclient.jar"/>
+      <pathelement location="${wpilib.ant.dir}/jakarta-commons-codec.jar"/>
+      <pathelement location="${wpilib.ant.dir}/jackrabbit-webdav-2.7.0.jar"/>
+      <pathelement location="${wpilib.ant.dir}/slf4j-api-1.7.3.jar"/>
+      <pathelement location="${wpilib.ant.dir}/jakarta-commons-logging.jar"/>
+    </classpath>
+  </typedef>
 
   <target name="clean" description="Clean up all build and distribution artifacts.">
     <delete dir="${build.dir}"/>
@@ -207,13 +217,12 @@
     </deploy-libs>
 
     <echo>[athena-deploy] Copying code over.</echo>
-    <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
-
-    <sshexec host="${target}"
-         username="${adminUsername}"
-         password="${adminPassword}"
-         trust="true"
-         command="ldconfig" />
+    <jackrabbit username="${adminUsername}" password="${adminPassword}">
+      <delete url="http://${target}/files${deploy.dir}/${jar}"/>
+      <put url="http://${target}/files${deploy.dir}">
+        <fileset file="${dist.jar}"/>
+      </put>
+    </jackrabbit>
 
      <!-- Suppress the exit status so that if no netconsole was running then
           it doesn't show up red on the output. -->
@@ -232,7 +241,12 @@
       </libs.local>
     </deploy-libs>
 
-      <scp file="${wpilib.ant.dir}/robotCommand" todir="${username}@${target}:${command.dir}" password="${password}" trust="true"/>
+    <jackrabbit username="${adminUsername}" password="${adminPassword}">
+      <delete url="http://${target}/files${command.dir}robotCommand"/>
+      <put url="http://${target}/files${command.dir}">
+        <fileset file="${wpilib.ant.dir}/robotCommand"/>
+      </put>
+    </jackrabbit>
 
     <echo>[athena-deploy] Starting program.</echo>
     <sshexec host="${target}"
@@ -240,13 +254,7 @@
        password="${password}"
        trust="true"
 	   failonerror="false"
-       command="${deploy.kill.command};"/>
-
-    <sshexec host="${target}"
-         username="${username}"
-         password="${password}"
-         trust="true"
-         command="sync" />
+       command="${deploy.kill.command}; sync"/>
 
   </target>
 
@@ -335,16 +343,18 @@
 
   <target name="dependencies" depends="get-target-ip">
     <property name="ant.enable.asserts" value="true"/>
-    <sshexec host="${target}"
-             username="${username}"
-             password="${password}"
-             trust="true"
-             failonerror="true"
-             command="grep IMAGEVERSION /etc/natinst/share/scs_imagemetadata.ini"
-             outputproperty="roboRIOSysValues"/>
+    <jackrabbit username="${adminUsername}" password="${adminPassword}">
+      <get
+       url="http://${target}/files/etc/natinst/share"
+       file="scs_imagemetadata.ini"
+       outFile="scs_imagemetadata.ini"
+       overwrite="true"/>
+    </jackrabbit>
+    <loadfile srcFile="scs_imagemetadata.ini" property="roboRIOSysValues"/>
 	<propertyregex property="roboRIOImage" input="${roboRIOSysValues}" regexp="FRC_roboRIO_[0-9]+_v([0-9]+)" select="\1" defaultValue="ImageRegExFail"/>
 	<propertyregex property="roboRIOImageYear" input="${roboRIOSysValues}" regexp="FRC_roboRIO_([0-9]+)_v" select="\1" defaultValue="ImageRegExFail"/>
 	<assert message="Image of roboRIO does not match plugin. ${line.separator}Allowed image year: ${roboRIOAllowedYear} version: ${roboRIOAllowedImages}. ${line.separator}Actual image year: ${roboRIOImageYear} version ${roboRIOImage}. ${line.separator}RoboRIO needs to be re-imaged or plugins updated.">
+        <delete file="scs_imagemetadata.ini"/>
 		<bool>
 			<and>
 				<contains string="${roboRIOAllowedImages}" substring="${roboRIOImage}"/>
@@ -352,14 +362,15 @@
 			</and>
 		</bool>
 	</assert>
-	<echo>roboRIO image version validated</echo>
+        <echo>roboRIO image version validated: FRC_roboRIO_${roboRIOImageYear}_v${roboRIOImage}</echo>
 	<echo>Checking for JRE. If this fails install the JRE using these instructions: https://wpilib.screenstepslive.com/s/4485/m/13503/l/288822-installing-java-8-on-the-roborio-using-the-frc-roborio-java-installer-java-only</echo>
-	<sshexec host="${target}"
-        username="${username}"
-        password="${password}"
-        trust="true"
-		failonerror="true"
-        command="test -d ${roboRIOJRE.dir}"/>
+        <jackrabbit username="${adminUsername}" password="${adminPassword}">
+          <get url="http://${target}/files${roboRIOJRE.dir}/lib"
+               file="logging.properties"
+               outFile="logging.properties"
+               overwrite="true"/>
+        </jackrabbit>
+        <delete file="logging.properties"/>
   </target>
 
   <!-- libs.name should not contain spaces as it is used to name a file -->
@@ -373,13 +384,21 @@
       <local name="libs.local.checksum"/>
       <local name="libs.deployed.checksum"/>
       <local name="libs.local.modified.property"/>
+      <local name="libs.remote.modified.property"/>
 
       <delete file="@{libs.basedir}/@{libs.name}.properties"/>
-      <scp file="${adminUsername}@${target}:@{libs.deployDir}/@{libs.name}.properties"
-           todir="@{libs.basedir}"
-           password="${adminPassword}"
-           trust="true"
-           failonerror="false"/>
+      <trycatch>
+        <try>
+          <jackrabbit username="${adminUsername}" password="${adminPassword}">
+            <get
+             url="http://${target}/files/@{libs.deployDir}"
+             file="@{libs.name}.properties"
+             outFile="@{libs.basedir}/@{libs.name}.properties"
+             overwrite="true"/>
+          </jackrabbit>
+        </try>
+        <catch/>
+      </trycatch>
       <restrict id="libs.local.modified">
         <libs.local/>
         <modified update="true"
@@ -400,17 +419,20 @@
         <isset property="libs.local.modified.property"/>
         <then>
           <echo message="Deploying libraries ${line.separator} ${libs.local.modified.property}"/>
-          <scp todir="${adminUsername}@${target}:@{libs.deployDir}"
-               password="${adminPassword}"
-               trust="true">
-            <fileset dir="@{libs.basedir}" includes="${libs.local.modified.property}"/>
-            <fileset file="@{libs.basedir}/@{libs.name}.properties"/>
-          </scp>
+          <jackrabbit username="${adminUsername}" password="${adminPassword}">
+            <put url="http://${target}/files/tmp">
+              <fileset dir="@{libs.basedir}" includes="${libs.local.modified.property}"/>
+              <fileset file="@{libs.basedir}/@{libs.name}.properties"/>
+            </put>
+          </jackrabbit>
+          <pathconvert refid="libs.local.modified" property="libs.remote.modified.property" pathsep=" " setonempty="true">
+            <globmapper from="@{libs.basedir}/*" to="/tmp/*" handledirsep="true" />
+          </pathconvert>
           <sshexec host="${target}"
                    username="${adminUsername}"
                    password="${adminPassword}"
                    trust="true"
-                   command="chmod -R +x @{libs.deployDir}"
+                   command="chmod +x ${libs.remote.modified.property} &amp;&amp; mv ${libs.remote.modified.property} /tmp/@{libs.name}.properties @{libs.deployDir} &amp;&amp; ldconfig"
           />
         </then>
       </if>
