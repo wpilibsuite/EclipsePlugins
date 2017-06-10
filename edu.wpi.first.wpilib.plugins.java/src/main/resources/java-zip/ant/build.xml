@@ -11,14 +11,12 @@
   </taskdef>
   <taskdef resource="net/jtools/classloadertask/antlib.xml" classpath="${classloadertask.jar}"/>
   <classloader loader="system" classpath="${jsch.jar}"/>
-  <typedef resource="com/github/judoole/webdav/jackrabbit-webdav-tasks.xml">
+  <typedef resource="com/github/sardine/ant/sardinetask.xml">
     <classpath>
-      <pathelement location="${wpilib.ant.dir}/jackrabbit-webdav-anttasks-0.5.jar"/>
-      <pathelement location="${wpilib.ant.dir}/jakarta-commons-httpclient.jar"/>
-      <pathelement location="${wpilib.ant.dir}/jakarta-commons-codec.jar"/>
-      <pathelement location="${wpilib.ant.dir}/jackrabbit-webdav-2.7.0.jar"/>
-      <pathelement location="${wpilib.ant.dir}/slf4j-api-1.7.3.jar"/>
-      <pathelement location="${wpilib.ant.dir}/jakarta-commons-logging.jar"/>
+      <pathelement location="${wpilib.ant.dir}/sardine-5.8-SNAPSHOT.jar"/>
+      <pathelement location="${wpilib.ant.dir}/httpclient-4.5.3.jar"/>
+      <pathelement location="${wpilib.ant.dir}/httpcore-4.4.6.jar"/>
+      <pathelement location="${wpilib.ant.dir}/commons-logging-1.2.jar"/>
     </classpath>
   </typedef>
 
@@ -217,12 +215,12 @@
     </deploy-libs>
 
     <echo>[athena-deploy] Copying code over.</echo>
-    <jackrabbit username="${adminUsername}" password="${adminPassword}">
+    <sardine username="${adminUsername}" password="${adminPassword}">
       <delete url="http://${target}/files${deploy.dir}/${jar}"/>
-      <put url="http://${target}/files${deploy.dir}">
+      <put url="http://${target}/files${deploy.dir}/">
         <fileset file="${dist.jar}"/>
       </put>
-    </jackrabbit>
+    </sardine>
 
      <!-- Suppress the exit status so that if no netconsole was running then
           it doesn't show up red on the output. -->
@@ -241,12 +239,12 @@
       </libs.local>
     </deploy-libs>
 
-    <jackrabbit username="${adminUsername}" password="${adminPassword}">
+    <sardine username="${adminUsername}" password="${adminPassword}">
       <delete url="http://${target}/files${command.dir}robotCommand"/>
       <put url="http://${target}/files${command.dir}">
         <fileset file="${wpilib.ant.dir}/robotCommand"/>
       </put>
-    </jackrabbit>
+    </sardine>
 
     <echo>[athena-deploy] Starting program.</echo>
     <sshexec host="${target}"
@@ -343,18 +341,13 @@
 
   <target name="dependencies" depends="get-target-ip">
     <property name="ant.enable.asserts" value="true"/>
-    <jackrabbit username="${adminUsername}" password="${adminPassword}">
-      <get
-       url="http://${target}/files/etc/natinst/share"
-       file="scs_imagemetadata.ini"
-       outFile="scs_imagemetadata.ini"
-       overwrite="true"/>
-    </jackrabbit>
-    <loadfile srcFile="scs_imagemetadata.ini" property="roboRIOSysValues"/>
+    <sardine username="${adminUsername}" password="${adminPassword}">
+      <get url="http://${target}/files/etc/natinst/share/scs_imagemetadata.ini"
+           property="roboRIOSysValues"/>
+    </sardine>
 	<propertyregex property="roboRIOImage" input="${roboRIOSysValues}" regexp="FRC_roboRIO_[0-9]+_v([0-9]+)" select="\1" defaultValue="ImageRegExFail"/>
 	<propertyregex property="roboRIOImageYear" input="${roboRIOSysValues}" regexp="FRC_roboRIO_([0-9]+)_v" select="\1" defaultValue="ImageRegExFail"/>
 	<assert message="Image of roboRIO does not match plugin. ${line.separator}Allowed image year: ${roboRIOAllowedYear} version: ${roboRIOAllowedImages}. ${line.separator}Actual image year: ${roboRIOImageYear} version ${roboRIOImage}. ${line.separator}RoboRIO needs to be re-imaged or plugins updated.">
-        <delete file="scs_imagemetadata.ini"/>
 		<bool>
 			<and>
 				<contains string="${roboRIOAllowedImages}" substring="${roboRIOImage}"/>
@@ -363,14 +356,12 @@
 		</bool>
 	</assert>
         <echo>roboRIO image version validated: FRC_roboRIO_${roboRIOImageYear}_v${roboRIOImage}</echo>
-	<echo>Checking for JRE. If this fails install the JRE using these instructions: https://wpilib.screenstepslive.com/s/4485/m/13503/l/288822-installing-java-8-on-the-roborio-using-the-frc-roborio-java-installer-java-only</echo>
-        <jackrabbit username="${adminUsername}" password="${adminPassword}">
-          <get url="http://${target}/files${roboRIOJRE.dir}/lib"
-               file="logging.properties"
-               outFile="logging.properties"
-               overwrite="true"/>
-        </jackrabbit>
-        <delete file="logging.properties"/>
+        <sardine username="${adminUsername}" password="${adminPassword}">
+          <exists url="http://${target}/files${roboRIOJRE.dir}/bin/java"
+                  property="jreExists"/>
+        </sardine>
+	<assert name="jreExists" value="true" message="JRE not installed. Install the JRE using these instructions: https://wpilib.screenstepslive.com/s/4485/m/13503/l/288822-installing-java-8-on-the-roborio-using-the-frc-roborio-java-installer-java-only">
+        </assert>
   </target>
 
   <!-- libs.name should not contain spaces as it is used to name a file -->
@@ -386,16 +377,14 @@
       <local name="libs.local.modified.property"/>
       <local name="libs.remote.modified.property"/>
 
-      <delete file="@{libs.basedir}/@{libs.name}.properties"/>
       <trycatch>
         <try>
-          <jackrabbit username="${adminUsername}" password="${adminPassword}">
+          <sardine username="${adminUsername}" password="${adminPassword}">
             <get
-             url="http://${target}/files/@{libs.deployDir}"
-             file="@{libs.name}.properties"
-             outFile="@{libs.basedir}/@{libs.name}.properties"
+             url="http://${target}/files@{libs.deployDir}/@{libs.name}.properties"
+             file="@{libs.basedir}/@{libs.name}.properties"
              overwrite="true"/>
-          </jackrabbit>
+          </sardine>
         </try>
         <catch/>
       </trycatch>
@@ -419,12 +408,12 @@
         <isset property="libs.local.modified.property"/>
         <then>
           <echo message="Deploying libraries ${line.separator} ${libs.local.modified.property}"/>
-          <jackrabbit username="${adminUsername}" password="${adminPassword}">
-            <put url="http://${target}/files/tmp">
+          <sardine username="${adminUsername}" password="${adminPassword}">
+            <put url="http://${target}/files/tmp/">
               <fileset dir="@{libs.basedir}" includes="${libs.local.modified.property}"/>
               <fileset file="@{libs.basedir}/@{libs.name}.properties"/>
             </put>
-          </jackrabbit>
+          </sardine>
           <pathconvert refid="libs.local.modified" property="libs.remote.modified.property" pathsep=" " setonempty="true">
             <globmapper from="@{libs.basedir}/*" to="/tmp/*" handledirsep="true" />
           </pathconvert>
