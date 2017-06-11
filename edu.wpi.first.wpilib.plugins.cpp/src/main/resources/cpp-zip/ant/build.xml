@@ -16,6 +16,16 @@
       <pathelement location="${wpilib.ant.dir}/sardine-5.8-SNAPSHOT.jar"/>
       <pathelement location="${wpilib.ant.dir}/httpclient-4.5.3.jar"/>
       <pathelement location="${wpilib.ant.dir}/httpcore-4.4.6.jar"/>
+      <pathelement location="${wpilib.ant.dir}/commons-codec-1.10.jar"/>
+      <pathelement location="${wpilib.ant.dir}/commons-logging-1.2.jar"/>
+    </classpath>
+  </typedef>
+  <typedef resource="edu/wpi/first/ant/roboriotasks.xml">
+    <classpath>
+      <pathelement location="${wpilib.ant.dir}/roborio-ant-tasks-1.0.jar"/>
+      <pathelement location="${wpilib.ant.dir}/httpclient-4.5.3.jar"/>
+      <pathelement location="${wpilib.ant.dir}/httpcore-4.4.6.jar"/>
+      <pathelement location="${wpilib.ant.dir}/commons-codec-1.10.jar"/>
       <pathelement location="${wpilib.ant.dir}/commons-logging-1.2.jar"/>
     </classpath>
   </typedef>
@@ -31,105 +41,16 @@
     <property name="ant.enable.asserts" value="true"/>
     <assert name="team-number" exists="true" message="Team number not set. Go to Window->Preferences->WPILib Preferences to set it."/>
 
-    <echo>Finding roboRIO, please ignore any [hostinfo] error messages</echo>
+    <echo>Finding roboRIO...</echo>
     <var name="target" unset="true"/>
-    <trycatch>
-      <try>
-        <parallel failonany="true">
-          <sequential>
-            <echo>Trying mDNS: roboRIO-${team-number}-FRC.local</echo>
-            <hostinfo prefix="targethost_local" host="roboRIO-${team-number}-FRC.local" />
-            <if>
-              <not>
-                <equals arg1="${targethost_local.ADDR4}" arg2="0.0.0.0"/>
-              </not>
-              <then>
-                <echo>Resolved mDNS to ${targethost_local.ADDR4}</echo>
-                <if>
-                  <socket server="${targethost_local.ADDR4}" port="80"/>
-                  <then>
-                    <property name="target" value="${targethost_local.ADDR4}"/>
-                    <fail>${targethost_local.ADDR4}</fail>
-                  </then>
-                </if>
-              </then>
-            </if>
-          </sequential>
-          <sequential>
-            <echo>Trying DNS: roboRIO-${team-number}-FRC.lan</echo>
-            <hostinfo prefix="targethost_lan" host="roboRIO-${team-number}-FRC.lan" />
-            <if>
-              <not>
-                <equals arg1="${targethost_lan.ADDR4}" arg2="0.0.0.0"/>
-              </not>
-              <then>
-                <echo>Resolved DNS to ${targethost_lan.ADDR4}</echo>
-                <if>
-                  <socket server="${targethost_lan.ADDR4}" port="80"/>
-                  <then>
-                    <property name="target" value="${targethost_lan.ADDR4}"/>
-                    <fail>${targethost_lan.ADDR4}</fail>
-                  </then>
-                </if>
-              </then>
-            </if>
-          </sequential>
-          <sequential>
-            <echo>Trying USB: 172.22.11.2</echo>
-            <if>
-              <socket server="172.22.11.2" port="80"/>
-              <then>
-                <property name="target" value="172.22.11.2"/>
-                <fail>172.22.11.2</fail>
-              </then>
-            </if>
-          </sequential>
-          <sequential>
-            <math result="ip.upper" operand1="${team-number}" operation="/" operand2="100" datatype="int"/>
-            <math result="ip.lower" operand1="${team-number}" operation="%" operand2="100" datatype="int"/>
-            <property name="targethost_ip" value="10.${ip.upper}.${ip.lower}.2"/>
-            <echo>Trying Static Ethernet: ${targethost_ip}</echo>
-            <if>
-              <socket server="${targethost_ip}" port="80"/>
-              <then>
-                <property name="target" value="${targethost_ip}"/>
-                <fail>${targethost_ip}</fail>
-              </then>
-            </if>
-          </sequential>
-          <sequential>
-            <echo>Trying mDNS: roboRIO-${team-number}-FRC.frc-robot.local</echo>
-            <hostinfo prefix="targethost_robot_local" host="roboRIO-${team-number}-FRC.frc-robot.local" />
-            <if>
-              <not>
-                <equals arg1="${targethost_robot_local.ADDR4}" arg2="0.0.0.0"/>
-              </not>
-              <then>
-                <echo>Resolved mDNS to ${targethost_robot_local.ADDR4}</echo>
-                <if>
-                  <socket server="${targethost_robot_local.ADDR4}" port="80"/>
-                  <then>
-                    <property name="target" value="${targethost_robot_local.ADDR4}"/>
-                    <fail>${targethost_robot_local.ADDR4}</fail>
-                  </then>
-                </if>
-              </then>
-            </if>
-          </sequential>
-          <sequential>
-            <sleep seconds="20"/>
-            <fail></fail>
-          </sequential>
-        </parallel>
-      </try>
-      <catch>
-      </catch>
-    </trycatch>
+    <find-roborio team="${team-number}" username="${adminUsername}"
+     password="${adminPassword}" targetProperty="target"
+     imageYearProperty="roboRIOImageYear" imageProperty="roboRIOImage"/>
 
     <if>
       <isset property="target"/>
       <then>
-        <echo>roboRIO found at ${target}</echo>
+        <echo>roboRIO found at ${target}, image FRC_roboRIO_${roboRIOImageYear}_v${roboRIOImage}</echo>
       </then>
       <else>
         <assert name="roboRIOFound" message="roboRIO not found, please check that the roboRIO is connected, imaged and that the team number is set properly in Eclipse"/>
@@ -266,12 +187,6 @@
 
   <target name="dependencies" depends="get-target-ip">
     <property name="ant.enable.asserts" value="true"/>
-    <sardine username="${adminUsername}" password="${adminPassword}">
-      <get url="http://${target}/files/etc/natinst/share/scs_imagemetadata.ini"
-           property="roboRIOSysValues"/>
-    </sardine>
-	<propertyregex property="roboRIOImage" input="${roboRIOSysValues}" regexp="FRC_roboRIO_[0-9]+_v([0-9]+)" select="\1" defaultValue="ImageRegExFail"/>
-	<propertyregex property="roboRIOImageYear" input="${roboRIOSysValues}" regexp="FRC_roboRIO_([0-9]+)_v" select="\1" defaultValue="ImageRegExFail"/>
 	<assert message="Image of roboRIO does not match plugin. ${line.separator}Allowed image year: ${roboRIOAllowedYear} version: ${roboRIOAllowedImages}. ${line.separator}Actual image year: ${roboRIOImageYear} version ${roboRIOImage}. ${line.separator}RoboRIO needs to be re-imaged or plugins updated.">
 		<bool>
 			<and>
