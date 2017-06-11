@@ -86,12 +86,6 @@
          failonerror="no"
          command="rm -f ${deploy.dir}/FRCUserProgram" />
 
-    <sshexec host="${target}"
-         username="${adminUsername}"
-         password="${adminPassword}"
-         trust="true"
-         command="ldconfig" />
-
     <echo>[athena-deploy] Copying code over.</echo>
     <webdav username="${adminUsername}" password="${adminPassword}">
       <delete url="http://${target}/files${deploy.dir}/${out}"/>
