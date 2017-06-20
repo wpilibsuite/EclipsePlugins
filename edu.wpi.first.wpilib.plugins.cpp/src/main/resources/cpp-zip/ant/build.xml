@@ -150,12 +150,18 @@
       </libs.local>
     </deploy-libs>
 
-    <scp file="${wpilib.ant.dir}/locale" todir="${adminUsername}@${target}:/bin/" password="${adminPassword}" trust="true"/>
+    <webdav username="${adminUsername}" password="${adminPassword}">
+      <delete url="http://${target}/files/tmp/locale"/>
+      <put url="http://${target}/files/tmp">
+        <fileset file="${wpilib.ant.dir}/locale"/>
+      </put>
+    </webdav>
+
     <sshexec host="${target}"
              username="${adminUsername}"
              password="${adminPassword}"
              trust="true"
-             command="chmod -R +x /bin/locale"
+             command="mv /tmp/locale /bin/ &amp;&amp; chmod -R +x /bin/locale"
     />
   </target>
     
@@ -214,7 +220,9 @@
              overwrite="true"/>
           </webdav>
         </try>
-        <catch/>
+        <catch>
+          <delete file="@{libs.basedir}/@{libs.name}.properties" failonerror="false"/>
+        </catch>
       </trycatch>
       <restrict id="libs.local.modified">
         <libs.local/>

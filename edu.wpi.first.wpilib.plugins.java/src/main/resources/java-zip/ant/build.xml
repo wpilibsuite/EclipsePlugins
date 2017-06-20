@@ -200,14 +200,25 @@
       </libs.local>
     </deploy-libs>
     <echo>[athena-deploy] Copying code over.</echo>
-    <scp file="${dist.jar}" todir="${username}@${target}:${deploy.dir}" password="${password}" trust="true"/>
-  	<!-- The remoteDebugCommand file is used by /usr/local/frc/bin/frcRunRobot.sh on the roboRIO  -->
-    <scp file="${wpilib.ant.dir}/robotDebugCommand" todir="${username}@${target}:${command.dir}" password="${password}" trust="true"/>
-  	<!-- The frcdebug file is used as a flag for /usr/local/frc/bin/frcRunRobot.sh to run the robot program in debug mode -->
-  	<scp file="${wpilib.ant.dir}/frcdebug" todir="${username}@${target}:${debug.flag.dir}" password="${password}" trust="true"/>
+    <webdav username="${adminUsername}" password="${adminPassword}">
+      <delete url="http://${target}/files${deploy.dir}/${jar}"/>
+      <put url="http://${target}/files${deploy.dir}/">
+        <fileset file="${dist.jar}"/>
+      </put>
+      <!-- The remoteDebugCommand file is used by /usr/local/frc/bin/frcRunRobot.sh on the roboRIO  -->
+      <delete url="http://${target}/files${command.dir}/robotDebugCommand"/>
+      <put url="http://${target}/files${command.dir}/">
+        <fileset file="${wpilib.ant.dir}/robotDebugCommand"/>
+      </put>
+      <!-- The frcdebug file is used as a flag for /usr/local/frc/bin/frcRunRobot.sh to run the robot program in debug mode -->
+      <delete url="http://${target}/files${debug.flag.dir}/frcdebug"/>
+      <put url="http://${target}/files${debug.flag.dir}/">
+        <fileset file="${wpilib.ant.dir}/frcdebug"/>
+      </put>
+    </webdav>
 	<sshexec host="${target}"
-        username="${username}"
-        password="${password}"
+        username="${adminUsername}"
+        password="${adminPassword}"
         trust="true"
         command="${debug.flag.command}"/>
 
@@ -302,7 +313,9 @@
              overwrite="true"/>
           </webdav>
         </try>
-        <catch/>
+        <catch>
+          <delete file="@{libs.basedir}/@{libs.name}.properties" failonerror="false"/>
+        </catch>
       </trycatch>
       <restrict id="libs.local.modified">
         <libs.local/>
