@@ -13,8 +13,10 @@
 class Robot: public frc::IterativeRobot {
 public:
 	void RobotInit() override {
-		chooser.AddDefault("Default Auto", new ExampleCommand());
-		// chooser.AddObject("My Auto", new MyAutoCommand());
+		defaultAuto.reset(new ExampleCommand());
+		chooser.AddDefault("Default Auto", defaultAuto.get());
+		// myAuto.reset(new MyAutoCommand());
+		// chooser.AddObject("My Auto", myAuto.get());
 		frc::SmartDashboard::PutData("Auto Modes", &chooser);
 	}
 
@@ -51,9 +53,9 @@ public:
 			autonomousCommand.reset(new ExampleCommand());
 		} */
 
-		autonomousCommand.reset(chooser.GetSelected());
+		autonomousCommand = chooser.GetSelected();
 
-		if (autonomousCommand.get() != nullptr) {
+		if (autonomousCommand != nullptr) {
 			autonomousCommand->Start();
 		}
 	}
@@ -69,6 +71,7 @@ public:
 		// this line or comment it out.
 		if (autonomousCommand != nullptr) {
 			autonomousCommand->Cancel();
+			autonomousCommand = nullptr;
 		}
 	}
 
@@ -81,7 +84,11 @@ public:
 	}
 
 private:
-	std::unique_ptr<frc::Command> autonomousCommand;
+	// Have it null by default so that if testing teleop it
+	// doesn't have undefined behavior and potentially crash.
+	frc::Command* autonomousCommand = nullptr;
+	std::unique_ptr<frc::Command> defaultAuto;
+	// std::unique_ptr<frc::Command> myAuto;
 	frc::SendableChooser<frc::Command*> chooser;
 };
 
