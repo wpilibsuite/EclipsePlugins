@@ -187,7 +187,6 @@
 
   <target name="dependencies" depends="get-target-ip">
     <property name="ant.enable.asserts" value="true"/>
-
 	<assert message="Image of roboRIO does not match plugin. ${line.separator}Allowed image year: ${roboRIOAllowedYear} version: ${roboRIOAllowedImages}. ${line.separator}Actual image year:  ${roboRIOImageYear} version: ${roboRIOImage}. ${line.separator}RoboRIO needs to be re-imaged or plugins updated.">
 		<bool>
 			<and>
