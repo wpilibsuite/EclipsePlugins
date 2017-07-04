@@ -1,264 +1,293 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project name="athena-project-build" default="deploy">
-  <property file="${user.home}/wpilib/cpp/${version}/ant/ni_image.properties"/>
-
+<?xml version="1.0" encoding="utf-8"?>
+<project name="athena-project-build"
+         default="deploy">
+  <property file="${user.home}/wpilib/cpp/${version}/ant/ni_image.properties" />
   <!-- Load Tasks -->
   <taskdef resource="net/sf/antcontrib/antlib.xml">
     <classpath>
-      <pathelement location="${wpilib.ant.dir}/ant-contrib.jar"/>
+      <pathelement location="${wpilib.ant.dir}/ant-contrib.jar" />
     </classpath>
   </taskdef>
-  <taskdef resource="net/jtools/classloadertask/antlib.xml" classpath="${classloadertask.jar}"/>
-  <classloader loader="system" classpath="${jsch.jar}"/>
-  <taskdef name="webdav" classname="com.github.sardine.ant.SardineTask">
+  <taskdef resource="net/jtools/classloadertask/antlib.xml"
+           classpath="${classloadertask.jar}" />
+  <classloader loader="system"
+               classpath="${jsch.jar}" />
+  <taskdef name="webdav"
+           classname="com.github.sardine.ant.SardineTask">
     <classpath>
-      <pathelement location="${wpilib.ant.dir}/sardine-5.8-SNAPSHOT.jar"/>
-      <pathelement location="${wpilib.ant.dir}/httpclient-4.5.3.jar"/>
-      <pathelement location="${wpilib.ant.dir}/httpcore-4.4.6.jar"/>
-      <pathelement location="${wpilib.ant.dir}/commons-codec-1.10.jar"/>
-      <pathelement location="${wpilib.ant.dir}/commons-logging-1.2.jar"/>
+      <pathelement location="${wpilib.ant.dir}/sardine-5.8-SNAPSHOT.jar" />
+      <pathelement location="${wpilib.ant.dir}/httpclient-4.5.3.jar" />
+      <pathelement location="${wpilib.ant.dir}/httpcore-4.4.6.jar" />
+      <pathelement location="${wpilib.ant.dir}/commons-codec-1.10.jar" />
+      <pathelement location="${wpilib.ant.dir}/commons-logging-1.2.jar" />
     </classpath>
   </taskdef>
   <typedef resource="edu/wpi/first/ant/roboriotasks.xml">
     <classpath>
-      <pathelement location="${wpilib.ant.dir}/roborio-ant-tasks-1.0.jar"/>
-      <pathelement location="${wpilib.ant.dir}/httpclient-4.5.3.jar"/>
-      <pathelement location="${wpilib.ant.dir}/httpcore-4.4.6.jar"/>
-      <pathelement location="${wpilib.ant.dir}/commons-codec-1.10.jar"/>
-      <pathelement location="${wpilib.ant.dir}/commons-logging-1.2.jar"/>
+      <pathelement location="${wpilib.ant.dir}/roborio-ant-tasks-1.0.jar" />
+      <pathelement location="${wpilib.ant.dir}/httpclient-4.5.3.jar" />
+      <pathelement location="${wpilib.ant.dir}/httpcore-4.4.6.jar" />
+      <pathelement location="${wpilib.ant.dir}/commons-codec-1.10.jar" />
+      <pathelement location="${wpilib.ant.dir}/commons-logging-1.2.jar" />
     </classpath>
   </typedef>
-
-  <target name="clean" description="Clean up all build and distribution artifacts.">
-    <delete dir="${build.dir}"/>
-    <delete dir="${dist.dir}"/>
+  <target name="clean"
+          description="Clean up all build and distribution artifacts.">
+          
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
   </target>
-
   <!-- Targets -->
-
   <target name="get-target-ip">
-    <property name="ant.enable.asserts" value="true"/>
-    <assert name="team-number" exists="true" message="Team number not set. Go to Window->Preferences->WPILib Preferences to set it."/>
-
+    <property name="ant.enable.asserts"
+              value="true" />
+    <assert name="team-number"
+            exists="true"
+            message="Team number not set. Go to Window-&gt;Preferences-&gt;WPILib Preferences to set it." />
     <echo>Finding roboRIO...</echo>
-    <var name="target" unset="true"/>
-    <find-roborio team="${team-number}" username="${adminUsername}"
-     password="${adminPassword}" targetProperty="target"
-     imageYearProperty="roboRIOImageYear" imageProperty="roboRIOImage"/>
-
+    <var name="target"
+         unset="true" />
+    <find-roborio team="${team-number}"
+                  username="${adminUsername}"
+                  password="${adminPassword}"
+                  targetProperty="target"
+                  imageYearProperty="roboRIOImageYear"
+                  imageProperty="roboRIOImage" />
     <if>
-      <isset property="target"/>
+      <isset property="target" />
       <then>
-        <echo>roboRIO found at ${target}, image FRC_roboRIO_${roboRIOImageYear}_v${roboRIOImage}</echo>
+        <echo>roboRIO found at ${target}, image
+        FRC_roboRIO_${roboRIOImageYear}_v${roboRIOImage}</echo>
       </then>
       <else>
-        <assert name="roboRIOFound" message="roboRIO not found, please check that the roboRIO is connected, imaged and that the team number is set properly in Eclipse"/>
+        <assert name="roboRIOFound"
+                message="roboRIO not found, please check that the roboRIO is connected, imaged and that the team number is set properly in Eclipse" />
       </else>
     </if>
   </target>
-
-  <target name="deploy" depends="get-target-ip, dependencies" description="Deploy the progam and start it running.">
-    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.lib}" libs.deployDir="${libDeploy.dir}">
+  <target name="deploy"
+          depends="get-target-ip, dependencies"
+          description="Deploy the progam and start it running.">
+    <deploy-libs libs.name="WPI_Native_Libraries"
+                 libs.basedir="${wpilib.lib}"
+                 libs.deployDir="${libDeploy.dir}">
       <libs.local>
-        <fileset id="wpiNativeLibs.local" dir="${wpilib.lib}">
-          <include name="libHALAthena.so"/>
-          <include name="libntcore.so"/>
-          <include name="libwpiutil.so"/>
-          <include name="libopencv*.so.3.1"/>
-          <include name="libcscore.so"/>
-          <include name="libwpilibc.so"/>
+        <fileset id="wpiNativeLibs.local"
+                 dir="${wpilib.lib}">
+          <include name="libHALAthena.so" />
+          <include name="libntcore.so" />
+          <include name="libwpiutil.so" />
+          <include name="libopencv*.so.3.1" />
+          <include name="libcscore.so" />
+          <include name="libwpilibc.so" />
         </fileset>
       </libs.local>
     </deploy-libs>
-    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}" libs.deployDir="${libDeploy.dir}">
+    <deploy-libs libs.name="User_Libraries"
+                 libs.basedir="${userLibs.dir}"
+                 libs.deployDir="${libDeploy.dir}">
       <libs.local>
         <fileset dir="${userLibs.dir}">
-          <include name="**/*.so"/>
+          <include name="**/*.so" />
         </fileset>
       </libs.local>
     </deploy-libs>
-
     <sshexec host="${target}"
-         username="${username}"
-         password="${password}"
-         trust="true"
-         failonerror="no"
-         command="rm -f ${deploy.dir}/FRCUserProgram" />
-
+             username="${username}"
+             password="${password}"
+             trust="true"
+             failonerror="no"
+             command="rm -f ${deploy.dir}/FRCUserProgram" />
     <echo>[athena-deploy] Copying code over.</echo>
-    <webdav username="${adminUsername}" password="${adminPassword}">
-      <delete url="http://${target}/files${deploy.dir}/${out}"/>
+    <webdav username="${adminUsername}"
+            password="${adminPassword}">
+      <delete url="http://${target}/files${deploy.dir}/${out}" />
       <put url="http://${target}/files${deploy.dir}/">
-        <fileset file="${out.exe}"/>
+        <fileset file="${out.exe}" />
       </put>
     </webdav>
-
-     <!-- Suppress the exit status so that if no netconsole was running then
+    <!-- Suppress the exit status so that if no netconsole was running then
           it doesn't show up red on the output. -->
-    <sshexec host="${target}"
-               username="${adminUsername}"
-               password="${adminPassword}"
-               trust="true"
-               failonerror="false"
-               command="killall -q netconsole-host || :"/>
-
-
-    <deploy-libs libs.name="netconsole-host" libs.basedir="${wpilib.ant.dir}" libs.deployDir="/usr/local/frc/bin">
-      <libs.local>
-        <fileset id="netconsole.local" dir="${wpilib.ant.dir}">
-          <include name="netconsole-host"/>
-        </fileset>
-      </libs.local>
-    </deploy-libs>
-
-    <webdav username="${adminUsername}" password="${adminPassword}">
-      <delete url="http://${target}/files${command.dir}robotCommand"/>
-      <put url="http://${target}/files${command.dir}">
-        <fileset file="${wpilib.ant.dir}/robotCommand"/>
-      </put>
-    </webdav>
-
-    <echo>[athena-deploy] Starting program.</echo>
-    <sshexec host="${target}"
-       username="${adminUsername}"
-       password="${adminPassword}"
-       trust="true"
-       failonerror="false"
-       command=". /etc/profile.d/natinst-path.sh; chown lvuser ${deploy.dir}/${out}; setcap 'cap_sys_nice=pe' ${deploy.dir}/${out}; chmod a+x ${deploy.dir}/${out}; ${deploy.kill.command}; sync"/>
-
-  </target>
-
-  <target name="debug-prepare" depends="get-target-ip,dependencies,kill-program">
-    <deploy-libs libs.name="WPI_Native_Libraries" libs.basedir="${wpilib.lib}" libs.deployDir="${libDeploy.dir}">
-      <libs.local>
-        <fileset id="wpiNativeLibs.local" dir="${wpilib.lib}">
-          <include name="libHALAthena.so"/>
-          <include name="libntcore.so"/>
-          <include name="libwpiutil.so"/>
-          <include name="libopencv*.so.3.1"/>
-          <include name="libcscore.so"/>
-          <include name="libwpilibc.so"/>
-        </fileset>
-      </libs.local>
-    </deploy-libs>
-    <deploy-libs libs.name="User_Libraries" libs.basedir="${userLibs.dir}" libs.deployDir="${libDeploy.dir}">
-      <libs.local>
-        <fileset dir="${userLibs.dir}">
-          <include name="**/*.so"/>
-        </fileset>
-      </libs.local>
-    </deploy-libs>
-
-    <webdav username="${adminUsername}" password="${adminPassword}">
-      <delete url="http://${target}/files/tmp/locale"/>
-      <put url="http://${target}/files/tmp">
-        <fileset file="${wpilib.ant.dir}/locale"/>
-      </put>
-    </webdav>
-
     <sshexec host="${target}"
              username="${adminUsername}"
              password="${adminPassword}"
              trust="true"
-             command="mv /tmp/locale /bin/ &amp;&amp; chmod -R +x /bin/locale"
-    />
+             failonerror="false"
+             command="killall -q netconsole-host || :" />
+    <deploy-libs libs.name="netconsole-host"
+                 libs.basedir="${wpilib.ant.dir}"
+                 libs.deployDir="/usr/local/frc/bin">
+      <libs.local>
+        <fileset id="netconsole.local"
+                 dir="${wpilib.ant.dir}">
+          <include name="netconsole-host" />
+        </fileset>
+      </libs.local>
+    </deploy-libs>
+    <webdav username="${adminUsername}"
+            password="${adminPassword}">
+      <delete url="http://${target}/files${command.dir}robotCommand" />
+      <put url="http://${target}/files${command.dir}">
+        <fileset file="${wpilib.ant.dir}/robotCommand" />
+      </put>
+    </webdav>
+    <echo>[athena-deploy] Starting program.</echo>
+    <sshexec host="${target}"
+             username="${adminUsername}"
+             password="${adminPassword}"
+             trust="true"
+             failonerror="false"
+             command=". /etc/profile.d/natinst-path.sh; chown lvuser ${deploy.dir}/${out}; setcap 'cap_sys_nice=pe' ${deploy.dir}/${out}; chmod a+x ${deploy.dir}/${out}; ${deploy.kill.command}; sync" />
   </target>
-    
-  <target name="kill-program" depends="get-target-ip" description="Kill the currently running FRC program">
-	  <sshexec host="${target}"
-		   username="${username}"
-		   password="${password}"
-		   trust="true"
-		   failonerror="false"
-		   command=". /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t"/>
+  <target name="debug-prepare"
+          depends="get-target-ip,dependencies,kill-program">
+    <deploy-libs libs.name="WPI_Native_Libraries"
+                 libs.basedir="${wpilib.lib}"
+                 libs.deployDir="${libDeploy.dir}">
+      <libs.local>
+        <fileset id="wpiNativeLibs.local"
+                 dir="${wpilib.lib}">
+          <include name="libHALAthena.so" />
+          <include name="libntcore.so" />
+          <include name="libwpiutil.so" />
+          <include name="libopencv*.so.3.1" />
+          <include name="libcscore.so" />
+          <include name="libwpilibc.so" />
+        </fileset>
+      </libs.local>
+    </deploy-libs>
+    <deploy-libs libs.name="User_Libraries"
+                 libs.basedir="${userLibs.dir}"
+                 libs.deployDir="${libDeploy.dir}">
+      <libs.local>
+        <fileset dir="${userLibs.dir}">
+          <include name="**/*.so" />
+        </fileset>
+      </libs.local>
+    </deploy-libs>
+    <webdav username="${adminUsername}"
+            password="${adminPassword}">
+      <delete url="http://${target}/files/tmp/locale" />
+      <put url="http://${target}/files/tmp">
+        <fileset file="${wpilib.ant.dir}/locale" />
+      </put>
+    </webdav>
+    <sshexec host="${target}"
+             username="${adminUsername}"
+             password="${adminPassword}"
+             trust="true"
+             command="mv /tmp/locale /bin/ &amp;&amp; chmod -R +x /bin/locale" />
   </target>
-
+  <target name="kill-program"
+          depends="get-target-ip"
+          description="Kill the currently running FRC program">
+    <sshexec host="${target}"
+             username="${username}"
+             password="${password}"
+             trust="true"
+             failonerror="false"
+             command=". /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t" />
+  </target>
   <!-- Simulation support -->
   <target name="simulate">
     <parallel>
       <sequential>
-        <echo>[simulate] You may now run Gazebo and your driver station</echo>
-  	    <echo>[simulate] Running Code.</echo>
+        <echo>[simulate] You may now run Gazebo and your driver
+        station</echo>
+        <echo>[simulate] Running Code.</echo>
         <exec executable="${sim.exe}"></exec>
       </sequential>
     </parallel>
   </target>
+  <target name="dependencies"
+          depends="get-target-ip">
+    <property name="ant.enable.asserts"
+              value="true" />
+    <assert message="Image of roboRIO does not match plugin. ${line.separator}Allowed image year: ${roboRIOAllowedYear} version: ${roboRIOAllowedImages}. ${line.separator}Actual image year:  ${roboRIOImageYear} version: ${roboRIOImage}. ${line.separator}RoboRIO needs to be re-imaged or plugins updated.">
 
-  <target name="dependencies" depends="get-target-ip">
-    <property name="ant.enable.asserts" value="true"/>
-	<assert message="Image of roboRIO does not match plugin. ${line.separator}Allowed image year: ${roboRIOAllowedYear} version: ${roboRIOAllowedImages}. ${line.separator}Actual image year:  ${roboRIOImageYear} version: ${roboRIOImage}. ${line.separator}RoboRIO needs to be re-imaged or plugins updated.">
-		<bool>
-			<and>
-				<contains string="${roboRIOAllowedImages}" substring="${roboRIOImage}"/>
-				<contains string="${roboRIOAllowedYear}" substring="${roboRIOImageYear}"/>
-			</and>
-		</bool>
-	</assert>
-	<echo>roboRIO image version validated</echo>
+      <bool>
+        <and>
+          <contains string="${roboRIOAllowedImages}"
+                    substring="${roboRIOImage}" />
+          <contains string="${roboRIOAllowedYear}"
+                    substring="${roboRIOImageYear}" />
+        </and>
+      </bool>
+    </assert>
+    <echo>roboRIO image version validated</echo>
   </target>
-
   <!-- libs.name should not contain spaces as it is used to name a file -->
   <macrodef name="deploy-libs">
-    <attribute name="libs.name"/>
-    <attribute name="libs.basedir"/>
-    <attribute name="libs.deployDir"/>
-    <element name="libs.local"/>
+    <attribute name="libs.name" />
+    <attribute name="libs.basedir" />
+    <attribute name="libs.deployDir" />
+    <element name="libs.local" />
     <sequential>
-      <local name="libs.local.notEmpty"/>
-      <local name="libs.local.checksum"/>
-      <local name="libs.deployed.checksum"/>
-      <local name="libs.local.modified.property"/>
-      <local name="libs.remote.modified.property"/>
-
+      <local name="libs.local.notEmpty" />
+      <local name="libs.local.checksum" />
+      <local name="libs.deployed.checksum" />
+      <local name="libs.local.modified.property" />
+      <local name="libs.remote.modified.property" />
       <trycatch>
         <try>
-          <webdav username="${adminUsername}" password="${adminPassword}">
-            <get
-             url="http://${target}/files@{libs.deployDir}/@{libs.name}.properties"
-             file="@{libs.basedir}/@{libs.name}.properties"
-             overwrite="true"/>
+          <webdav username="${adminUsername}"
+                  password="${adminPassword}">
+            <get url="http://${target}/files@{libs.deployDir}/@{libs.name}.properties"
+                 file="@{libs.basedir}/@{libs.name}.properties"
+                 overwrite="true" />
           </webdav>
         </try>
         <catch>
-          <delete file="@{libs.basedir}/@{libs.name}.properties" failonerror="false"/>
+          <delete file="@{libs.basedir}/@{libs.name}.properties"
+                  failonerror="false" />
         </catch>
       </trycatch>
       <restrict id="libs.local.modified">
-        <libs.local/>
+        <libs.local />
         <modified update="true"
                   seldirs="true"
                   cache="propertyfile"
                   algorithm="digest"
                   comparator="equal">
-          <param name="cache.cachefile" value="@{libs.basedir}/@{libs.name}.properties"/>
-          <param name="algorithm.algorithm" value="MD5"/>
+          <param name="cache.cachefile"
+                 value="@{libs.basedir}/@{libs.name}.properties" />
+          <param name="algorithm.algorithm"
+                 value="MD5" />
         </modified>
       </restrict>
-
-      <pathconvert refid="libs.local.modified" property="libs.local.modified.property" pathsep="," setonempty="false">
-        <globmapper from="@{libs.basedir}/*" to="*" handledirsep="true" />
+      <pathconvert refid="libs.local.modified"
+                   property="libs.local.modified.property"
+                   pathsep=","
+                   setonempty="false">
+        <globmapper from="@{libs.basedir}/*"
+                    to="*"
+                    handledirsep="true" />
       </pathconvert>
-
       <if>
-        <isset property="libs.local.modified.property"/>
+        <isset property="libs.local.modified.property" />
         <then>
-          <echo message="Deploying libraries ${line.separator} ${libs.local.modified.property}"/>
-          <webdav username="${adminUsername}" password="${adminPassword}">
+          <echo message="Deploying libraries ${line.separator} ${libs.local.modified.property}" />
+          <webdav username="${adminUsername}"
+                  password="${adminPassword}">
             <put url="http://${target}/files/tmp/">
-              <fileset dir="@{libs.basedir}" includes="${libs.local.modified.property}"/>
-              <fileset file="@{libs.basedir}/@{libs.name}.properties"/>
+              <fileset dir="@{libs.basedir}"
+                       includes="${libs.local.modified.property}" />
+              <fileset file="@{libs.basedir}/@{libs.name}.properties" />
             </put>
           </webdav>
-          <pathconvert refid="libs.local.modified" property="libs.remote.modified.property" pathsep=" " setonempty="true">
-            <globmapper from="@{libs.basedir}/*" to="/tmp/*" handledirsep="true" />
+          <pathconvert refid="libs.local.modified"
+                       property="libs.remote.modified.property"
+                       pathsep=" "
+                       setonempty="true">
+            <globmapper from="@{libs.basedir}/*"
+                        to="/tmp/*"
+                        handledirsep="true" />
           </pathconvert>
           <sshexec host="${target}"
                    username="${adminUsername}"
                    password="${adminPassword}"
                    trust="true"
-                   command="chmod +x ${libs.remote.modified.property} &amp;&amp; mv ${libs.remote.modified.property} /tmp/@{libs.name}.properties @{libs.deployDir} &amp;&amp; ldconfig"
-          />
+                   command="chmod +x ${libs.remote.modified.property} &amp;&amp; mv ${libs.remote.modified.property} /tmp/@{libs.name}.properties @{libs.deployDir} &amp;&amp; ldconfig" />
         </then>
       </if>
     </sequential>
