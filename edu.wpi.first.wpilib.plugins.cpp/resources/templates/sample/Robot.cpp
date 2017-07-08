@@ -50,6 +50,28 @@ public:
 	 * You can add additional auto modes by adding additional comparisons to the
 	 * if-else structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
+	 *
+	 * If you wanted to run a similar autonomous mode with an IterativeRobot you would write:
+	 *
+	 *     frc::Timer timer;
+	 *
+	 *     // This function is run once each time the robot enters autonomous mode
+	 *     void AutonomousInit() override {
+	 *         timer.Reset();
+	 *         timer.Start();
+	 *     }
+	 *
+	 *     // This function is called periodically during autonomous
+	 *     void AutonomousPeriodic() override {
+	 *         // Drive for 2 seconds
+	 *         if (timer.Get() < 2.0) {
+	 *             myRobot.Drive(-0.5, 0.0); // drive forwards half speed
+	 *         } else if (timer.Get() < 5.0) {
+	 *             myRobot.Drive(-1.0, 0.0); // drive forwards full speed
+	 *         } else {
+	 *             myRobot.Drive(0.0, 0.0); // stop robot
+	 *         }
+	 *     }
 	 */
 	void Autonomous() {
 		auto autoSelected = chooser.GetSelected();
@@ -75,6 +97,14 @@ public:
 
 	/*
 	 * Runs the motors with arcade steering.
+	 *
+	 * If you wanted to run a similar teleoperated mode with an IterativeRobot you would write:
+	 *
+	 *     // This function is called periodically during operator control
+	 *     void TeleopPeriodic() override {
+	 *         myRobot.ArcadeDrive(stick);
+	 *     }
+	 *
 	 */
 	void OperatorControl() override {
 		myRobot.SetSafetyEnabled(true);

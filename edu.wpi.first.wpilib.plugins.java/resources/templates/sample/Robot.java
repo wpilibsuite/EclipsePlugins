@@ -52,6 +52,29 @@ public class Robot extends SampleRobot {
 	 * You can add additional auto modes by adding additional comparisons to the
 	 * if-else structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
+	 *
+	 * If you wanted to run a similar autonomous mode with an IterativeRobot you would write:
+	 *
+	 *     Timer timer = new Timer();
+	 *
+	 *     // This function is run once each time the robot enters autonomous mode
+	 *     public void autonomousInit() {
+	 *         timer.reset();
+	 *         timer.start();
+	 *     }
+	 *
+	 *     // This function is called periodically during autonomous
+	 *     public void autonomousPeriodic() {
+	 *         // Drive for 2 seconds
+	 *         if (timer.get() < 2.0) {
+	 *             myRobot.drive(-0.5, 0.0); // drive forwards half speed
+	 *         } else if (timer.get() < 5.0) {
+	 *             myRobot.drive(-1.0, 0.0); // drive forwards full speed
+	 *         } else {
+	 *             myRobot.drive(0.0, 0.0); // stop robot
+	 *         }
+	 *     }
+	 *
 	 */
 	@Override
 	public void autonomous() {
@@ -79,6 +102,14 @@ public class Robot extends SampleRobot {
 
 	/**
 	 * Runs the motors with arcade steering.
+	 *
+	 * If you wanted to run a similar teleoperated mode with an IterativeRobot you would write:
+	 *
+	 *     // This function is called periodically during operator control
+	 *     public void teleopPeriodic() {
+	 *         myRobot.arcadeDrive(stick);
+	 *     }
+	 *
 	 */
 	@Override
 	public void operatorControl() {
