@@ -81,7 +81,7 @@ task clean(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.0'
+    gradleVersion = '4.0.1'
 }
 
 // If the generatedVersionFile doesn't exist, or if it's content is 'always generate' ignoring case, then return true.
