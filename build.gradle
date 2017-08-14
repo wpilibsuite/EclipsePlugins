@@ -1,5 +1,46 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'commons-codec:commons-codec:1.10'
+    }
+}
+
 plugins {
     id 'edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin' version '1.6'
+    id 'de.undercouch.download' version '3.2.0'
+}
+
+import org.apache.commons.codec.digest.DigestUtils
+
+def jreRelease = '2018-beta'
+def jreFile = 'zulu-jre_1.8.0-131_cortexa9-vfpv3.ipk'
+
+task downloadJRE() {
+    group = 'Build'
+    description = 'Downloads JRE ipk.'
+
+    def destFile = new File('edu.wpi.first.wpilib.plugins.java/src/main/resources/java-zip/ant/', jreFile)
+    def golden = 'f4b35ad08f2dd97ee409911d254c064c7cb6d47706f6bf74d3ef044cadbad433'
+
+    String checksum
+    if (destFile.exists()) {
+        destFile.withInputStream { ins -> checksum = DigestUtils.sha256Hex(ins) }
+    }
+    if (checksum != golden) {
+        download {
+            src "https://github.com/wpilibsuite/zulu-jre-ipk/releases/download/${jreRelease}/${jreFile}"
+            dest destFile
+            overwrite true
+        }
+        destFile.withInputStream { ins -> checksum = DigestUtils.sha256Hex(ins) }
+        if (checksum != golden) {
+            throw new GradleException("download checksum did not match")
+        }
+    }
 }
 
 def niPropertiesSource = file('ni_image.properties')
@@ -28,7 +69,7 @@ task generateNiImageProperties() {
 
 apply from: 'maven_commands.gradle'
 
-executeMaven.mustRunAfter generateNiImageProperties
+executeMaven.mustRunAfter generateNiImageProperties, downloadJRE
 
 def generatedVersionFile = file('generated_version')
 
@@ -47,7 +88,7 @@ task updateDependencies() {
 task build() {
     group = 'Build'
     description = 'Assembles this project.'
-    dependsOn generateNiImageProperties, addPackageCommand, executeMaven
+    dependsOn generateNiImageProperties, downloadJRE, addPackageCommand, executeMaven
 
     // If this is an official build, or if we have never updates the dependencies (ie, this is a fresh clone), or if
     // the user has specified always update dependencies, we update the version of the plugin and of our dependencies

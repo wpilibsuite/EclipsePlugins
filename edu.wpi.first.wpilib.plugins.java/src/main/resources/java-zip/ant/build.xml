@@ -320,11 +320,30 @@
       <exists url="http://${target}/files${roboRIOJRE.dir}/bin/java"
               property="jreExists" />
     </webdav>
-    <assert name="jreExists"
-            value="true"
-            message="JRE not installed. Install the JRE using these instructions: https://wpilib.screenstepslive.com/s/4485/m/13503/l/288822-installing-java-8-on-the-roborio-using-the-frc-roborio-java-installer-java-only">
-    </assert>
-    <echo>JRE installation validated</echo>
+    <if>
+      <not>
+        <equals arg1="${jreExists}" arg2="true" />
+      </not>
+      <then>
+        <echo>Installing JRE, this may take a couple of minutes...</echo>
+        <webdav username="${adminUsername}"
+                password="${adminPassword}">
+          <delete url="http://${target}/files/tmp/${roboRIOJRE.ipk}" />
+          <put url="http://${target}/files/tmp/${roboRIOJRE.ipk}">
+            <fileset file="${wpilib.ant.dir}/${roboRIOJRE.ipk}" />
+          </put>
+        </webdav>
+        <!-- the sed command is a workaround for an issue in the 2018_v4 image -->
+        <sshexec host="${target}"
+                 username="${adminUsername}"
+                 password="${adminPassword}"
+                 trust="true"
+                 command="sed -i -e '/netconsole-launcher/{;N;N;N;N;N;N;d;}' /var/lib/opkg/status; opkg install /tmp/${roboRIOJRE.ipk}; rm /tmp/${roboRIOJRE.ipk}" />
+      </then>
+      <else>
+        <echo>JRE installation validated</echo>
+      </else>
+    </if>
   </target>
   <!-- libs.name should not contain spaces as it is used to name a file -->
   <macrodef name="deploy-libs">

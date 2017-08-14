@@ -2,6 +2,9 @@
 generated_version
 **/ant/ni_image.properties
 
+# downloaded IPK files
+*.ipk
+
 # Created by https://www.gitignore.io/api/maven,gradle,eclipse,intellij,visualstudiocode
 
 ### Maven ###
