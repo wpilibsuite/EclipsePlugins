@@ -115,6 +115,8 @@
       </manifest>
       <fileset dir="${build.dir}"
                includes="**/*.class" />
+      <fileset dir="${src.dir}"
+               includes="**/*.java" />
       <zipgroupfileset dir="${build.jars}" />
     </jar>
   </target>
