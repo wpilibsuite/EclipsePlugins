@@ -1,3 +1,4 @@
+gradlew.bat eol=crlf
 *runcppprogram text eol=lf
 *runjavaprogram text eol=lf
 *robotCommand text eol=lf
