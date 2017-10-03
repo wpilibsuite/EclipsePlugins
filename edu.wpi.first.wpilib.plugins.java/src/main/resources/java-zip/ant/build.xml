@@ -329,7 +329,7 @@
         <webdav username="${adminUsername}"
                 password="${adminPassword}">
           <delete url="http://${target}/files/tmp/${roboRIOJRE.ipk}" />
-          <put url="http://${target}/files/tmp/${roboRIOJRE.ipk}">
+          <put url="http://${target}/files/tmp/">
             <fileset file="${wpilib.ant.dir}/${roboRIOJRE.ipk}" />
           </put>
         </webdav>
