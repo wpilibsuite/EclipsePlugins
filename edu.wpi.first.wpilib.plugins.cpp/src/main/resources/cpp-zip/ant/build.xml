@@ -33,7 +33,7 @@
   </typedef>
   <target name="clean"
           description="Clean up all build and distribution artifacts.">
-          
+
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
   </target>
@@ -74,10 +74,11 @@
       <libs.local>
         <fileset id="wpiNativeLibs.local"
                  dir="${wpilib.lib}">
-          <include name="libHALAthena.so" />
+          <include name="libwpiHal.so" />
           <include name="libntcore.so" />
           <include name="libwpiutil.so" />
-          <include name="libopencv*.so.3.1" />
+          <include name="libopencv*.so.3.2" />
+          <include name="libopencv_java320.so" />
           <include name="libcscore.so" />
           <include name="libwpilibc.so" />
         </fileset>
@@ -147,10 +148,11 @@
       <libs.local>
         <fileset id="wpiNativeLibs.local"
                  dir="${wpilib.lib}">
-          <include name="libHALAthena.so" />
+          <include name="libwpiHal.so" />
           <include name="libntcore.so" />
           <include name="libwpiutil.so" />
-          <include name="libopencv*.so.3.1" />
+          <include name="libopencv*.so.3.2" />
+          <include name="libopencv_java320.so" />
           <include name="libcscore.so" />
           <include name="libwpilibc.so" />
         </fileset>

@@ -63,28 +63,108 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibc</groupId>
-                                    <artifactId>athena</artifactId>
+                                    <artifactId>wpilibc</artifactId>
+                                    <classifier>linuxathena</classifier>
                                     <type>zip</type>
-                                    <destFileName>athena.jar</destFileName>
+                                    <destFileName>wpilibc.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>edu.wpi.first.wpilib</groupId>
-                                    <artifactId>athena-runtime</artifactId>
+                                    <groupId>edu.wpi.first.wpilibc</groupId>
+                                    <artifactId>wpilibc</artifactId>
+                                    <classifier>headers</classifier>
                                     <type>zip</type>
-                                    <destFileName>athena-runtime.jar</destFileName>
+                                    <destFileName>wpilibc-headers.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>edu.wpi.first.wpilib</groupId>
+                                    <groupId>edu.wpi.first.wpilibc</groupId>
+                                    <artifactId>wpilibc-linkscripts</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <destFileName>wpilibc-linkscripts.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.hal</groupId>
                                     <artifactId>hal</artifactId>
+                                    <classifier>linuxathena</classifier>
                                     <type>zip</type>
                                     <destFileName>hal.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>edu.wpi.cscore.cpp</groupId>
-                                    <artifactId>cscore</artifactId>
-                                    <classifier>athena-uberzip</classifier>
+                                    <groupId>edu.wpi.first.hal</groupId>
+                                    <artifactId>hal</artifactId>
+                                    <classifier>headers</classifier>
                                     <type>zip</type>
-                                    <destFileName>csuberzip.jar</destFileName>
+                                    <destFileName>hal-headers.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.cscore</groupId>
+                                    <artifactId>cscore-cpp</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <destFileName>cscore.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.cscore</groupId>
+                                    <artifactId>cscore-cpp</artifactId>
+                                    <classifier>headers</classifier>
+                                    <type>zip</type>
+                                    <destFileName>cscore-headers.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.ntcore</groupId>
+                                    <artifactId>ntcore-cpp</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <destFileName>ntcore.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.ntcore</groupId>
+                                    <artifactId>ntcore-cpp</artifactId>
+                                    <classifier>headers</classifier>
+                                    <type>zip</type>
+                                    <destFileName>ntcore-headers.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpiutil</groupId>
+                                    <artifactId>wpiutil-cpp</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <destFileName>wpiutil.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpiutil</groupId>
+                                    <artifactId>wpiutil-cpp</artifactId>
+                                    <classifier>headers</classifier>
+                                    <type>zip</type>
+                                    <destFileName>wpiutil-headers.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.opencv</groupId>
+                                    <artifactId>opencv-cpp</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <destFileName>opencv.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.opencv</groupId>
+                                    <artifactId>opencv-cpp</artifactId>
+                                    <classifier>headers</classifier>
+                                    <type>zip</type>
+                                    <destFileName>opencv-headers.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.ni-libraries</groupId>
+                                    <artifactId>ni-libraries</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <destFileName>nilibraries.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.ni-libraries</groupId>
+                                    <artifactId>ni-libraries</artifactId>
+                                    <classifier>headers</classifier>
+                                    <type>zip</type>
+                                    <destFileName>nilibraries-headers.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}</outputDirectory>
@@ -131,12 +211,37 @@
                         </goals>
                         <configuration>
                             <target>
-                                <unzip dest="${cpp-zip}">
+                                <unzip dest="${cpp-zip}/include">
                                     <fileset dir="${project.build.directory}">
-                                        <include name="athena.jar"/>
+                                        <include name="wpilibc-headers.jar"/>
+                                        <include name="hal-headers.jar"/>
+                                        <include name="ntcore-headers.jar"/>
+                                        <include name="wpiutil-headers.jar"/>
+                                        <include name="cscore-headers.jar"/>
+                                        <include name="opencv-headers.jar"/>
+                                        <include name="nilibraries-headers.jar"/>
+                                    </fileset>
+                                </unzip>
+                                <unzip dest="${cpp-zip}/lib">
+                                    <patternset>
+                                        <include name="**/*.so*"/>
+                                    </patternset>
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="wpilibc.jar"/>
                                         <include name="hal.jar"/>
-                                        <include name="athena-runtime.jar"/>
-                                        <include name="csuberzip.jar"/>
+                                        <include name="ntcore.jar"/>
+                                        <include name="wpiutil.jar"/>
+                                        <include name="cscore.jar"/>
+                                        <include name="opencv.jar"/>
+                                    </fileset>
+                                </unzip>
+                                <unzip dest="${cpp-zip}/reflib">
+                                    <patternset>
+                                        <include name="**/*.so*"/>
+                                    </patternset>
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="wpilibc-linkscripts.jar"/>
+                                        <include name="nilibraries.jar"/>
                                     </fileset>
                                 </unzip>
                             </target>
@@ -164,28 +269,109 @@
     <dependencies>
         <dependency>
             <groupId>edu.wpi.first.wpilibc</groupId>
-            <artifactId>athena</artifactId>
-            <version>1.0.0</version>
+            <artifactId>wpilibc</artifactId>
+            <classifier>linuxathena</classifier>
             <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>edu.wpi.first.wpilib</groupId>
-            <artifactId>athena-runtime</artifactId>
-            <version>1.0.0</version>
+            <groupId>edu.wpi.first.wpilibc</groupId>
+            <artifactId>wpilibc-linkscripts</artifactId>
+            <classifier>linuxathena</classifier>
             <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>edu.wpi.first.wpilib</groupId>
+            <groupId>edu.wpi.first.hal</groupId>
             <artifactId>hal</artifactId>
-            <version>1.0.0</version>
+            <classifier>linuxathena</classifier>
             <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>edu.wpi.cscore.cpp</groupId>
-            <artifactId>cscore</artifactId>
-            <version>0.9.0</version>
-            <classifier>athena-uberzip</classifier>
+            <groupId>edu.wpi.first.cscore</groupId>
+            <artifactId>cscore-cpp</artifactId>
+            <classifier>linuxathena</classifier>
             <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.ntcore</groupId>
+            <artifactId>ntcore-cpp</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpiutil</groupId>
+            <artifactId>wpiutil-cpp</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.opencv</groupId>
+            <artifactId>opencv-cpp</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.ni-libraries</groupId>
+            <artifactId>ni-libraries</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.wpi.first.wpilibc</groupId>
+            <artifactId>wpilibc</artifactId>
+            <classifier>headers</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.hal</groupId>
+            <artifactId>hal</artifactId>
+            <classifier>headers</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.cscore</groupId>
+            <artifactId>cscore-cpp</artifactId>
+            <classifier>headers</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.ntcore</groupId>
+            <artifactId>ntcore-cpp</artifactId>
+            <classifier>headers</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpiutil</groupId>
+            <artifactId>wpiutil-cpp</artifactId>
+            <classifier>headers</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.opencv</groupId>
+            <artifactId>opencv-cpp</artifactId>
+            <classifier>headers</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.ni-libraries</groupId>
+            <artifactId>ni-libraries</artifactId>
+            <classifier>headers</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

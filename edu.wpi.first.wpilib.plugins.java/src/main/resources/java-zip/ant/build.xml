@@ -73,9 +73,10 @@
                includes="*.jar"
                excludes="*-sources.jar,*-javadoc.jar" />
       <fileset file="${wpilib.jar}" />
-      <fileset file="${networktables.jar}" />
+      <fileset file="${ntcore.jar}" />
       <fileset file="${opencv.jar}" />
       <fileset file="${cscore.jar}" />
+      <fileset file="${wpiutil.jar}" />
       <fileset dir="${userLibs}"
                erroronmissingdir="false" />
     </path>
@@ -134,13 +135,13 @@
       <libs.local>
         <fileset id="wpiNativeLibs.local"
                  dir="${wpilib.native.lib}">
-          <include name="libHALAthena.so" />
+          <include name="libwpiHal.so" />
           <include name="libntcore.so" />
           <include name="libwpiutil.so" />
-          <include name="libopencv*.so.3.1" />
+          <include name="libopencv*.so.3.2" />
           <include name="libcscore.so" />
-          <include name="libopencv_java310.so" />
-          <include name="libwpilibJavaJNI.so" />
+          <include name="libopencv_java320.so" />
+          <include name="libwpilibJNI.so" />
         </fileset>
       </libs.local>
     </deploy-libs>
@@ -204,13 +205,13 @@
       <libs.local>
         <fileset id="wpiNativeLibs.local"
                  dir="${wpilib.native.lib}">
-          <include name="libHALAthena.so" />
+          <include name="libwpiHal.so" />
           <include name="libntcore.so" />
           <include name="libwpiutil.so" />
-          <include name="libopencv*.so.3.1" />
+          <include name="libopencv*.so.3.2" />
           <include name="libcscore.so" />
-          <include name="libopencv_java310.so" />
-          <include name="libwpilibJavaJNI.so" />
+          <include name="libopencv_java320.so" />
+          <include name="libwpilibJNI.so" />
         </fileset>
       </libs.local>
     </deploy-libs>

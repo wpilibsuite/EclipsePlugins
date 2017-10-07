@@ -36,6 +36,9 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 	public static final String PLUGIN_ID = "WPILib_CPP_Robot_Development"; //$NON-NLS-1$
 	
 	private static final String USER_LIBS_PATH = "\"${WPILIB}/user/cpp/lib\"";
+	private static final String NEW_LIBS_PATH = "\"${WPILIB}/cpp/current/lib/linux/athena/shared\"";
+	private static final String OLD_LIBS_PATH = "\"${WPILIB}/cpp/current/lib\"";
+	private static final String REF_LIBS_PATH = "\"${WPILIB}/cpp/current/reflib/linux/athena/shared\"";
 	private static final String USER_INCLUDE_PATH = "\"${WPILIB}/user/cpp/include\"";
 	private static final String LINKER_OPTIONS = "-Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM";
 
@@ -168,6 +171,21 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 					if(!libPathsList.contains(USER_LIBS_PATH))
 					{
 						libPathsList.add(USER_LIBS_PATH);
+						option.setValue(libPathsList.toArray(new String[libPathsList.size()]));
+					}
+					if (!libPathsList.contains(REF_LIBS_PATH))
+					{
+						libPathsList.add(REF_LIBS_PATH);
+						option.setValue(libPathsList.toArray(new String[libPathsList.size()]));
+					}
+					if (!libPathsList.contains(NEW_LIBS_PATH))
+					{
+						libPathsList.add(NEW_LIBS_PATH);
+						option.setValue(libPathsList.toArray(new String[libPathsList.size()]));
+					}
+					if (libPathsList.contains(OLD_LIBS_PATH))
+					{
+						libPathsList.remove(OLD_LIBS_PATH);
 						option.setValue(libPathsList.toArray(new String[libPathsList.size()]));
 					}
 				} catch (final BuildException e) {

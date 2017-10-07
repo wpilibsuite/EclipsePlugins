@@ -45,9 +45,10 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 		"wpilib",
 		"networktables",
 		"opencv",
-		"cscore"
+		"cscore",
+		"wpiutil"
 	};
-	
+
 	/**
 	 * The constructor
 	 */
@@ -111,10 +112,10 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 		}
 		return props;
 	}
-	
+
 	public void updateProjects() {
 		WPILibJavaPlugin.logInfo("Updating projects");
-		
+
 			// Get the root of the workspace
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IWorkspaceRoot root = workspace.getRoot();
@@ -132,7 +133,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 				}
 			}
 	}
-	
+
 	public void updateVariables(IProject project) throws CoreException {
 		Properties props = WPILibJavaPlugin.getDefault().getProjectProperties(project);
 
@@ -163,7 +164,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 			for (int i = 0; i < foundLibraries.length; i++) {
 				if (!foundLibraries[i]) {
 					// If not found, add to classpath
-					newClasspathList.add(JavaCore.newVariableEntry(new Path(wpiClasspathLibraries[i]), 
+					newClasspathList.add(JavaCore.newVariableEntry(new Path(wpiClasspathLibraries[i]),
 							new Path(wpiClasspathLibraries[i] + ".sources"), null, emptyAccessArray, emptySourceAttribute, false));
 					WPILibJavaPlugin.logInfo("Adding: " + wpiClasspathLibraries[i] + " to project: " + project.getName());
 				}
@@ -173,13 +174,15 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 		} catch (JavaModelException e) {
 			WPILibJavaPlugin.logError("Error creating wpilib classpath", e);
 		}
-		
-		//Update variables for wpilib, networktables, cscore and opencv
+
+		//Update variables for wpilib, ntcore, wpiutil, cscore and opencv
 		try {
 			JavaCore.setClasspathVariable("wpilib", new Path(props.getProperty("wpilib.jar")), null);
 			JavaCore.setClasspathVariable("wpilib.sources", new Path(props.getProperty("wpilib.sources")), null);
-			JavaCore.setClasspathVariable("networktables", new Path(props.getProperty("networktables.jar")), null);
-			JavaCore.setClasspathVariable("networktables.sources", new Path(props.getProperty("networktables.sources")), null);
+			JavaCore.setClasspathVariable("networktables", new Path(props.getProperty("ntcore.jar")), null);
+			JavaCore.setClasspathVariable("networktables.sources", new Path(props.getProperty("ntcore.sources")), null);
+			JavaCore.setClasspathVariable("wpiutil", new Path(props.getProperty("wpiutil.jar")), null);
+			JavaCore.setClasspathVariable("wpiutil.sources", new Path(props.getProperty("wpiutil.sources")), null);
 			JavaCore.setClasspathVariable("cscore", new Path(props.getProperty("cscore.jar")), null);
 			JavaCore.setClasspathVariable("cscore.sources", new Path(props.getProperty("cscore.sources")), null);
 			JavaCore.setClasspathVariable("opencv", new Path(props.getProperty("opencv.jar")), null);
@@ -189,7 +192,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 			// Classpath variables didn't get set
 			WPILibJavaPlugin.logError("Error setting classpath variables", e);
 		}
-		
+
 		//Loop through files in $WPILIB$\\user\\java\\lib and add all jars to classpath
 		if(WPILibCore.getDefault().getManageLibraries())
 		{
@@ -211,7 +214,7 @@ public class WPILibJavaPlugin extends AbstractUIPlugin implements IStartup {
 						}
 					}
 				}
-						
+
 				for (File file : filesList) {
 					if (file.isFile()) {
 						String fileNameSplit[] = file.getName().split("[.]");
