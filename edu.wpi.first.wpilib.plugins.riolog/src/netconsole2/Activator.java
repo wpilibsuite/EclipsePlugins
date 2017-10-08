@@ -1,5 +1,8 @@
 package netconsole2;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -7,7 +10,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class Activator extends AbstractUIPlugin implements ILogger {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "riolog"; //$NON-NLS-1$
@@ -56,6 +59,17 @@ public class Activator extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+		//return imageDescriptorFromPlugin(PLUGIN_ID, path);
+		return ImageDescriptor.createFromURL(FileLocator.find(plugin.getBundle(), new Path(path), null));
+	}
+
+	public void log(String msg) {
+		log(msg, null);
+	}
+
+	public void log(String msg, Exception e) {
+		if (plugin != null) {
+			plugin.getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, e));
+		}
 	}
 }
