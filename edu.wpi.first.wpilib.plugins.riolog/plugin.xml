@@ -30,5 +30,85 @@
             file="contexts.xml">
       </contexts>
    </extension>
-
+   <extension point="org.eclipse.ui.themes">
+      <themeElementCategory
+            id="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            label="Riolog">
+         <description>
+            Riolog theme category
+         </description>
+      </themeElementCategory>
+      <colorDefinition
+            categoryId="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            id="edu.wpi.first.wpilib.plugins.riolog.printBackgroundColor"
+            label="Background Color"
+            value="45,45,45">
+         <description>
+            Console background color
+         </description>
+      </colorDefinition>
+      <colorDefinition
+            categoryId="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            id="edu.wpi.first.wpilib.plugins.riolog.printForegroundColor"
+            label="Print Foreground Color"
+            value="COLOR_WHITE">
+         <description>
+            Foreground color used for standard output (print statements)
+         </description>
+      </colorDefinition>
+      <colorDefinition
+            categoryId="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            id="edu.wpi.first.wpilib.plugins.riolog.errorForegroundColor"
+            label="Error Foreground Color"
+            value="254,117,92">
+         <description>
+            Foreground color used for error messages
+         </description>
+      </colorDefinition>
+      <colorDefinition
+            categoryId="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            id="edu.wpi.first.wpilib.plugins.riolog.warningForegroundColor"
+            label="Warning Foreground Color"
+            value="61,234,42">
+         <description>
+            Foreground color used for warning messages
+         </description>
+      </colorDefinition>
+      <colorDefinition
+            categoryId="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            id="edu.wpi.first.wpilib.plugins.riolog.detailsForegroundColor"
+            label="Error Details Foreground Color"
+            value="26,201,255">
+         <description>
+            Foreground color used for error/warning details
+         </description>
+      </colorDefinition>
+      <colorDefinition
+            categoryId="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            id="edu.wpi.first.wpilib.plugins.riolog.locationForegroundColor"
+            label="Error Location Foreground Color"
+            value="63,255,42">
+         <description>
+            Foreground color used for error/warning location
+         </description>
+      </colorDefinition>
+      <colorDefinition
+            categoryId="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            id="edu.wpi.first.wpilib.plugins.riolog.callStackForegroundColor"
+            label="Error Call Stack Foreground Color"
+            value="63,255,42">
+         <description>
+            Foreground color used for error call stack
+         </description>
+      </colorDefinition>
+      <fontDefinition
+            categoryId="edu.wpi.first.wpilib.plugins.riolog.themeElementCategory"
+            id="edu.wpi.first.wpilib.plugins.riolog.printFont"
+            label="Console Font"
+            defaultsTo="org.eclipse.jface.textFont">
+         <description>
+            The font used by the riolog console
+         </description>
+      </fontDefinition>
+   </extension>
 </plugin>
