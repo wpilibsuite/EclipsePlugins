@@ -65,28 +65,57 @@
                         <artifactItems>
                           <artifactItem>
                               <groupId>edu.wpi.first.wpilibj</groupId>
-                              <artifactId>athena-jni</artifactId>
+                              <artifactId>wpilibj-jniShared</artifactId>
+                              <classifier>linuxathena</classifier>
                               <type>jar</type>
                               <includes>**/*.so,**/*.so.debug</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
-                              <outputDirectory>${java-zip}/lib/native</outputDirectory>
+                              <outputDirectory>${java-zip}/lib</outputDirectory>
                           </artifactItem>
                           <artifactItem>
-                              <groupId>edu.wpi.cscore.java</groupId>
-                              <artifactId>cscore</artifactId>
-                              <classifier>athena-uberzip</classifier>
+                              <groupId>edu.wpi.first.cscore</groupId>
+                              <artifactId>cscore-cpp</artifactId>
+                              <classifier>linuxathena</classifier>
                               <type>zip</type>
                               <includes>**/*.so,**/*.so.**</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
-                              <outputDirectory>${java-zip}/lib/native</outputDirectory>
+                              <outputDirectory>${java-zip}/lib</outputDirectory>
                           </artifactItem>
                           <artifactItem>
-                              <groupId>edu.wpi.first.wpilib</groupId>
-                              <artifactId>athena-runtime</artifactId>
+                              <groupId>edu.wpi.first.ntcore</groupId>
+                              <artifactId>ntcore-cpp</artifactId>
+                              <classifier>linuxathena</classifier>
                               <type>zip</type>
                               <includes>**/*.so,**/*.so.debug</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
-                              <outputDirectory>${java-zip}/lib/native</outputDirectory>
+                              <outputDirectory>${java-zip}/lib</outputDirectory>
+                          </artifactItem>
+                          <artifactItem>
+                              <groupId>edu.wpi.first.wpiutil</groupId>
+                              <artifactId>wpiutil-cpp</artifactId>
+                              <classifier>linuxathena</classifier>
+                              <type>zip</type>
+                              <includes>**/*.so,**/*.so.debug</includes>
+                              <excludes>**/*.MF,**/*.a,**/*.h</excludes>
+                              <outputDirectory>${java-zip}/lib</outputDirectory>
+                          </artifactItem>
+                          <artifactItem>
+                              <groupId>edu.wpi.first.hal</groupId>
+                              <artifactId>hal</artifactId>
+                              <classifier>linuxathena</classifier>
+                              <type>zip</type>
+                              <includes>**/*.so,**/*.so.debug</includes>
+                              <excludes>**/*.MF,**/*.a,**/*.h</excludes>
+                              <outputDirectory>${java-zip}/lib</outputDirectory>
+                          </artifactItem>
+                          <artifactItem>
+                              <groupId>org.opencv</groupId>
+                              <artifactId>opencv-cpp</artifactId>
+                              <classifier>linuxathena</classifier>
+                              <type>zip</type>
+                              <includes>**/*.so,**/*.so.debug, **/*.so.3.2</includes>
+                              <excludes>**/*.MF,**/*.a,**/*.h</excludes>
+                              <outputDirectory>${java-zip}/lib</outputDirectory>
                           </artifactItem>
                         </artifactItems>
                       </configuration>
@@ -101,18 +130,24 @@
                         <configuration>
                             <artifactItems>
                                 <!-- Libraries needed to link against for WPILib on the Athena -->
-                                <artifactItem>
-                                    <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
-                                    <artifactId>NetworkTables</artifactId>
-                                    <classifier>arm</classifier>
+
+                                 <artifactItem>
+                                    <groupId>edu.wpi.first.wpiutil</groupId>
+                                    <artifactId>wpiutil-java</artifactId>
                                     <type>jar</type>
-                                    <destFileName>NetworkTables.jar</destFileName>
+                                    <destFileName>wpiutil.jar</destFileName>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>edu.wpi.cscore.java</groupId>
-                                    <artifactId>cscore</artifactId>
-                                    <classifier>arm</classifier>
+                                    <groupId>edu.wpi.first.ntcore</groupId>
+                                    <artifactId>ntcore-java</artifactId>
+                                    <type>jar</type>
+                                    <destFileName>ntcore.jar</destFileName>
+                                    <outputDirectory>${java-zip}/lib</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.cscore</groupId>
+                                    <artifactId>cscore-java</artifactId>
                                     <type>jar</type>
                                     <destFileName>cscore.jar</destFileName>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
@@ -126,36 +161,44 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
-                                    <artifactId>athena</artifactId>
+                                    <artifactId>wpilibj-java</artifactId>
                                     <type>jar</type>
                                     <destFileName>WPILib.jar</destFileName>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                 </artifactItem>
                                 <!-- Library sources for debugging WPILib on the Athena -->
                                 <artifactItem>
-                                    <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
-                                    <artifactId>NetworkTables</artifactId>
+                                    <groupId>edu.wpi.first.ntcore</groupId>
+                                    <artifactId>ntcore-java</artifactId>
                                     <classifier>sources</classifier>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
-                                    <destFileName>NetworkTables-sources.jar</destFileName>
+                                    <destFileName>ntcore-sources.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>edu.wpi.cscore.java</groupId>
-                                    <artifactId>cscore</artifactId>
+                                    <groupId>edu.wpi.first.cscore</groupId>
+                                    <artifactId>cscore-java</artifactId>
                                     <classifier>sources</classifier>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                     <destFileName>cscore-sources.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>edu.wpi.first.wpiutil</groupId>
+                                    <artifactId>wpiutil-java</artifactId>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${java-zip}/lib</outputDirectory>
+                                    <destFileName>wpiutil-sources.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
-                                    <artifactId>athena</artifactId>
+                                    <artifactId>wpilibj-java</artifactId>
                                     <classifier>sources</classifier>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                     <destFileName>WPILib-sources.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.opencv</groupId>
-                                    <artifactId>opencv-sources</artifactId>
+                                    <artifactId>opencv-java</artifactId>
+                                    <classifier>sources</classifier>
                                     <outputDirectory>${java-zip}/lib</outputDirectory>
                                     <destFileName>opencv-sources.jar</destFileName>
                                 </artifactItem>
@@ -163,7 +206,7 @@
                                 <!-- Javadoc -->
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
-                                    <artifactId>athena</artifactId>
+                                    <artifactId>wpilibj-java</artifactId>
                                     <classifier>javadoc</classifier>
                                     <outputDirectory>${java-zip}/javadoc-jar</outputDirectory>
                                 </artifactItem>
@@ -286,74 +329,110 @@
         maven-assembly-plugin instead.-->
         <!-- Libraries needed to link against for WPILib on the Athena -->
         <dependency>
-            <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
-            <artifactId>NetworkTables</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
-            <classifier>arm</classifier>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>edu.wpi.cscore.java</groupId>
-            <artifactId>cscore</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
-            <classifier>arm</classifier>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>edu.wpi.cscore.java</groupId>
-            <artifactId>cscore</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
-            <classifier>athena-uberzip</classifier>
+            <groupId>edu.wpi.first.wpiutil</groupId>
+            <artifactId>wpiutil-cpp</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <classifier>linuxathena</classifier>
             <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.hal</groupId>
+            <artifactId>hal</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+        </dependency>
+
+
+        <dependency>
+            <groupId>edu.wpi.first.ntcore</groupId>
+            <artifactId>ntcore-cpp</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpiutil</groupId>
+            <artifactId>wpiutil-java</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+         <dependency>
+            <groupId>edu.wpi.first.ntcore</groupId>
+            <artifactId>ntcore-java</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.cscore</groupId>
+            <artifactId>cscore-cpp</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.cscore</groupId>
+            <artifactId>cscore-java</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.opencv</groupId>
             <artifactId>opencv-java</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>edu.wpi.first.wpilibj</groupId>
-            <artifactId>athena</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>edu.wpi.first.wpilibj</groupId>
-            <artifactId>athena-jni</artifactId>
+            <groupId>org.opencv</groupId>
+            <artifactId>opencv-cpp</artifactId>
+            <classifier>linuxathena</classifier>
             <version>0.1.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>edu.wpi.first.wpilib</groupId>
-            <artifactId>athena-runtime</artifactId>
-            <version>1.0.0</version>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
-            <artifactId>athena</artifactId>
+            <artifactId>wpilibj-java</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilibj</groupId>
+            <artifactId>wpilibj-jniShared</artifactId>
+            <classifier>linuxathena</classifier>
+            <version>0.1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilibj</groupId>
+            <artifactId>wpilibj-java</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <classifier>sources</classifier>
         </dependency>
 
         <!-- Library sources for debugging WPILib on the Athena -->
         <dependency>
-            <groupId>edu.wpi.first.wpilib.networktables.java</groupId>
-            <artifactId>NetworkTables</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <groupId>edu.wpi.first.ntcore</groupId>
+            <artifactId>ntcore-java</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
             <classifier>sources</classifier>
         </dependency>
         <dependency>
-            <groupId>edu.wpi.cscore.java</groupId>
-            <artifactId>cscore</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
+            <groupId>edu.wpi.first.cscore</groupId>
+            <artifactId>cscore-java</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpiutil</groupId>
+            <artifactId>wpiutil-java</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
             <classifier>sources</classifier>
         </dependency>
         <dependency>
             <groupId>org.opencv</groupId>
-            <artifactId>opencv-sources</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <artifactId>opencv-java</artifactId>
+            <classifier>sources</classifier>
+            <version>0.1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
     </dependencies>
