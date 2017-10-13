@@ -20,11 +20,11 @@ import edu.wpi.first.wpilib.plugins.core.WPILibCore;
  * delegated to it.
  * @see IWorkbenchWindowActionDelegate
  */
-public class RunSFXDashboardAction implements IWorkbenchWindowActionDelegate {
+public class RunShuffleboardAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * The constructor.
 	 */
-	public RunSFXDashboardAction() {
+	public RunShuffleboardAction() {
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class RunSFXDashboardAction implements IWorkbenchWindowActionDelegate {
 		File dir = new File(WPILibCore.getDefault().getWPILibBaseDir()+File.separator+"tools");
 		File[] files = dir.listFiles(new FilenameFilter() {
 			@Override public boolean accept(File dir, String name) {
-				return name.startsWith("sfx") && name.endsWith(".jar");
+				return name.startsWith("Shuffleboard") && name.endsWith(".jar");
 			}
 		});
 		if (files == null || files.length < 1) return;
@@ -45,7 +45,7 @@ public class RunSFXDashboardAction implements IWorkbenchWindowActionDelegate {
 		try {
 			DebugPlugin.exec(cmd, new File(System.getProperty("user.home")));
 		} catch (CoreException e) {
-            WPILibCore.logError("Error running SFX Dashboard.", e);
+            WPILibCore.logError("Error running Shuffleboard.", e);
 		}
 	}
 

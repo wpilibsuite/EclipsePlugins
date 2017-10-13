@@ -40,10 +40,9 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>edu.wpi.first.wpilib</groupId>
-            <artifactId>sfx</artifactId>
-            <type>zip</type>
-            <version>2015.11.01</version>
+            <groupId>edu.wpi.first.shuffleboard</groupId>
+            <artifactId>Shuffleboard</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilib</groupId>
@@ -112,12 +111,10 @@
                                     <destFileName>SmartDashboard.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>edu.wpi.first.wpilib</groupId>
-                                    <artifactId>sfx</artifactId>
-                                    <type>zip</type>
-                                    <classifier>zip</classifier>
-                                    <outputDirectory>${tools-zip}/../</outputDirectory>
-                                    <destFileName>sfx.zip</destFileName>
+                                    <groupId>edu.wpi.first.shuffleboard</groupId>
+                                    <artifactId>Shuffleboard</artifactId>
+                                    <outputDirectory>${tools-zip}</outputDirectory>
+                                    <destFileName>Shuffleboard.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilib</groupId>
@@ -169,7 +166,6 @@
                         </goals>
                         <configuration>
                             <target>
-                                <unzip src="${tools-zip}/../sfx.zip" dest="${tools-zip}"/>
                                 <zip destfile="${project.build.directory}/classes/resources/tools.zip"
                                      basedir="${tools-zip}"
                                      update="true"/>

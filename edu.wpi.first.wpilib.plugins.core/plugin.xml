@@ -51,13 +51,13 @@
                tooltip="Launch the RobotBuilder to help develop command-based programs.">
          </action>
          <action
-               class="edu.wpi.first.wpilib.plugins.core.actions.RunSFXDashboardAction"
+               class="edu.wpi.first.wpilib.plugins.core.actions.RunShuffleboardAction"
                icon="icons/sfxdashboard16x16.png"
-               id="edu.wpi.first.wpilib.plugins.core.actions.RunSFXDashboardAction"
-               label="Run &amp;SFX Dashboard"
+               id="edu.wpi.first.wpilib.plugins.core.actions.RunShuffleboardAction"
+               label="Run &amp;Shuffleboard"
                menubarPath="edu.wpi.first.wpilib.plugins.core.menu/edu.wpi.first.wpilib.plugins.core.actions"
                toolbarPath="WPILib"
-               tooltip="Launch the SFX Dashboard to get feedback from the robot.">
+               tooltip="Launch Shuffleboard to get feedback from the robot.">
          </action>
          <action
                class="edu.wpi.first.wpilib.plugins.core.actions.RunOutlineViewerAction"
