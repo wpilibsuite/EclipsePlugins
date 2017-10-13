@@ -64,7 +64,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibc</groupId>
                                     <artifactId>wpilibc</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <destFileName>wpilibc.jar</destFileName>
                                 </artifactItem>
@@ -78,14 +78,14 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibc</groupId>
                                     <artifactId>wpilibc-linkscripts</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <destFileName>wpilibc-linkscripts.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.hal</groupId>
                                     <artifactId>hal</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <destFileName>hal.jar</destFileName>
                                 </artifactItem>
@@ -99,7 +99,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.cscore</groupId>
                                     <artifactId>cscore-cpp</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <destFileName>cscore.jar</destFileName>
                                 </artifactItem>
@@ -113,7 +113,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.ntcore</groupId>
                                     <artifactId>ntcore-cpp</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <destFileName>ntcore.jar</destFileName>
                                 </artifactItem>
@@ -127,7 +127,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpiutil</groupId>
                                     <artifactId>wpiutil-cpp</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <destFileName>wpiutil.jar</destFileName>
                                 </artifactItem>
@@ -141,7 +141,7 @@
                                 <artifactItem>
                                     <groupId>org.opencv</groupId>
                                     <artifactId>opencv-cpp</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <destFileName>opencv.jar</destFileName>
                                 </artifactItem>
@@ -270,49 +270,49 @@
         <dependency>
             <groupId>edu.wpi.first.wpilibc</groupId>
             <artifactId>wpilibc</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibc</groupId>
             <artifactId>wpilibc-linkscripts</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.hal</groupId>
             <artifactId>hal</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.cscore</groupId>
             <artifactId>cscore-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.ntcore</groupId>
             <artifactId>ntcore-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpiutil</groupId>
             <artifactId>wpiutil-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.opencv</groupId>
             <artifactId>opencv-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>

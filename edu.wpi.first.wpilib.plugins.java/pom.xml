@@ -66,7 +66,7 @@
                           <artifactItem>
                               <groupId>edu.wpi.first.wpilibj</groupId>
                               <artifactId>wpilibj-jniShared</artifactId>
-                              <classifier>linuxathena</classifier>
+                              <classifier>all</classifier>
                               <type>jar</type>
                               <includes>**/*.so,**/*.so.debug</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
@@ -75,7 +75,7 @@
                           <artifactItem>
                               <groupId>edu.wpi.first.cscore</groupId>
                               <artifactId>cscore-cpp</artifactId>
-                              <classifier>linuxathena</classifier>
+                              <classifier>all</classifier>
                               <type>zip</type>
                               <includes>**/*.so,**/*.so.**</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
@@ -84,7 +84,7 @@
                           <artifactItem>
                               <groupId>edu.wpi.first.ntcore</groupId>
                               <artifactId>ntcore-cpp</artifactId>
-                              <classifier>linuxathena</classifier>
+                              <classifier>all</classifier>
                               <type>zip</type>
                               <includes>**/*.so,**/*.so.debug</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
@@ -93,7 +93,7 @@
                           <artifactItem>
                               <groupId>edu.wpi.first.wpiutil</groupId>
                               <artifactId>wpiutil-cpp</artifactId>
-                              <classifier>linuxathena</classifier>
+                              <classifier>all</classifier>
                               <type>zip</type>
                               <includes>**/*.so,**/*.so.debug</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
@@ -102,7 +102,7 @@
                           <artifactItem>
                               <groupId>edu.wpi.first.hal</groupId>
                               <artifactId>hal</artifactId>
-                              <classifier>linuxathena</classifier>
+                              <classifier>all</classifier>
                               <type>zip</type>
                               <includes>**/*.so,**/*.so.debug</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
@@ -111,7 +111,7 @@
                           <artifactItem>
                               <groupId>org.opencv</groupId>
                               <artifactId>opencv-cpp</artifactId>
-                              <classifier>linuxathena</classifier>
+                              <classifier>all</classifier>
                               <type>zip</type>
                               <includes>**/*.so,**/*.so.debug, **/*.so.3.2</includes>
                               <excludes>**/*.MF,**/*.a,**/*.h</excludes>
@@ -332,14 +332,14 @@
             <groupId>edu.wpi.first.wpiutil</groupId>
             <artifactId>wpiutil-cpp</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.hal</groupId>
             <artifactId>hal</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
         </dependency>
 
@@ -348,7 +348,7 @@
             <groupId>edu.wpi.first.ntcore</groupId>
             <artifactId>ntcore-cpp</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
@@ -367,7 +367,7 @@
             <groupId>edu.wpi.first.cscore</groupId>
             <artifactId>cscore-cpp</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
@@ -385,7 +385,7 @@
         <dependency>
             <groupId>org.opencv</groupId>
             <artifactId>opencv-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <version>0.1.0-SNAPSHOT</version>
             <type>zip</type>
         </dependency>
@@ -398,7 +398,7 @@
         <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
             <artifactId>wpilibj-jniShared</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <version>0.1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
