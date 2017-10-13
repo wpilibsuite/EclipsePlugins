@@ -339,7 +339,7 @@
                  username="${adminUsername}"
                  password="${adminPassword}"
                  trust="true"
-                 command="sed -i -e '/netconsole-launcher/{;N;N;N;N;N;N;d;}' /var/lib/opkg/status; opkg install /tmp/${roboRIOJRE.ipk}; rm /tmp/${roboRIOJRE.ipk}" />
+                 command="opkg install /tmp/${roboRIOJRE.ipk}; rm /tmp/${roboRIOJRE.ipk}" />
       </then>
       <else>
         <echo>JRE installation validated</echo>
