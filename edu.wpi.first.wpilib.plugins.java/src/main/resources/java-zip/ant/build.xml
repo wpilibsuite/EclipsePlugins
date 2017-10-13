@@ -33,7 +33,7 @@
   </typedef>
   <target name="clean"
           description="Clean up all build and distribution artifacts.">
-          
+
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
   </target>
@@ -128,7 +128,7 @@
   <target name="deploy"
           depends="clean,jar,get-target-ip,dependencies"
           description="Deploy the jar and start the program running.">
-          
+
     <deploy-libs libs.name="WPI_Native_Libraries"
                  libs.basedir="${wpilib.native.lib}"
                  libs.deployDir="${libDeploy.dir}">
@@ -198,7 +198,7 @@
   <target name="debug-deploy"
           depends="clean,jar,get-target-ip,dependencies"
           description="Deploy the jar and start the program running.">
-          
+
     <deploy-libs libs.name="WPI_Native_Libraries"
                  libs.basedir="${wpilib.native.lib}"
                  libs.deployDir="${libDeploy.dir}">

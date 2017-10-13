@@ -16,6 +16,7 @@
     <properties>
         <build-number>DEVELOPMENT</build-number>
         <tools-zip>${project.build.directory}/tools-zip</tools-zip>
+        <common-zip>${project.build.directory}/common-zip</common-zip>
     </properties>
 
     <dependencies>
@@ -32,12 +33,12 @@
         <dependency>
             <groupId>edu.wpi.first.wpilib</groupId>
             <artifactId>RobotBuilder</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilib</groupId>
             <artifactId>SmartDashboard</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.shuffleboard</groupId>
@@ -47,7 +48,56 @@
         <dependency>
             <groupId>edu.wpi.first.wpilib</groupId>
             <artifactId>OutlineViewer</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilibc</groupId>
+            <artifactId>wpilibc</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.hal</groupId>
+            <artifactId>hal</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.cscore</groupId>
+            <artifactId>cscore-cpp</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.ntcore</groupId>
+            <artifactId>ntcore-cpp</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpiutil</groupId>
+            <artifactId>wpiutil-cpp</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.opencv</groupId>
+            <artifactId>opencv-cpp</artifactId>
+            <classifier>linuxathena</classifier>
+            <type>zip</type>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilibj</groupId>
+            <artifactId>wpilibj-jniShared</artifactId>
+            <classifier>linuxathena</classifier>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 
@@ -77,6 +127,21 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/resources/tools-zip</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-ant-resources-to-common-zip</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${common-zip}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/common-zip</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -122,8 +187,63 @@
                                     <outputDirectory>${tools-zip}</outputDirectory>
                                     <destFileName>OutlineViewer.jar</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpilibc</groupId>
+                                    <artifactId>wpilibc</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>wpilibc.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpilibj</groupId>
+                                    <artifactId>wpilibj-jniShared</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>wpilibj.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.hal</groupId>
+                                    <artifactId>hal</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>hal.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.cscore</groupId>
+                                    <artifactId>cscore-cpp</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>cscore.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.ntcore</groupId>
+                                    <artifactId>ntcore-cpp</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>ntcore.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpiutil</groupId>
+                                    <artifactId>wpiutil-cpp</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>wpiutil.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.opencv</groupId>
+                                    <artifactId>opencv-cpp</artifactId>
+                                    <classifier>linuxathena</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>opencv.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
-
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
@@ -169,6 +289,48 @@
                                 <zip destfile="${project.build.directory}/classes/resources/tools.zip"
                                      basedir="${tools-zip}"
                                      update="true"/>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <!-- Unzip the include files for cpp.zip. -->
+                    <execution>
+                        <id>unzip-common</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <unzip dest="${common-zip}/lib">
+                                    <patternset>
+                                        <include name="**/*.so*"/>
+                                    </patternset>
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="wpilibc.jar"/>
+                                        <include name="wpilibj.jar"/>
+                                        <include name="hal.jar"/>
+                                        <include name="ntcore.jar"/>
+                                        <include name="wpiutil.jar"/>
+                                        <include name="cscore.jar"/>
+                                        <include name="opencv.jar"/>
+                                    </fileset>
+                                </unzip>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <!-- Generate zip file to unzip for the user. -->
+                    <execution>
+                        <id>generate-cpp-zip</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <zip destfile="${project.build.directory}/classes/resources/common.zip"
+                                     basedir="${common-zip}" update="true"/>
                             </target>
                         </configuration>
                     </execution>

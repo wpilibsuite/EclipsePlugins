@@ -21,7 +21,11 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 				WPILibCore.getDefault().getProjectProperties(null).getProperty("team-number", "0"));
 		store.setDefault(PreferenceConstants.MANAGE_LIBRARIES, true);
 		String val = store.getString(PreferenceConstants.TOOLS_VERSION);
-		if (!store.contains(PreferenceConstants.TOOLS_VERSION) && val != null)
+		if (!store.contains(PreferenceConstants.TOOLS_VERSION) && val != null) {
 			store.setValue(PreferenceConstants.TOOLS_VERSION, "none");
+		}
+		if (!store.contains(PreferenceConstants.LIBRARY_INSTALLED)) {
+			store.setValue(PreferenceConstants.LIBRARY_INSTALLED, "none");
+		}
 	}
 }

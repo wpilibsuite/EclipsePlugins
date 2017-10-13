@@ -18,6 +18,7 @@ import org.osgi.framework.BundleContext;
 
 import edu.wpi.first.wpilib.plugins.core.ant.AntPropertiesParser;
 import edu.wpi.first.wpilib.plugins.core.installer.ToolsInstaller;
+import edu.wpi.first.wpilib.plugins.core.installer.CommonInstaller;
 import edu.wpi.first.wpilib.plugins.core.preferences.PreferenceConstants;
 
 /**
@@ -39,7 +40,7 @@ public class WPILibCore extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
 	 * )
@@ -49,12 +50,13 @@ public class WPILibCore extends AbstractUIPlugin {
 		plugin = this;
 
 		new ToolsInstaller(getDefaultVersion()).installIfNecessary(false);
+		new CommonInstaller(getDefaultVersion()).installIfNecessary(false);
 		createUserDirs();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
 	 * )
@@ -66,7 +68,7 @@ public class WPILibCore extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 * 
+	 *
 	 * @return the shared instance
 	 */
 	public static WPILibCore getDefault() {
@@ -76,7 +78,7 @@ public class WPILibCore extends AbstractUIPlugin {
 	/**
 	 * Returns an image descriptor for the image file at the given plug-in
 	 * relative path
-	 * 
+	 *
 	 * @param path
 	 *            the path
 	 * @return the image descriptor
@@ -152,7 +154,7 @@ public class WPILibCore extends AbstractUIPlugin {
 		return getPreferenceStore()
 				.getString(PreferenceConstants.TOOLS_VERSION);
 	}
-	
+
 	public boolean getManageLibraries() {
 		return getPreferenceStore()
 				.getBoolean(PreferenceConstants.MANAGE_LIBRARIES);
@@ -165,7 +167,7 @@ public class WPILibCore extends AbstractUIPlugin {
 	public static void logError(String msg, Exception e) {
 		getDefault().getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, msg, e));
 	}
-	
+
 	void createUserDirs()
 	{
 		File directory = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user");
