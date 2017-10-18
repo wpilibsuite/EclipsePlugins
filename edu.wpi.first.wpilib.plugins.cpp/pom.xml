@@ -166,6 +166,12 @@
                                     <type>zip</type>
                                     <destFileName>nilibraries-headers.jar</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpilibc</groupId>
+                                    <artifactId>documentation</artifactId>
+                                    <type>zip</type>
+                                    <destFileName>doxygen.zip</destFileName>
+                                </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
@@ -199,6 +205,24 @@
                                 <property name="version" value="${version-info}.${build-number}"/>
                             </target>
                             <exportAntProperties>true</exportAntProperties>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>unzip-doxygen</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <unzip dest="${cpp-zip}/doxygen">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="doxygen.zip"/>
+                                    </fileset>
+                                </unzip>
+                                <delete dir="${cpp-zip}/doxygen-jar"/>
+                            </target>
                         </configuration>
                     </execution>
 
@@ -370,6 +394,12 @@
             <groupId>edu.wpi.first.ni-libraries</groupId>
             <artifactId>ni-libraries</artifactId>
             <classifier>headers</classifier>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilibc</groupId>
+            <artifactId>documentation</artifactId>
             <type>zip</type>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>

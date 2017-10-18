@@ -206,8 +206,8 @@
                                 <!-- Javadoc -->
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
-                                    <artifactId>wpilibj-java</artifactId>
-                                    <classifier>javadoc</classifier>
+                                    <artifactId>documentation</artifactId>
+                                    <type>zip</type>
                                     <outputDirectory>${java-zip}/javadoc-jar</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
@@ -257,7 +257,7 @@
                             <target>
                                 <unzip dest="${java-zip}/javadoc">
                                     <fileset dir="${java-zip}/javadoc-jar">
-                                        <include name="*.jar"/>
+                                        <include name="*.zip"/>
                                     </fileset>
                                 </unzip>
                                 <delete dir="${java-zip}/javadoc-jar"/>
@@ -407,6 +407,13 @@
             <artifactId>wpilibj-java</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.wpi.first.wpilibj</groupId>
+            <artifactId>documentation</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <type>zip</type>
         </dependency>
 
         <!-- Library sources for debugging WPILib on the Athena -->
