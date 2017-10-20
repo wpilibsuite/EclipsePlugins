@@ -11,7 +11,7 @@ public class CPPProjectType implements ProjectType {
 	static ProjectType ITERATIVE = new CPPProjectType() {
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
-			files.put("src/Robot.cpp", "iterative/Robot.cpp");
+			files.put("src/Robot.cpp", "templates/iterative/Robot.cpp");
 			return files;
 		}
 	};
@@ -25,23 +25,23 @@ public class CPPProjectType implements ProjectType {
 		}
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
-			files.put("src/Robot.cpp", "command-based/Robot.cpp");
-			files.put("src/OI.h", "command-based/OI.h");
-			files.put("src/OI.cpp", "command-based/OI.cpp");
-			files.put("src/RobotMap.h", "command-based/RobotMap.h");
-			files.put("src/CommandBase.cpp", "command-based/CommandBase.cpp");
-			files.put("src/CommandBase.h", "command-based/CommandBase.h");
-			files.put("src/Subsystems/ExampleSubsystem.h", "command-based/ExampleSubsystem.h");
-			files.put("src/Subsystems/ExampleSubsystem.cpp", "command-based/ExampleSubsystem.cpp");
-			files.put("src/Commands/ExampleCommand.h", "command-based/ExampleCommand.h");
-			files.put("src/Commands/ExampleCommand.cpp", "command-based/ExampleCommand.cpp");
+			files.put("src/Robot.cpp", "templates/commandbased/Robot.cpp");
+			files.put("src/OI.h", "templates/commandbased/OI.h");
+			files.put("src/OI.cpp", "templates/commandbased/OI.cpp");
+			files.put("src/RobotMap.h", "templates/commandbased/RobotMap.h");
+			files.put("src/CommandBase.cpp", "templates/commandbased/CommandBase.cpp");
+			files.put("src/CommandBase.h", "templates/commandbased/CommandBase.h");
+			files.put("src/Subsystems/ExampleSubsystem.h", "templates/commandbased/Subsystems/ExampleSubsystem.h");
+			files.put("src/Subsystems/ExampleSubsystem.cpp", "templates/commandbased/Subsystems/ExampleSubsystem.cpp");
+			files.put("src/Commands/ExampleCommand.h", "templates/commandbased/Commands/ExampleCommand.h");
+			files.put("src/Commands/ExampleCommand.cpp", "templates/commandbased/Commands/ExampleCommand.cpp");
 			return files;
 		}
 	};
 	static ProjectType SAMPLE = new CPPProjectType() {
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
-			files.put("src/Robot.cpp", "sample/Robot.cpp");
+			files.put("src/Robot.cpp", "templates/sample/Robot.cpp");
 			return files;
 		}
 	};

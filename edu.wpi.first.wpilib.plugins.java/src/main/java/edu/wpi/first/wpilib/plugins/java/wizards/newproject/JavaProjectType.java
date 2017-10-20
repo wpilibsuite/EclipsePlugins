@@ -11,14 +11,14 @@ public class JavaProjectType implements ProjectType {
 	static ProjectType SAMPLE = new JavaProjectType() {
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
-			files.put("src/"+packageName.replace(".", "/")+"/Robot.java", "sample/Robot.java");
+			files.put("src/"+packageName.replace(".", "/")+"/Robot.java", "templates/sample/Robot.java");
 			return files;
 		}
 	};
 	static ProjectType ITERATIVE = new JavaProjectType() {
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
-			files.put("src/"+packageName.replace(".", "/")+"/Robot.java", "iterative/Robot.java");
+			files.put("src/"+packageName.replace(".", "/")+"/Robot.java", "templates/iterative/Robot.java");
 			return files;
 		}
 	};
@@ -32,11 +32,11 @@ public class JavaProjectType implements ProjectType {
 		}
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
-			files.put("src/"+packageName.replace(".", "/")+"/Robot.java", "command-based/Robot.java");
-			files.put("src/"+packageName.replace(".", "/")+"/RobotMap.java", "command-based/RobotMap.java");
-			files.put("src/"+packageName.replace(".", "/")+"/OI.java", "command-based/OI.java");
-			files.put("src/"+packageName.replace(".", "/")+"/commands/ExampleCommand.java", "command-based/ExampleCommand.java");
-			files.put("src/"+packageName.replace(".", "/")+"/subsystems/ExampleSubsystem.java", "command-based/ExampleSubsystem.java");
+			files.put("src/"+packageName.replace(".", "/")+"/Robot.java", "templates/commandbased/Robot.java");
+			files.put("src/"+packageName.replace(".", "/")+"/RobotMap.java", "templates/commandbased/RobotMap.java");
+			files.put("src/"+packageName.replace(".", "/")+"/OI.java", "templates/commandbased/OI.java");
+			files.put("src/"+packageName.replace(".", "/")+"/commands/ExampleCommand.java", "templates/commandbased/commands/ExampleCommand.java");
+			files.put("src/"+packageName.replace(".", "/")+"/subsystems/ExampleSubsystem.java", "templates/commandbased/subsystems/ExampleSubsystem.java");
 			return files;
 		}
 	};

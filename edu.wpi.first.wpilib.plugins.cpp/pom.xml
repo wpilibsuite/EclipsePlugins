@@ -130,6 +130,18 @@
                                     <type>zip</type>
                                     <destFileName>doxygen.zip</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpilibc</groupId>
+                                    <artifactId>examples</artifactId>
+                                    <type>zip</type>
+                                    <destFileName>examples.zip</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>edu.wpi.first.wpilibc</groupId>
+                                    <artifactId>templates</artifactId>
+                                    <type>zip</type>
+                                    <destFileName>templates.zip</destFileName>
+                                </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
@@ -165,7 +177,23 @@
                             <exportAntProperties>true</exportAntProperties>
                         </configuration>
                     </execution>
-
+                    <execution>
+                        <id>unzip-examples-templates</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <unzip dest="${project.build.directory}/classes/resources/templates">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="examples.zip"/>
+                                        <include name="templates.zip"/>
+                                    </fileset>
+                                </unzip>
+                            </target>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>unzip-doxygen</id>
                         <phase>compile</phase>
@@ -257,6 +285,18 @@
             <classifier>headers</classifier>
             <type>zip</type>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilibc</groupId>
+            <artifactId>examples</artifactId>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.wpi.first.wpilibc</groupId>
+            <artifactId>templates</artifactId>
+            <type>zip</type>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.hal</groupId>

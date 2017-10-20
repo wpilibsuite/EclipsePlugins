@@ -31,25 +31,25 @@ import edu.wpi.first.wpilib.plugins.core.WPILibCore;
  * IProjectCreator to provide hooks for generating the directory
  * structure, initial files, initializing and finalizing the creation
  * of the new project.
- * 
+ *
  * @author Alex Henning
  **/
 public class ProjectCreationUtils {
 
 	/**
 	 * Create a project using the given IProjectCreator.
-	 * 
+	 *
 	 * @param creator The creator that provides the necessary information
 	 *                to create the project.
 	 * @return The newly created project.
 	 */
 	public static IProject createProject(IProjectCreator creator) {
 		IProject project = createBaseProject(creator.getName(), null);
-		
+
 		try {
 			creator.initialize(project);
 			for (String nature : creator.getNatures()) {
-				addNature(project, nature);	
+				addNature(project, nature);
 			}
 			addToProjectStructure(project, creator);
 			addFilesToProject(project, creator);
@@ -58,13 +58,13 @@ public class ProjectCreationUtils {
             WPILibCore.logError("Error creating project "+creator.getName(), e);
             project = null;
         }
-		
+
         return project;
 	}
 
 	private static IProject createBaseProject(String projectName, IPath location) {
 		IProject newProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		
+
 		if (!newProject.exists()) {
 			IPath projectLocation = location;
 			IProjectDescription desc = newProject.getWorkspace().newProjectDescription(newProject.getName());
@@ -106,7 +106,7 @@ public class ProjectCreationUtils {
 			System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
 			newNatures[prevNatures.length] = nature_id;
 			desc.setNatureIds(newNatures);
-			
+
 			project.setDescription(desc, null);
 		}
 	}
@@ -141,10 +141,10 @@ public class ProjectCreationUtils {
 			}
 		}
 	}
-	
+
 	/**
 	 * Create a file in the project from a template. Substituting as required.
-	 * 
+	 *
 	 * @param project The project to use create the file in.
 	 * @param filepath The path of the created file.
 	 * @param filesource The source of the template to use.
@@ -171,7 +171,7 @@ public class ProjectCreationUtils {
 		}
 		return null;
 	}
-	
+
 	private static InputStream makeTemplateInputStream(InputStream stream, Map<String, String> vals) {
 		String str;
 		try {
@@ -181,14 +181,14 @@ public class ProjectCreationUtils {
             WPILibCore.logError("Error reading template.", e);
 			return null;
 		}
-		
+
 		// Instantiate template
 		for (Entry<String, String> e : vals.entrySet())
-			str = str.replace(e.getKey(), e.getValue());
+			str = str.replaceAll(e.getKey(), e.getValue());
 
 		return new ByteArrayInputStream(str.getBytes());
 	}
-	
+
 	private static String readInput(InputStream stream) {
 		StringBuffer buffer = new StringBuffer();
 		try {
