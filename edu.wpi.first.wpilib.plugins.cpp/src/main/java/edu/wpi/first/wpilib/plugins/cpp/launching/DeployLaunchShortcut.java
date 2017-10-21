@@ -32,6 +32,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 import edu.wpi.first.wpilib.plugins.core.WPILibCore;
@@ -52,8 +53,7 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 	// Class constants - used to delineate types for launch shortcuts
 	public static final String DEPLOY_TYPE = "edu.wpi.first.wpilib.plugins.core.deploy";
 	
-	private static final int DEBUG_KILL_WAIT_TRIES = 40;
-	private static final int DEBUG_KILL_WAIT_MS = 500;
+	private static final String ID_RIOLOG_VIEW = "netconsole2.views.RiologView";
 
 	/**
 	 * Returns the launch type of the shortcut that was used, one of the
@@ -169,7 +169,21 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 			// C++ and Java.
 			WPILibCPPPlugin.logInfo("Running ant file: " + activeProj.getLocation().toOSString() + File.separator + "build.xml");
 			WPILibCPPPlugin.logInfo("Targets: deploy, Mode: " + mode);
-			AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), "deploy", null, mode);
+			AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), "deploy", null, mode, true, () -> {
+				PlatformUI.getWorkbench().getDisplay().syncExec(() -> {
+					// Show riolog on successful completion
+					PlatformUI.getWorkbench().getDisplay().timerExec(250, () -> {
+						try{
+							final IWorkbenchPage activePage = PlatformUI.getWorkbench()
+									.getActiveWorkbenchWindow()
+									.getActivePage();
+							activePage.showView(ID_RIOLOG_VIEW);
+						}catch(Exception e){
+							WPILibCPPPlugin.logError("Showing riolog failed", e);
+						}
+					});
+				});
+			});
 		} else {
 			// Debug deploys are done with the Eclipse Remote System Explorer,
 			// which lets it work with Eclipse's C++ debugger.
@@ -177,26 +191,34 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 			// Kill running program before using RSE as RSE can't
 			WPILibCPPPlugin.logInfo("Running ant file: " + activeProj.getLocation().toOSString() + File.separator + "build.xml");
 			WPILibCPPPlugin.logInfo("Targets: debug-prepare, Mode: " + mode);
-			ILaunch killAnt = AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), "debug-prepare", null, mode);
-			int tries = 0;
-			try{
-				while(!killAnt.isTerminated() && tries < DEBUG_KILL_WAIT_TRIES){
-					Thread.sleep(DEBUG_KILL_WAIT_MS);
-					tries++;
-				}
-			} catch (InterruptedException e) {};
-			// TODO: figure out UI issues. that's why this is undocumented
-			ILaunchConfigurationWorkingCopy config;
-			try {
-				config = getRemoteDebugConfig(activeProj);
-				DebugUITools.launch(config.doSave(), mode);
-			} catch (CoreException e) {
-				WPILibCPPPlugin.logError("Debug attach failed.", e);
-			}
+			ILaunch killAnt = AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), "debug-prepare", null, mode, true, () -> {
+				PlatformUI.getWorkbench().getDisplay().syncExec(() -> {
+					// Show riolog on successful completion
+					PlatformUI.getWorkbench().getDisplay().timerExec(250, () -> {
+						try{
+							final IWorkbenchPage activePage = PlatformUI.getWorkbench()
+									.getActiveWorkbenchWindow()
+									.getActivePage();
+							activePage.showView(ID_RIOLOG_VIEW);
+						}catch(Exception e){
+							WPILibCPPPlugin.logError("Showing riolog failed", e);
+						}
+					});
 
-			try {
-				activeProj.refreshLocal(Resource.DEPTH_INFINITE, null);
-			} catch (Exception e) {}
+					// TODO: figure out UI issues. that's why this is undocumented
+					ILaunchConfigurationWorkingCopy config;
+					try {
+						config = getRemoteDebugConfig(activeProj);
+						DebugUITools.launch(config.doSave(), mode);
+					} catch (CoreException e) {
+						WPILibCPPPlugin.logError("Debug attach failed.", e);
+					}
+
+					try {
+						activeProj.refreshLocal(Resource.DEPTH_INFINITE, null);
+					} catch (Exception e) {}
+				});
+			});
 		}
 	}
 
