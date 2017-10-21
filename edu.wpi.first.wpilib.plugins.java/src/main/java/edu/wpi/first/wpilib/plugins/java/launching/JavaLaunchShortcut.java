@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 import com.sun.jdi.connect.Connector.Argument;
@@ -42,6 +43,8 @@ public abstract class JavaLaunchShortcut implements ILaunchShortcut {
 	//Class constants - used to delineate types for launch shortcuts
 	public static final String DEPLOY_TYPE = "edu.wpi.first.wpilib.plugins.core.deploy";
 	private static final String ANT_SERVER_THREAD_NAME = "Ant Build Server Connection";
+
+	private static final String ID_RIOLOG_VIEW = "netconsole2.views.RiologView";
 	
 	private static ILaunch lastDeploy = null;
 	
@@ -151,21 +154,35 @@ public abstract class JavaLaunchShortcut implements ILaunchShortcut {
 		
 		WPILibJavaPlugin.logInfo("Running ant file: " + activeProj.getLocation().toOSString() + File.separator + "build.xml");
 		WPILibJavaPlugin.logInfo("Targets: " + targets + ", Mode: " + mode);
-		lastDeploy = AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), targets, null, mode);
-		
-		if((mode.equals(ILaunchManager.DEBUG_MODE))&&(getLaunchType().equals(DEPLOY_TYPE))) {
-			try {
-				startDebugConfig(getRemoteDebugConfig(activeProj));
-			} catch (CoreException | InterruptedException e) {
-                WPILibJavaPlugin.logError("Debug attach failed", e);
-			}
-		}
-		
-		try {
-			activeProj.refreshLocal(Resource.DEPTH_INFINITE, null);
-		} catch (Exception e) {}
+		lastDeploy = AntLauncher.runAntFile(new File (activeProj.getLocation().toOSString() + File.separator + "build.xml"), targets, null, mode, true, () -> {
+			PlatformUI.getWorkbench().getDisplay().syncExec(() -> {
+				// Show riolog on successful completion
+				PlatformUI.getWorkbench().getDisplay().timerExec(250, () -> {
+					try{
+						final IWorkbenchPage activePage = PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow()
+								.getActivePage();
+						activePage.showView(ID_RIOLOG_VIEW);
+					}catch(Exception e){
+						WPILibJavaPlugin.logError("Showing riolog failed", e);
+					}
+				});
+
+				if((mode.equals(ILaunchManager.DEBUG_MODE))&&(getLaunchType().equals(DEPLOY_TYPE))) {
+					try {
+						startDebugConfig(getRemoteDebugConfig(activeProj));
+					} catch (CoreException | InterruptedException e) {
+						WPILibJavaPlugin.logError("Debug attach failed", e);
+					}
+				}
+
+				try {
+					activeProj.refreshLocal(Resource.DEPTH_INFINITE, null);
+				} catch (Exception e) {}
+			});
+		});
 	}
-	
+
 	private ILaunchConfigurationWorkingCopy getRemoteDebugConfig(IProject activeProj) throws CoreException {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_REMOTE_JAVA_APPLICATION);
