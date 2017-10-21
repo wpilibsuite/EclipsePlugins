@@ -28,7 +28,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.variables,
  org.eclipse.remote.core;bundle-version="2.0.0";resolution:=optional
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: edu.wpi.first.wpilib.plugins.cpp,
  edu.wpi.first.wpilib.plugins.cpp.preferences
 Bundle-Vendor: WPI & FIRST
