@@ -34,17 +34,18 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "WPILib_CPP_Robot_Development"; //$NON-NLS-1$
-	
+
 	private static final String USER_LIBS_PATH = "\"${WPILIB}/user/cpp/lib\"";
-	private static final String NEW_LIBS_PATH = "\"${WPILIB}/cpp/current/lib/linux/athena/shared\"";
+	private static final String NEW_LIBS_PATH = "\"${WPILIB}/common/current/lib/linux/athena/shared\"";
 	private static final String OLD_LIBS_PATH = "\"${WPILIB}/cpp/current/lib\"";
+	private static final String BETA1_LIBS_PATH = "\"${WPILIB}/cpp/current/lib/linux/athena/shared\"";
 	private static final String REF_LIBS_PATH = "\"${WPILIB}/cpp/current/reflib/linux/athena/shared\"";
 	private static final String USER_INCLUDE_PATH = "\"${WPILIB}/user/cpp/include\"";
 	private static final String LINKER_OPTIONS = "-Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM";
 
 	// The shared instance
 	private static WPILibCPPPlugin plugin;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -96,6 +97,11 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 				+ File.separator + "cpp" + File.separator + "current";
 	}
 
+	public String getCommonDir() {
+		return WPILibCore.getDefault().getWPILibBaseDir()
+				+ File.separator + "common" + File.separator + "current";
+	}
+
 	@Override
 	public void earlyStartup() {
 		new CPPInstaller(getCurrentVersion()).installIfNecessary(true);
@@ -103,10 +109,10 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
     	WPILibCore.getDefault().saveGlobalProperties(props);
 		updateProjects();
 	}
-	
+
 	public void updateProjects() {
 		WPILibCPPPlugin.logInfo("Updating projects");
-		
+
 		// Get the root of the workspace
 	    IWorkspace workspace = ResourcesPlugin.getWorkspace();
 	    IWorkspaceRoot root = workspace.getRoot();
@@ -123,13 +129,13 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 			  }
 	    }
 	}
-	
+
 	public void updateVariables(IProject project) {
 		final IManagedBuildInfo buildInfo = ManagedBuildManager.getBuildInfo(project, true);
 		final IConfiguration config = buildInfo.getDefaultConfiguration();
 		final ITool[] tools = config.getRootFolderInfo().getTools();
 		IOption option;
-		
+
 		for (final ITool tool : tools) {
 			if (tool.getId().contains(".cpp.linker.")) {
 				if(WPILibCore.getDefault().getManageLibraries())
@@ -139,7 +145,7 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 						try {
 							String[] libs = option.getLibraries();
 							List<String> libList = new ArrayList<String>();
-							
+
 							File dir = new File(WPILibCore.getDefault().getWPILibBaseDir() + File.separator + "user" + File.separator + "cpp" + File.separator + "lib");
 							File[] filesList = dir.listFiles();
 							for (File file : filesList) {
@@ -163,7 +169,7 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 						}
 					}
 				}
-				
+
 				try {
 					option = tool.getOptionBySuperClassId("gnu.cpp.link.option.paths");
 					String[] paths = option.getBasicStringListValue();
@@ -186,6 +192,11 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 					if (libPathsList.contains(OLD_LIBS_PATH))
 					{
 						libPathsList.remove(OLD_LIBS_PATH);
+						option.setValue(libPathsList.toArray(new String[libPathsList.size()]));
+					}
+					if (libPathsList.contains(BETA1_LIBS_PATH))
+					{
+						libPathsList.remove(BETA1_LIBS_PATH);
 						option.setValue(libPathsList.toArray(new String[libPathsList.size()]));
 					}
 				} catch (final BuildException e) {

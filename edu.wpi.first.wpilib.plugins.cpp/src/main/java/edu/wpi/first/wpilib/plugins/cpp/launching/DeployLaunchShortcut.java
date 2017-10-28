@@ -258,7 +258,7 @@ public class DeployLaunchShortcut implements ILaunchShortcut
 		config.setAttribute(IRemoteConnectionConfigurationConstants.ATTR_GDBSERVER_COMMAND, "gdbserver");
 
 		List<String> solibs = new ArrayList<>();
-		solibs.add(WPILibCPPPlugin.getDefault().getCPPDir() + "/lib");
+		solibs.add(WPILibCPPPlugin.getDefault().getCommonDir() + "/lib/linux/athena/shared");
 		config.setAttribute("org.eclipse.cdt.dsf.gdb.SOLIB_PATH", solibs);
 		config.setAttribute("org.eclipse.cdt.dsf.gdb.AUTO_SOLIB", true);
 		config.setAttribute("org.eclipse.cdt.dsf.gdb.STOP_ON_SOLIB_EVENTS", false);
