@@ -106,27 +106,6 @@
       <put url="http://${target}/files${deploy.dir}/">
         <fileset file="${out.exe}" />
       </put>
-    </webdav>
-    <!-- Suppress the exit status so that if no netconsole was running then
-          it doesn't show up red on the output. -->
-    <sshexec host="${target}"
-             username="${adminUsername}"
-             password="${adminPassword}"
-             trust="true"
-             failonerror="false"
-             command="killall -q netconsole-host || :" />
-    <deploy-libs libs.name="netconsole-host"
-                 libs.basedir="${wpilib.ant.dir}"
-                 libs.deployDir="/usr/local/frc/bin">
-      <libs.local>
-        <fileset id="netconsole.local"
-                 dir="${wpilib.ant.dir}">
-          <include name="netconsole-host" />
-        </fileset>
-      </libs.local>
-    </deploy-libs>
-    <webdav username="${adminUsername}"
-            password="${adminPassword}">
       <delete url="http://${target}/files${command.dir}robotCommand" />
       <put url="http://${target}/files${command.dir}">
         <fileset file="${wpilib.ant.dir}/robotCommand" />
