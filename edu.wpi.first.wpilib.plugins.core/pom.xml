@@ -42,7 +42,7 @@
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.shuffleboard</groupId>
-            <artifactId>Shuffleboard</artifactId>
+            <artifactId>app</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -177,7 +177,7 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>edu.wpi.first.shuffleboard</groupId>
-                                    <artifactId>Shuffleboard</artifactId>
+                                    <artifactId>app</artifactId>
                                     <outputDirectory>${tools-zip}</outputDirectory>
                                     <destFileName>Shuffleboard.jar</destFileName>
                                 </artifactItem>
