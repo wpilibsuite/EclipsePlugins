@@ -41,6 +41,7 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 	private static final String BETA1_LIBS_PATH = "\"${WPILIB}/cpp/current/lib/linux/athena/shared\"";
 	private static final String REF_LIBS_PATH = "\"${WPILIB}/cpp/current/reflib/linux/athena/shared\"";
 	private static final String USER_INCLUDE_PATH = "\"${WPILIB}/user/cpp/include\"";
+	private static final String COMPILER_OPTIONS = "-c -fmessage-length=0 -pthread";
 	private static final String LINKER_OPTIONS = "-pthread -Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM,-rpath,/usr/local/frc/lib";
 
 	// The shared instance
@@ -221,6 +222,13 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 					}
 				} catch (final BuildException e) {
 					WPILibCPPPlugin.logError("Error checking include paths", e);
+				}
+
+				try {
+					option = tool.getOptionBySuperClassId("gnu.cpp.compiler.option.other.other");
+					option.setValue(COMPILER_OPTIONS);
+				} catch (final BuildException e) {
+					WPILibCPPPlugin.logError("Error updating compiler options", e);
 				}
 			}
 		}
