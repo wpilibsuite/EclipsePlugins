@@ -17,7 +17,7 @@ import edu.wpi.first.wpilib.plugins.java.WPILibJavaPlugin;
 public class WPIRobotJavaProjectCreator implements IProjectCreator {
 	String projectName, packageName, worldName;
 	ProjectType projectType;
-	
+
 	public WPIRobotJavaProjectCreator(String projectName, String packageName, ProjectType projectType, String worldName) {
 		this.projectName = projectName;
 		this.packageName = packageName;
@@ -39,7 +39,7 @@ public class WPIRobotJavaProjectCreator implements IProjectCreator {
 	public Map<String, String> getValues() {
 		Map<String, String> vals = new HashMap<String, String>();
 		vals.put("$project", projectName);
-		vals.put("$package", packageName);
+		vals.put("edu\\.wpi\\.first\\.wpilibj\\.(?:examples|templates)\\..+?(?=;|\\.)", packageName);
 		vals.put("$world", worldName);
 		return vals;
 	}

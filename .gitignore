@@ -135,3 +135,11 @@ gradle-app.setting
 
 #VSCode
 .vscode/
+
+#examples and templates
+edu.wpi.first.wpilib.plugins.cpp/resources/templates/examples
+edu.wpi.first.wpilib.plugins.cpp/resources/templates/templates
+edu.wpi.first.wpilib.plugins.java/resources/templates/examples
+edu.wpi.first.wpilib.plugins.java/resources/templates/templates
+edu.wpi.first.wpilib.plugins.cpp/resources/templates/LICENSE.txt
+edu.wpi.first.wpilib.plugins.java/resources/templates/LICENSE.txt
