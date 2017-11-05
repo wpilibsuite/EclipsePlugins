@@ -28,6 +28,7 @@ public class RioConnector {
   private Socket socket = null;
 
   private static final int CONNECTION_TIMEOUT_MS = 2000;
+  private static final int MIN_TIMEOUT_MS = 2000;
   private static final int TOTAL_TIMEOUT_SEC = 5;
 
   private ILogger logger;
@@ -56,6 +57,7 @@ public class RioConnector {
     startConnect("roboRIO-" + team + "-FRC.lan");
     startConnect("roboRIO-" + team + "-FRC.frc-field.local");
     startDsConnect();
+    startTimeDelay(MIN_TIMEOUT_MS);
 
     // wait for a connection attempt to be successful, or timeout
     lock.lock();
@@ -200,6 +202,18 @@ public class RioConnector {
         //logger.log("Could not connect to " + address.getHostAddress());
       }
     }
+  }
+
+  private void startTimeDelay(int timeout) {
+    startAttempt("timeout", new Thread(() -> {
+      try {
+        Thread.currentThread().sleep(timeout);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      } finally {
+        finishAttempt("timeout");
+      }
+    }));
   }
 
   private void startAttempt(String loc, Thread thr) {

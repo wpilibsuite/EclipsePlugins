@@ -205,7 +205,7 @@ public class RioConsole {
     sender = new Thread(() -> {
       while (!Thread.interrupted() && !cleanup.get()) {
         try {
-          Thread.currentThread().sleep(2);
+          Thread.currentThread().sleep(2000);
           out.write(emptyFrame);
           out.flush();
         } catch (InterruptedException e) {
@@ -270,7 +270,7 @@ public class RioConsole {
           if (teamNumber == null) {
             try {
               // wait a bit so we don't hammer the CPU
-              Thread.currentThread().sleep(5);
+              Thread.currentThread().sleep(5000);
             } catch (InterruptedException e) {
               Thread.currentThread().interrupt();
               break;
