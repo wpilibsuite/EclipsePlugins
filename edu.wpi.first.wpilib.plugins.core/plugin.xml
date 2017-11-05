@@ -68,6 +68,15 @@
                toolbarPath="WPILib"
                tooltip="Launch the Outline Viewer to see the raw feedback from the robot.">
          </action>
+         <action
+                 class="edu.wpi.first.wpilib.plugins.core.actions.RunRoboRIOImagingToolAction"
+                 icon="icons/outlineviewer16x16.png"
+                 id="edu.wpi.first.wpilib.plugins.core.actions.RunRoboRIOImagingToolAction"
+                 label="Run &amp;roboRIO Imaging Tool"
+                 menubarPath="edu.wpi.first.wpilib.plugins.core.menu/edu.wpi.first.wpilib.plugins.core.actions"
+                 toolbarPath="WPILib"
+                 tooltip="Launch the roboRIO Imaging Tool to image the roboRIO with the latest image from NI.">
+         </action>
       </actionSet>
    </extension>
    <extension
