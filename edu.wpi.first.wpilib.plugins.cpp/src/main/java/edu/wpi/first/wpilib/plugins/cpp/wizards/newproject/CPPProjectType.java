@@ -29,12 +29,12 @@ public class CPPProjectType implements ProjectType {
 			files.put("src/OI.h", "templates/commandbased/OI.h");
 			files.put("src/OI.cpp", "templates/commandbased/OI.cpp");
 			files.put("src/RobotMap.h", "templates/commandbased/RobotMap.h");
-			files.put("src/CommandBase.cpp", "templates/commandbased/CommandBase.cpp");
-			files.put("src/CommandBase.h", "templates/commandbased/CommandBase.h");
 			files.put("src/Subsystems/ExampleSubsystem.h", "templates/commandbased/Subsystems/ExampleSubsystem.h");
 			files.put("src/Subsystems/ExampleSubsystem.cpp", "templates/commandbased/Subsystems/ExampleSubsystem.cpp");
 			files.put("src/Commands/ExampleCommand.h", "templates/commandbased/Commands/ExampleCommand.h");
 			files.put("src/Commands/ExampleCommand.cpp", "templates/commandbased/Commands/ExampleCommand.cpp");
+			files.put("src/Commands/MyAutoCommand.h", "templates/commandbased/Commands/MyAutoCommand.h");
+			files.put("src/Commands/MyAutoCommand.cpp", "templates/commandbased/Commands/MyAutoCommand.cpp");
 			return files;
 		}
 	};
