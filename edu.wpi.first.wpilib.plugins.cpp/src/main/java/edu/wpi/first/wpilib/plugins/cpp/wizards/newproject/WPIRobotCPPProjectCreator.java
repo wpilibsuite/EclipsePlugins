@@ -24,7 +24,7 @@ public class WPIRobotCPPProjectCreator implements IProjectCreator {
 	String projectName;
 	ProjectType projectType;
 	private String worldName;
-	
+
 	public WPIRobotCPPProjectCreator(String projectName, ProjectType projectType, String worldName) {
 		this.projectName = projectName;
 		this.projectType = projectType;
@@ -44,9 +44,9 @@ public class WPIRobotCPPProjectCreator implements IProjectCreator {
 	@Override
 	public Map<String, String> getValues() {
 		Map<String, String> vals = new HashMap<String, String>();
-		vals.put("$project", projectName);
-		vals.put("$cpp-location", WPILibCPPPlugin.getDefault().getCPPDir());
-		vals.put("$world", worldName);
+		vals.put("\\$project", projectName);
+		vals.put("\\$cpp-location", WPILibCPPPlugin.getDefault().getCPPDir());
+		vals.put("\\$world", worldName);
 		return vals;
 	}
 
@@ -79,7 +79,7 @@ public class WPIRobotCPPProjectCreator implements IProjectCreator {
 	@Override
 	public void finalize(IProject project) throws CoreException {
 		WPILibCPPPlugin.getDefault().updateVariables(project);
-		
+
 		// Freshen the index because otherwise it's red and angry
 		ICElement[] projects = {CCorePlugin.getDefault().getCoreModel().create(project)};
 		CCorePlugin.getIndexManager().update(projects, IIndexManager.UPDATE_ALL | IIndexManager.UPDATE_EXTERNAL_FILES_FOR_PROJECT);

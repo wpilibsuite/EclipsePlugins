@@ -38,10 +38,10 @@ public class WPIRobotJavaProjectCreator implements IProjectCreator {
 	@Override
 	public Map<String, String> getValues() {
 		Map<String, String> vals = new HashMap<String, String>();
-		vals.put("$project", projectName);
-		vals.put("$package", packageName);
+		vals.put("\\$project", projectName);
+		vals.put("\\$package", packageName);
 		vals.put("edu\\.wpi\\.first\\.wpilibj\\.(?:examples|templates)\\..+?(?=;|\\.)", packageName);
-		vals.put("$world", worldName);
+		vals.put("\\$world", worldName);
 		return vals;
 	}
 
