@@ -305,7 +305,7 @@
         <equals arg1="${jreExists}" arg2="true" />
       </not>
       <then>
-        <echo>Installing JRE, this may take a couple of minutes...</echo>
+        <echo>Installing Azul Zulu JRE, this may take a couple of minutes...</echo>
         <webdav username="${adminUsername}"
                 password="${adminPassword}">
           <delete url="http://${target}/files/tmp/${roboRIOJRE.ipk}" />
