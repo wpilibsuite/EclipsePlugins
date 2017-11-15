@@ -268,7 +268,7 @@
                    username="${adminUsername}"
                    password="${adminPassword}"
                    trust="true"
-                   command="chmod +x ${libs.remote.modified.property} &amp;&amp; mv ${libs.remote.modified.property} /tmp/@{libs.name}.properties @{libs.deployDir} &amp;&amp; ldconfig" />
+                   command="sed -i -e 's/^StartupDLLs/;StartupDLLs/' /etc/natinst/share/ni-rt.ini; chmod +x ${libs.remote.modified.property} &amp;&amp; mv ${libs.remote.modified.property} /tmp/@{libs.name}.properties @{libs.deployDir} &amp;&amp; ldconfig" />
         </then>
       </if>
     </sequential>
