@@ -44,7 +44,7 @@
     <assert name="team-number"
             exists="true"
             message="Team number not set. Go to Window-&gt;Preferences-&gt;WPILib Preferences to set it." />
-    <echo>Finding roboRIO...</echo>
+    <echo message="Finding roboRIO..." />
     <var name="target"
          unset="true" />
     <find-roborio team="${team-number}"
@@ -56,8 +56,7 @@
     <if>
       <isset property="target" />
       <then>
-        <echo>roboRIO found at ${target}, image
-        FRC_roboRIO_${roboRIOImageYear}_v${roboRIOImage}</echo>
+        <echo message="roboRIO found at ${target}, image FRC_roboRIO_${roboRIOImageYear}_v${roboRIOImage}" />
       </then>
       <else>
         <assert name="roboRIOFound"
@@ -99,7 +98,7 @@
              trust="true"
              failonerror="no"
              command="rm -f ${deploy.dir}/FRCUserProgram" />
-    <echo>[athena-deploy] Copying code over.</echo>
+    <echo message="[athena-deploy] Copying code over." />
     <webdav username="${adminUsername}"
             password="${adminPassword}">
       <delete url="http://${target}/files${deploy.dir}/${out}" />
@@ -111,7 +110,7 @@
         <fileset file="${wpilib.ant.dir}/robotCommand" />
       </put>
     </webdav>
-    <echo>[athena-deploy] Starting program.</echo>
+    <echo message="[athena-deploy] Starting program." />
     <sshexec host="${target}"
              username="${adminUsername}"
              password="${adminPassword}"
@@ -173,9 +172,8 @@
   <target name="simulate">
     <parallel>
       <sequential>
-        <echo>[simulate] You may now run Gazebo and your driver
-        station</echo>
-        <echo>[simulate] Running Code.</echo>
+        <echo message="[simulate] You may now run Gazebo and your driver station" />
+        <echo message="[simulate] Running Code." />
         <exec executable="${sim.exe}"></exec>
       </sequential>
     </parallel>
@@ -195,7 +193,7 @@
         </and>
       </bool>
     </assert>
-    <echo>roboRIO image version validated</echo>
+    <echo message="roboRIO image version validated" />
   </target>
   <!-- libs.name should not contain spaces as it is used to name a file -->
   <macrodef name="deploy-libs">
