@@ -105,7 +105,7 @@ public class FileTemplateWizard extends Wizard implements INewWizard {
 			url = new URL(WPILibCPPPlugin.getDefault().getBundle().getEntry("/resources/templates/"), source+".cpp");
 			ProjectCreationUtils.createTemplateFile(project, filepath+".cpp", url, map);
 		} catch (MalformedURLException e) {
-            WPILibCPPPlugin.logError("Malforemd URL: "+WPILibCPPPlugin.getDefault().getBundle().getEntry("/resources/templates/")+"/"+source+".h", e);
+            WPILibCPPPlugin.logError("Malformed URL: "+WPILibCPPPlugin.getDefault().getBundle().getEntry("/resources/templates/")+"/"+source+".h", e);
 		}
 	}
 

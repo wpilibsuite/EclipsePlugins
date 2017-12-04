@@ -7,7 +7,8 @@ public interface ProjectType {
 	String SAMPLE = "SAMPLE";
 	String ITERATIVE = "ITERATIVE";
 	String COMMAND_BASED = "COMMAND_BASED";
-	
+	String TIMED = "TIMED";
+
 	String[] getFolders(String packageName);
 	Map<String, String> getFiles(String packageName);
 	URL getBaseURL();

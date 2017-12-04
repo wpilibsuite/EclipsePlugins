@@ -22,6 +22,13 @@ public class JavaProjectType implements ProjectType {
 			return files;
 		}
 	};
+	static ProjectType TIMED = new JavaProjectType() {
+		@Override public Map<String, String> getFiles(String packageName) {
+			Map<String, String> files = super.getFiles(packageName);
+			files.put("src/"+packageName.replace(".", "/")+"/Robot.java", "templates/timed/Robot.java");
+			return files;
+		}
+	};
 	static ProjectType COMMAND_BASED = new JavaProjectType() {
 		@Override public String[] getFolders(String packageName) {
 			String[] paths = {"src/"+packageName.replace(".", "/"),
@@ -45,6 +52,7 @@ public class JavaProjectType implements ProjectType {
 		put(ProjectType.SAMPLE, SAMPLE);
 		put(ProjectType.ITERATIVE, ITERATIVE);
 		put(ProjectType.COMMAND_BASED, COMMAND_BASED);
+		put(ProjectType.TIMED, TIMED);
 	}};
 
 	@Override
