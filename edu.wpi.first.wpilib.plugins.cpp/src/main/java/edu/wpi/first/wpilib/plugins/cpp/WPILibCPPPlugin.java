@@ -42,7 +42,7 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 	private static final String REF_LIBS_PATH = "\"${WPILIB}/cpp/current/reflib/linux/athena/shared\"";
 	private static final String USER_INCLUDE_PATH = "\"${WPILIB}/user/cpp/include\"";
 	private static final String COMPILER_OPTIONS = "-c -fmessage-length=0 -pthread";
-	private static final String LINKER_OPTIONS = "-pthread -Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM,-rpath,/usr/local/frc/lib";
+	private static final String LINKER_OPTIONS = "-pthread -rdynamic -Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM,-rpath,/usr/local/frc/lib";
 
 	// The shared instance
 	private static WPILibCPPPlugin plugin;
