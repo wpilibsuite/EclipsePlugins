@@ -35,7 +35,7 @@ public class NewProjectMainPage extends WizardPage {
 	private Text worldText;
 	private Button worldButton;
 
-	Button iterativeRobot, commandRobot, sampleRobot;
+	Button iterativeRobot, commandRobot, sampleRobot, timedRobot;
 	private boolean showPackage;
 	private boolean showProjectTypes;
 	private TeamNumberPage teamNumberPage;
@@ -110,7 +110,7 @@ public class NewProjectMainPage extends WizardPage {
 			commandRobot.setSelection(true);
 
 			iterativeRobot = new Button(projectTypeGroup, SWT.RADIO | SWT.WRAP);
-			iterativeRobot.setText("Iterative Robot: A robot project that allows robots to be implemented in an iterative manner.");
+			iterativeRobot.setText("Iterative Robot: A robot project that allows robots to be implemented in an iterative manner synced to receiving driver station packets.");
 			gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.widthHint = 300;
 			iterativeRobot.setLayoutData(gd);
@@ -120,6 +120,12 @@ public class NewProjectMainPage extends WizardPage {
 			gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.widthHint = 300;
 			sampleRobot.setLayoutData(gd);
+
+			timedRobot = new Button(projectTypeGroup, SWT.RADIO | SWT.WRAP);
+			timedRobot.setText("Timed Robot: A robot project that allows robots to be implemented in an iterative manner synced to a timer.");
+			gd = new GridData(GridData.FILL_HORIZONTAL);
+			gd.widthHint = 300;
+			iterativeRobot.setLayoutData(gd);
 		}
 
 		label = new Label(container, SWT.NULL);
@@ -233,6 +239,7 @@ public class NewProjectMainPage extends WizardPage {
 		if (!showProjectTypes) return null;
 		else if (iterativeRobot.getSelection()) return types.get(ProjectType.ITERATIVE);
 		else if (sampleRobot.getSelection()) return types.get(ProjectType.SAMPLE);
+		else if (timedRobot.getSelection()) return types.get(ProjectType.TIMED);
 		else return types.get(ProjectType.COMMAND_BASED);
 	}
 

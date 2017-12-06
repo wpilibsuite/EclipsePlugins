@@ -15,6 +15,13 @@ public class CPPProjectType implements ProjectType {
 			return files;
 		}
 	};
+	static ProjectType TIMED = new CPPProjectType() {
+		@Override public Map<String, String> getFiles(String packageName) {
+			Map<String, String> files = super.getFiles(packageName);
+			files.put("src/Robot.cpp", "templates/timed/Robot.cpp");
+			return files;
+		}
+	};
 	static ProjectType COMMAND_BASED = new CPPProjectType() {
 		@Override public String[] getFolders(String packageName) {
 			String[] paths = {"src",
@@ -50,6 +57,7 @@ public class CPPProjectType implements ProjectType {
 		put(ProjectType.ITERATIVE, ITERATIVE);
 		put(ProjectType.COMMAND_BASED, COMMAND_BASED);
 		put(ProjectType.SAMPLE, SAMPLE);
+		put(ProjectType.TIMED, TIMED);
 	}};
 
 	@Override
