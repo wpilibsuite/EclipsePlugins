@@ -202,24 +202,27 @@ public class RioConsole {
     //logger.log("socket connected");
 
     // kick off keep alive thread
-    sender = new Thread(() -> {
-      while (!Thread.interrupted() && !cleanup.get()) {
-        try {
-          Thread.currentThread().sleep(2000);
-          out.write(emptyFrame);
-          out.flush();
-        } catch (InterruptedException e) {
-          Thread.currentThread().interrupt();
-          break;
-        } catch (IOException e) {
-          logger.log("failed to send keep alive, reconnecting");
-          reconnect();
-          break;
+    if (sender == null) {
+      sender = new Thread(() -> {
+        while (!Thread.interrupted() && !cleanup.get()) {
+          try {
+            Thread.currentThread().sleep(2000);
+            out.write(emptyFrame);
+            out.flush();
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            break;
+          } catch (IOException e) {
+            logger.log("failed to send keep alive, reconnecting");
+            reconnect();
+            break;
+          }
         }
-      }
-    }, "RioConsoleSender");
-    sender.setDaemon(true);
-    sender.start();
+        sender = null;
+      }, "RioConsoleSender");
+      sender.setDaemon(true);
+      sender.start();
+    }
     return in;
   }
 
