@@ -221,8 +221,7 @@ public class RioConsole {
         sender = null;
       }, "RioConsoleSender");
       sender.setDaemon(true);
-      // For image 2018v13, don't send keep alives
-      //sender.start();
+      sender.start();
     }
     return in;
   }
