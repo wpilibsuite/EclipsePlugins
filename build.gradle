@@ -16,7 +16,7 @@ plugins {
 
 import org.apache.commons.codec.digest.DigestUtils
 
-def jreRelease = 'v2018-beta2'
+def jreRelease = 'v2018.1'
 def jreFile = 'zulu-jre_1.8.0-131_cortexa9-vfpv3.ipk'
 
 task downloadJRE() {
@@ -24,7 +24,7 @@ task downloadJRE() {
     description = 'Downloads JRE ipk.'
 
     def destFile = new File('edu.wpi.first.wpilib.plugins.java/src/main/resources/java-zip/ant/', jreFile)
-    def golden = 'ed3de06560a9ea87c120f83b5d3f1e7e07d841d76b4163c20c99eb6bf0219536'
+    def golden = 'a7e339f21c44e01017538e96fdf07963d5a22b25fd3b61456306699a24993500'
 
     String checksum
     if (destFile.exists()) {
