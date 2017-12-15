@@ -135,7 +135,7 @@ public class RioConnector {
             (byte)((ip >> 16) & 0xff),
             (byte)((ip >> 8) & 0xff),
             (byte)(ip & 0xff)});
-        logger.log("DS provided " + address.getHostAddress());
+        //logger.log("DS provided " + address.getHostAddress());
         startConnect(address);
       } catch (Exception e) {
         if (!isDone()) {
@@ -159,7 +159,7 @@ public class RioConnector {
               if (isDone()) {
                 return;
               }
-              logger.log("resolved " + host + " to " + current.getHostAddress());
+              //logger.log("resolved " + host + " to " + current.getHostAddress());
               startConnect(current);
             }
           }
