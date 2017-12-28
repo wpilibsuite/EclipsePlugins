@@ -92,8 +92,8 @@ public class FileTemplateWizard extends Wizard implements INewWizard {
 	 */
 	private void doFinish(IProject project, String className, String packageName, IProgressMonitor monitor) throws CoreException {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("$classname", className);
-		map.put("$package", packageName);
+		map.put("\\$classname", className);
+		map.put("\\$package", packageName);
 		String filepath = "src/"+packageName.replace(".", "/")+"/"+className+".java";
 		try {
 			URL url = new URL(WPILibJavaPlugin.getDefault().getBundle().getEntry("/resources/templates/"), source);

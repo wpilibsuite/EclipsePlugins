@@ -93,8 +93,8 @@ public class FileTemplateWizard extends Wizard implements INewWizard {
 	 */
 	private void doFinish(IProject project, String className, String folderName, IProgressMonitor monitor) throws CoreException {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("$classname", className);
-		map.put("$folder", folderName);
+		map.put("\\$classname", className);
+		map.put("\\$folder", folderName);
 		String filepath = folderName+File.separator+className;
 		try {
 			// Create Header
