@@ -171,7 +171,7 @@ public class RioConsole {
   private static byte[] emptyFrame = new byte[] {0, 0};
 
   private DataInputStream connect(int team) {
-    logger.log("connecting to team " + team);
+    //logger.log("connecting to team " + team);
     Socket mySocket;
     try {
       mySocket = rioConnector.connect(team);
