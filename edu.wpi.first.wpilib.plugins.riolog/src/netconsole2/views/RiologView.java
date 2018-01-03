@@ -78,7 +78,7 @@ public class RiologView extends ViewPart {
 
   private StyledText text;
   private Thread transferer;
-  
+
   private final Lock lock = new ReentrantLock();
 
   private Image greenIcon;
@@ -262,7 +262,7 @@ public class RiologView extends ViewPart {
       }
     });
   }
-  
+
   @Override
   public void dispose() {
     rioConsole.stop();
@@ -526,7 +526,7 @@ public class RiologView extends ViewPart {
 
   private void startListening() {
     rioConsole.setConnectedCallback(connected -> {
-      Display.getDefault().syncExec(() -> {
+      Display.getDefault().asyncExec(() -> {
         //logger.log("setting green icon");
         if (connectionLabel != null) {
           connectionLabel.setImage(connected.booleanValue() ? greenIcon : redIcon);
@@ -551,45 +551,37 @@ public class RiologView extends ViewPart {
       while (!Thread.interrupted()) {
         Message msg;
         try {
+          // it's more efficient to batch updates, so sleep a little here
+          Thread.currentThread().sleep(30);
           msg = messageQueue.take();
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
           break;
         }
-        lock.lock();
-        try {
-          temp.add(msg);
-          messageQueue.drainTo(temp);
-        } finally {
-          lock.unlock();
-        }
+        temp.add(msg);
+        messageQueue.drainTo(temp);
         Display.getDefault().syncExec(() -> {
           if (text.isDisposed())
             return;
-          lock.lock();
-          try {
-            if (rioConsole.getPaused()) {
-              if (temp.size() == 1) {
-                pauseButton.setText("Paused (1 Message)\u2002");
-              } else {
-                pauseButton.setText("Paused (" + String.valueOf(temp.size()) + " Messages)");
-              }
+          if (rioConsole.getPaused()) {
+            if (temp.size() == 1) {
+              pauseButton.setText("Paused (1 Message)\u2002");
             } else {
-              StyledTextBuilder builder = new StyledTextBuilder(styles);
-              for (Message m : temp) {
-                m.render(builder, renderOptions);
-                builder.append('\n');
-              }
-              builder.toStyledText(text);
-              // limit total number of lines
-              if (text.getLineCount() > (MAX_LINES + EXTRA_LINES)) {
-                text.replaceTextRange(0, text.getOffsetAtLine(text.getLineCount() - MAX_LINES), "");
-              }
-              text.setTopIndex(text.getLineCount() - 1);
-              temp.clear();
+              pauseButton.setText("Paused (" + String.valueOf(temp.size()) + " Messages)");
             }
-          } finally {
-            lock.unlock();
+          } else {
+            StyledTextBuilder builder = new StyledTextBuilder(styles);
+            for (Message m : temp) {
+              m.render(builder, renderOptions);
+              builder.append('\n');
+            }
+            builder.toStyledText(text);
+            // limit total number of lines
+            if (text.getLineCount() > (MAX_LINES + EXTRA_LINES)) {
+              text.replaceTextRange(0, text.getOffsetAtLine(text.getLineCount() - MAX_LINES), "");
+            }
+            text.setTopIndex(text.getLineCount() - 1);
+            temp.clear();
           }
         });
       }
