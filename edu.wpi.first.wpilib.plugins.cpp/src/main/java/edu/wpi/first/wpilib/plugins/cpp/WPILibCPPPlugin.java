@@ -3,6 +3,7 @@ package edu.wpi.first.wpilib.plugins.cpp;
 import java.io.File;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -163,8 +164,15 @@ public class WPILibCPPPlugin extends AbstractUIPlugin implements IStartup {
 									}
 								}
 							}
-							libList.add("wpi");
-							option.setValue(libList.toArray(new String[libList.size()]));
+
+							List<String> finalLibList = new ArrayList<String>(libList.size() * 2 + 1);
+							// Sort libList alphabetically, then add twice to link list.
+							// Then finally add the wpi linker argument
+							Collections.sort(libList);
+							finalLibList.addAll(libList);
+							finalLibList.addAll(libList);
+							finalLibList.add("wpi");
+							option.setValue(finalLibList.toArray(new String[finalLibList.size()]));
 						} catch (final BuildException e) {
 							WPILibCPPPlugin.logError("Error retrieving library information from tool option", e);
 						}
