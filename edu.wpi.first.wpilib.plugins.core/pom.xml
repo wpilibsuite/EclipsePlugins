@@ -53,49 +53,49 @@
         <dependency>
             <groupId>edu.wpi.first.wpilibc</groupId>
             <artifactId>wpilibc</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.hal</groupId>
             <artifactId>hal</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.cscore</groupId>
             <artifactId>cscore-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.ntcore</groupId>
             <artifactId>ntcore-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpiutil</groupId>
             <artifactId>wpiutil-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.opencv</groupId>
             <artifactId>opencv-cpp</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <type>zip</type>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.wpi.first.wpilibj</groupId>
             <artifactId>wpilibj-jniShared</artifactId>
-            <classifier>linuxathena</classifier>
+            <classifier>all</classifier>
             <version>0.0.1-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
@@ -190,7 +190,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibc</groupId>
                                     <artifactId>wpilibc</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>wpilibc.jar</destFileName>
@@ -198,7 +198,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpilibj</groupId>
                                     <artifactId>wpilibj-jniShared</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>wpilibj.jar</destFileName>
@@ -206,7 +206,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.hal</groupId>
                                     <artifactId>hal</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>hal.jar</destFileName>
@@ -214,7 +214,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.cscore</groupId>
                                     <artifactId>cscore-cpp</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>cscore.jar</destFileName>
@@ -222,7 +222,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.ntcore</groupId>
                                     <artifactId>ntcore-cpp</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>ntcore.jar</destFileName>
@@ -230,7 +230,7 @@
                                 <artifactItem>
                                     <groupId>edu.wpi.first.wpiutil</groupId>
                                     <artifactId>wpiutil-cpp</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>wpiutil.jar</destFileName>
@@ -238,7 +238,7 @@
                                 <artifactItem>
                                     <groupId>org.opencv</groupId>
                                     <artifactId>opencv-cpp</artifactId>
-                                    <classifier>linuxathena</classifier>
+                                    <classifier>all</classifier>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>opencv.jar</destFileName>
