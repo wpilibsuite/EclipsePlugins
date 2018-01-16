@@ -2,6 +2,8 @@ package edu.wpi.first.wpilib.plugins.core.actions;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
@@ -40,8 +42,14 @@ public class RunShuffleboardAction implements IWorkbenchWindowActionDelegate {
 				return name.startsWith("Shuffleboard") && name.endsWith(".jar");
 			}
 		});
-		if (files == null || files.length < 1) return;
-		String[] cmd = {"java", "-jar", files[0].getAbsolutePath()};
+		if (files == null || files.length == 0) {
+			// No shuffleboard executables; bail
+			return;
+		}
+		File newestRelease = Stream.of(files)
+				.max(Comparator.comparing(File::lastModified))
+				.get(); // guaranteed to be present since we already checked the number of present files
+		String[] cmd = {"java", "-jar", newestRelease.getAbsolutePath()};
 		try {
 			DebugPlugin.exec(cmd, new File(System.getProperty("user.home")));
 		} catch (CoreException e) {
