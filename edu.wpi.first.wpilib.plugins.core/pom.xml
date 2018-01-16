@@ -303,9 +303,6 @@
                         <configuration>
                             <target>
                                 <unzip dest="${common-zip}/lib">
-                                    <patternset>
-                                        <include name="**/*.so*"/>
-                                    </patternset>
                                     <fileset dir="${project.build.directory}">
                                         <include name="wpilibc.jar"/>
                                         <include name="wpilibj.jar"/>
