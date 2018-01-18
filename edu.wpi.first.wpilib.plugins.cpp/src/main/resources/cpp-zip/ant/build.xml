@@ -88,7 +88,7 @@
                  libs.deployDir="${libDeploy.dir}">
       <libs.local>
         <fileset dir="${userLibs.dir}">
-          <include name="**/*.so" />
+          <include name="*.so" />
         </fileset>
       </libs.local>
     </deploy-libs>
@@ -141,7 +141,7 @@
                  libs.deployDir="${libDeploy.dir}">
       <libs.local>
         <fileset dir="${userLibs.dir}">
-          <include name="**/*.so" />
+          <include name="*.so" />
         </fileset>
       </libs.local>
     </deploy-libs>
