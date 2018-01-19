@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -83,9 +84,9 @@ public class RioConnector {
 
   private void startDsConnect() {
     startAttempt("DS", new Thread(() -> {
+      Socket socket = new Socket();
       try {
         // Try to connect to DS on the local machine
-        Socket socket = new Socket();
         InetAddress dsAddress = InetAddress.getByAddress(new byte[] {127, 0, 0, 1});
         socket.connect(new InetSocketAddress(dsAddress, 1742), CONNECTION_TIMEOUT_MS);
 
@@ -142,6 +143,10 @@ public class RioConnector {
           //logger.log("could not get IP from DS");
         }
       } finally {
+        try {
+          socket.close();
+        } catch (IOException e) {
+        }
         finishAttempt("DS");
       }
     }));
@@ -261,6 +266,11 @@ public class RioConnector {
         this.socket = socket;
         done = true;
         cvDone.signal();
+      } else {
+        try {
+          socket.close();
+        } catch (IOException e) {
+        }
       }
     } finally {
       lock.unlock();
