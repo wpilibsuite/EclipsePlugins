@@ -154,6 +154,9 @@ public class RioConsole {
 
   private void setSocket(Socket socket) {
     lock.lock();
+    if (this.socket != null) {
+      closeSocket();
+    }
     this.socket = socket;
     lock.unlock();
   }
