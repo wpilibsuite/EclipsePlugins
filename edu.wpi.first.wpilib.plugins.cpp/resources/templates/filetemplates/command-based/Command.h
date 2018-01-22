@@ -1,9 +1,15 @@
-#ifndef $classname_H
-#define $classname_H
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
 
-#include "../CommandBase.h"
+#pragma once
 
-class $classname : public CommandBase {
+#include <Commands/Command.h>
+
+class $classname : public frc::Command {
 public:
 	$classname();
 	void Initialize();
@@ -13,4 +19,3 @@ public:
 	void Interrupted();
 };
 
-#endif  // $classname_H
