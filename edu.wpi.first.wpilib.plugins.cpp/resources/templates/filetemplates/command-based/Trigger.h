@@ -12,6 +12,6 @@
 class $classname : public frc::Trigger {
 public:
 	$classname();
-	bool Get();
+	bool Get() override;
 };
 

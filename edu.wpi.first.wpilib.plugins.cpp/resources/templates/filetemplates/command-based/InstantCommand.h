@@ -12,6 +12,6 @@
 class $classname : public frc::InstantCommand {
 public:
 	$classname();
-	void Initialize();
+	void Initialize() override;
 };
 

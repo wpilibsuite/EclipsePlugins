@@ -12,8 +12,8 @@
 class $classname : public frc::PIDSubsystem {
 public:
 	$classname();
-	double ReturnPIDInput();
-	void UsePIDOutput(double output);
-	void InitDefaultCommand();
+	double ReturnPIDInput() override;
+	void UsePIDOutput(double output) override;
+	void InitDefaultCommand() override;
 };
 

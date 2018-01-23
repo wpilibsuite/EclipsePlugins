@@ -12,8 +12,8 @@
 class $classname : public frc::TimedCommand {
 public:
 	$classname(double timeout);
-	void Initialize();
-	void Execute();
-	void End();
-	void Interrupted();
+	void Initialize() override;
+	void Execute() override;
+	void End() override;
+	void Interrupted() override;
 };

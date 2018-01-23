@@ -16,6 +16,6 @@ private:
 
 public:
 	$classname();
-	void InitDefaultCommand();
+	void InitDefaultCommand() override;
 };
 
