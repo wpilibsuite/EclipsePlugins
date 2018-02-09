@@ -12,6 +12,7 @@ public class CPPProjectType implements ProjectType {
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
 			files.put("src/Robot.cpp", "templates/iterative/Robot.cpp");
+			files.put("src/Robot.h", "templates/iterative/Robot.h");
 			return files;
 		}
 	};
@@ -19,6 +20,7 @@ public class CPPProjectType implements ProjectType {
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
 			files.put("src/Robot.cpp", "templates/timed/Robot.cpp");
+			files.put("src/Robot.h", "templates/timed/Robot.h");
 			return files;
 		}
 	};
@@ -33,6 +35,7 @@ public class CPPProjectType implements ProjectType {
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
 			files.put("src/Robot.cpp", "templates/commandbased/Robot.cpp");
+			files.put("src/Robot.h", "templates/commandbased/Robot.h");
 			files.put("src/OI.h", "templates/commandbased/OI.h");
 			files.put("src/OI.cpp", "templates/commandbased/OI.cpp");
 			files.put("src/RobotMap.h", "templates/commandbased/RobotMap.h");
@@ -49,6 +52,7 @@ public class CPPProjectType implements ProjectType {
 		@Override public Map<String, String> getFiles(String packageName) {
 			Map<String, String> files = super.getFiles(packageName);
 			files.put("src/Robot.cpp", "templates/sample/Robot.cpp");
+			files.put("src/Robot.h", "templates/sample/Robot.h");
 			return files;
 		}
 	};
